@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33723.286
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenTKEngine", "OpenTKEngine\OpenTKEngine.csproj", "{07199C05-EFA3-45E8-88E3-2C3D8F4660FF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{07199C05-EFA3-45E8-88E3-2C3D8F4660FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{07199C05-EFA3-45E8-88E3-2C3D8F4660FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{07199C05-EFA3-45E8-88E3-2C3D8F4660FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{07199C05-EFA3-45E8-88E3-2C3D8F4660FF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {248BDEED-C7D8-4566-A7AC-560228D79F88}
+	EndGlobalSection
+EndGlobal
