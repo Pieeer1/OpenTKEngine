@@ -6,6 +6,7 @@ using OpenTK.Windowing.GraphicsLibraryFramework;
 using OpenTKEngine.Entities;
 using OpenTKEngine.Entities.Components;
 using OpenTKEngine.Models;
+using OpenTKEngine.Models.Shapes3D;
 using System;
 using static OpenTKEngine.Models.Constants;
 
@@ -13,52 +14,6 @@ namespace OpenTKEngine.Engine
 {
     public class Window : GameWindow
     {
-        private readonly float[] _vertices =
-{
-            // Positions          Normals              Texture coords
-            -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f, 0.0f,
-             0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f, 0.0f,
-             0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f, 1.0f,
-             0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f, 1.0f,
-            -0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f, 1.0f,
-            -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f, 0.0f,
-
-            -0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  0.0f, 0.0f,
-             0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  1.0f, 0.0f,
-             0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  1.0f, 1.0f,
-             0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  1.0f, 1.0f,
-            -0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  0.0f, 1.0f,
-            -0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  0.0f, 0.0f,
-
-            -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  1.0f, 0.0f,
-            -0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  1.0f, 1.0f,
-            -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  0.0f, 1.0f,
-            -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  0.0f, 1.0f,
-            -0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  0.0f, 0.0f,
-            -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  1.0f, 0.0f,
-
-             0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  1.0f, 0.0f,
-             0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  1.0f, 1.0f,
-             0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  0.0f, 1.0f,
-             0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  0.0f, 1.0f,
-             0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  0.0f, 0.0f,
-             0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  1.0f, 0.0f,
-
-            -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  0.0f, 1.0f,
-             0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  1.0f, 1.0f,
-             0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  1.0f, 0.0f,
-             0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  1.0f, 0.0f,
-            -0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  0.0f, 0.0f,
-            -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  0.0f, 1.0f,
-
-            -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f, 1.0f,
-             0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  1.0f, 1.0f,
-             0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  1.0f, 0.0f,
-             0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  1.0f, 0.0f,
-            -0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  0.0f, 0.0f,
-            -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f, 1.0f
-        };
-
         private readonly Vector3[] _cubePositions =
         {
             new Vector3(0.0f, 0.0f, 0.0f),
@@ -79,9 +34,8 @@ namespace OpenTKEngine.Engine
 
         private int _vaoLamp;
 
-        private Shader _lampShader = null!;
-
-        private Shader _lightingShader = null!;
+        private Shader _lightShader;
+        private Shader _lampShader;
 
         private Texture _diffuseMap = null!;
 
@@ -108,58 +62,36 @@ namespace OpenTKEngine.Engine
 
             GL.Enable(EnableCap.DepthTest);
 
-            _vertexBufferObject = GL.GenBuffer();
-            GL.BindBuffer(BufferTarget.ArrayBuffer, _vertexBufferObject);
-            GL.BufferData(BufferTarget.ArrayBuffer, _vertices.Length * sizeof(float), _vertices, BufferUsageHint.StaticDraw);
-
-            _lightingShader = new Shader(ShaderRoutes.BaseVertexShader, ShaderRoutes.BaseLightingShader);
+            _lightShader = new Shader(ShaderRoutes.BaseVertexShader, ShaderRoutes.BaseLightingShader);
             _lampShader = new Shader(ShaderRoutes.BaseVertexShader, ShaderRoutes.BaseFragmentShader);
 
-            {
-                _vaoModel = GL.GenVertexArray();
-                GL.BindVertexArray(_vaoModel);
-
-                var positionLocation = _lightingShader.GetAttribLocation("aPos");
-                GL.EnableVertexAttribArray(positionLocation);
-                GL.VertexAttribPointer(positionLocation, 3, VertexAttribPointerType.Float, false, 8 * sizeof(float), 0);
-
-                var normalLocation = _lightingShader.GetAttribLocation("aNormal");
-                GL.EnableVertexAttribArray(normalLocation);
-                GL.VertexAttribPointer(normalLocation, 3, VertexAttribPointerType.Float, false, 8 * sizeof(float), 3 * sizeof(float));
-
-                var texCoordLocation = _lightingShader.GetAttribLocation("aTexCoords");
-                GL.EnableVertexAttribArray(texCoordLocation);
-                GL.VertexAttribPointer(texCoordLocation, 2, VertexAttribPointerType.Float, false, 8 * sizeof(float), 6 * sizeof(float));
-            }
-
-            {
-                _vaoLamp = GL.GenVertexArray();
-                GL.BindVertexArray(_vaoLamp);
-
-                var positionLocation = _lampShader.GetAttribLocation("aPos");
-                GL.EnableVertexAttribArray(positionLocation);
-                GL.VertexAttribPointer(positionLocation, 3, VertexAttribPointerType.Float, false, 8 * sizeof(float), 0);
-            }
+            Cube containers = new Cube();
+            containers.BindAndBuffer(_lightShader, out _vaoModel);
+            Cube lamps = new Cube();
+            lamps.BindAndBuffer(_lampShader, out _vaoLamp);
 
             _diffuseMap = Texture.LoadFromFile($"{AssetRoutes.Textures}/container2.png");
             _specularMap = Texture.LoadFromFile($"{AssetRoutes.Textures}/container2_specular.png");
 
             Entity? cam = _entityComponentManager.AddEntity();
-            cam.AddComponent(new CameraComponent(Size.X / (float)Size.Y));
-            cam.AddComponent(new SpotLightComponent(_lightingShader, cam.GetComponent<TransformComponent>().Position));
+            cam.AddComponent(new CameraComponent(_lightShader, Size.X / (float)Size.Y));
+            cam.AddComponent(new SpotLightComponent(_lightShader, cam.GetComponent<TransformComponent>().Position));
             _camera = cam.GetComponent<CameraComponent>();
 
             Entity? pointLight1 = _entityComponentManager.AddEntity();
             Entity? pointLight2 = _entityComponentManager.AddEntity();
             Entity? pointLight3 = _entityComponentManager.AddEntity();
             Entity? pointLight4 = _entityComponentManager.AddEntity();
-            pointLight1.AddComponent(new PointLightComponent(_lightingShader, _lampShader, new Vector3(0.7f, 0.2f, 2.0f)));
-            pointLight2.AddComponent(new PointLightComponent(_lightingShader, _lampShader, new Vector3(2.3f, -3.3f, -4.0f)));
-            pointLight3.AddComponent(new PointLightComponent(_lightingShader, _lampShader, new Vector3(-4.0f, 2.0f, -12.0f)));
-            pointLight4.AddComponent(new PointLightComponent(_lightingShader, _lampShader, new Vector3(0.0f, 0.0f, -3.0f)));
+            pointLight1.AddComponent(new PointLightComponent(_lightShader, _lampShader, new Vector3(0.7f, 0.2f, 2.0f)));
+            pointLight2.AddComponent(new PointLightComponent(_lightShader, _lampShader, new Vector3(2.3f, -3.3f, -4.0f)));
+            pointLight3.AddComponent(new PointLightComponent(_lightShader, _lampShader, new Vector3(-4.0f, 2.0f, -12.0f)));
+            pointLight4.AddComponent(new PointLightComponent(_lightShader, _lampShader, new Vector3(0.0f, 0.0f, -3.0f)));
 
             Entity? directionalLightComponent = _entityComponentManager.AddEntity();
-            directionalLightComponent.AddComponent(new DirectionalLightComponent(_lightingShader, new Vector3(-0.2f, -1.0f, -0.3f)));
+            directionalLightComponent.AddComponent(new DirectionalLightComponent(_lightShader, new Vector3(-0.2f, -1.0f, -0.3f)));
+
+            Entity? materialComponent = _entityComponentManager.AddEntity();
+            materialComponent.AddComponent(new MaterialComponent(_lightShader));
 
             CursorState = CursorState.Grabbed;
         }
@@ -167,25 +99,15 @@ namespace OpenTKEngine.Engine
         {
             base.OnRenderFrame(e);
 
-            _entityComponentManager.Draw();
-
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
             GL.BindVertexArray(_vaoModel);
 
             _diffuseMap.Use(TextureUnit.Texture0);
             _specularMap.Use(TextureUnit.Texture1);
-            _lightingShader.Use();
+            _lightShader.Use();
 
-            _lightingShader.SetMatrix4("view", _camera.GetViewMatrix());
-            _lightingShader.SetMatrix4("projection", _camera.GetProjectionMatrix());
-
-            _lightingShader.SetVector3("viewPos", _camera.Transform.Position);
-
-            _lightingShader.SetInt("material.diffuse", 0);
-            _lightingShader.SetInt("material.specular", 1);
-            _lightingShader.SetVector3("material.specular", new Vector3(0.5f, 0.5f, 0.5f));
-            _lightingShader.SetFloat("material.shininess", 32.0f);
+            _entityComponentManager.Draw();
 
 
             for (int i = 0; i < _cubePositions.Length; i++)
@@ -193,7 +115,7 @@ namespace OpenTKEngine.Engine
                 Matrix4 model = Matrix4.CreateTranslation(_cubePositions[i]);
                 float angle = 20.0f * i;
                 model = model * Matrix4.CreateFromAxisAngle(new Vector3(1.0f, 0.3f, 0.5f), angle);
-                _lightingShader.SetMatrix4("model", model);
+                _lightShader.SetMatrix4("model", model);
 
                 GL.DrawArrays(PrimitiveType.Triangles, 0, 36);
             }
@@ -202,10 +124,8 @@ namespace OpenTKEngine.Engine
 
             _lampShader.Use();
 
-
             _entityComponentManager.PostDraw();
-            
-            
+                 
             SwapBuffers();
 
             _entityComponentManager.Refresh();

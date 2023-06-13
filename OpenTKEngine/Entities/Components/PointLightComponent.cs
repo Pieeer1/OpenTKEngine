@@ -6,20 +6,20 @@ namespace OpenTKEngine.Entities.Components
 {
     public class PointLightComponent : Component
     {
-        private readonly Shader _lightShader;
-        private readonly Shader _sourceShader;
         private TransformComponent _transform = null!;
         private readonly Vector3 _position;
         private readonly Vector3 _ambient;
         private readonly Vector3 _diffuse;
         private readonly Vector3 _specular;
+        private Shader _lightShader;
+        private Shader _lampShader;
         private readonly float _constant;
         private readonly float _linear;
         private readonly float _quadratic;
-        public PointLightComponent(Shader lightShader, Shader sourceShader, Vector3 position, Vector3? ambient = null, Vector3? diffuse = null, Vector3? specular = null, float? constant = null, float? linear = null, float? quadratic = null)
+        public PointLightComponent(Shader lightShader, Shader lampShader, Vector3 position, Vector3? ambient = null, Vector3? diffuse = null, Vector3? specular = null, float? constant = null, float? linear = null, float? quadratic = null)
         {
             _lightShader = lightShader;
-            _sourceShader = sourceShader;
+            _lampShader = lampShader;
             _position = position;
             _ambient = ambient ?? new Vector3(0.05f, 0.05f, 0.05f);
             _diffuse = diffuse ?? new Vector3(0.8f, 0.8f, 0.8f);
@@ -57,13 +57,13 @@ namespace OpenTKEngine.Entities.Components
 
             CameraComponent camera = EntityComponentManager.Instance.GetEntitiesWithType<CameraComponent>().FirstOrDefault()?.GetComponent<CameraComponent>() ?? throw new NullReferenceException("No Camera In Scene");
 
-            _sourceShader.SetMatrix4("view", camera.GetViewMatrix());
-            _sourceShader.SetMatrix4("projection", camera.GetProjectionMatrix());
+            _lampShader.SetMatrix4("view", camera.GetViewMatrix());
+            _lampShader.SetMatrix4("projection", camera.GetProjectionMatrix());
 
             Matrix4 lampMatrix = Matrix4.CreateScale(0.2f);
             lampMatrix = lampMatrix * Matrix4.CreateTranslation(_position);
 
-            _sourceShader.SetMatrix4("model", lampMatrix);
+            _lampShader.SetMatrix4("model", lampMatrix);
 
             GL.DrawArrays(PrimitiveType.Triangles, 0, 36);
         }

@@ -5,9 +5,8 @@ namespace OpenTKEngine.Entities.Components
 {
     public class SpotLightComponent : Component
     {
-        private readonly Shader _lightShader;
         private TransformComponent _transform = null!;
-
+        private readonly Shader _shader;
         private readonly Vector3 _position;
         private readonly Vector3 _ambient;
         private readonly Vector3 _diffuse;
@@ -17,9 +16,9 @@ namespace OpenTKEngine.Entities.Components
         private readonly float _quadratic;
         private readonly float _cutOff;
         private readonly float _outerCutOff;
-        public SpotLightComponent(Shader lightShader, Vector3 position, Vector3? ambient = null, Vector3? diffuse = null, Vector3? specular = null, float? constant = null, float? linear = null, float? quadratic = null, float? cutOff = null, float? outerCutOff = null)
+        public SpotLightComponent(Shader shader, Vector3 position, Vector3? ambient = null, Vector3? diffuse = null, Vector3? specular = null, float? constant = null, float? linear = null, float? quadratic = null, float? cutOff = null, float? outerCutOff = null)
         {
-            _lightShader = lightShader;
+            _shader = shader;
             _position = position;
             _ambient = ambient ?? new Vector3(0.0f, 0.0f, 0.0f);
             _diffuse = diffuse ?? new Vector3(1.0f, 1.0f, 1.0f);
@@ -44,16 +43,16 @@ namespace OpenTKEngine.Entities.Components
 
             CameraComponent camera = EntityComponentManager.Instance.GetEntitiesWithType<CameraComponent>().FirstOrDefault()?.GetComponent<CameraComponent>() ?? throw new NullReferenceException("No Camera In Scene");
 
-            _lightShader.SetVector3("spotLight.position", camera.Transform.Position);
-            _lightShader.SetVector3("spotLight.direction", camera.Front);
-            _lightShader.SetVector3("spotLight.ambient", _ambient);
-            _lightShader.SetVector3("spotLight.diffuse", _diffuse);
-            _lightShader.SetVector3("spotLight.specular", _specular);
-            _lightShader.SetFloat("spotLight.constant", _constant);
-            _lightShader.SetFloat("spotLight.linear", _linear);
-            _lightShader.SetFloat("spotLight.quadratic", _quadratic);
-            _lightShader.SetFloat("spotLight.cutOff", _cutOff);
-            _lightShader.SetFloat("spotLight.outerCutOff", _outerCutOff);
+            _shader.SetVector3("spotLight.position", camera.Transform.Position);
+            _shader.SetVector3("spotLight.direction", camera.Front);
+            _shader.SetVector3("spotLight.ambient", _ambient);
+            _shader.SetVector3("spotLight.diffuse", _diffuse);
+            _shader.SetVector3("spotLight.specular", _specular);
+            _shader.SetFloat("spotLight.constant", _constant);
+            _shader.SetFloat("spotLight.linear", _linear);
+            _shader.SetFloat("spotLight.quadratic", _quadratic);
+            _shader.SetFloat("spotLight.cutOff", _cutOff);
+            _shader.SetFloat("spotLight.outerCutOff", _outerCutOff);
 
         }
         public override void Update()

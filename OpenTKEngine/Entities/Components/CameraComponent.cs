@@ -11,6 +11,8 @@ namespace OpenTKEngine.Entities.Components
         private Vector3 _up = Vector3.UnitY;
         private Vector3 _right = Vector3.UnitX;
 
+        private Shader _shader;
+
         private float _pitch;
         private float _yaw = -MathHelper.PiOver2;
         private float _fov = MathHelper.PiOver2;
@@ -18,8 +20,9 @@ namespace OpenTKEngine.Entities.Components
         public TransformComponent Transform = null!;
         public float AspectRatio { private get; set; }
 
-        public CameraComponent(float aspectRatio)
+        public CameraComponent(Shader shader, float aspectRatio)
         {
+            _shader = shader;
             AspectRatio = aspectRatio;
         }
 
@@ -85,6 +88,12 @@ namespace OpenTKEngine.Entities.Components
         public override void Draw()
         {
             base.Draw();
+
+            _shader.SetMatrix4("view", GetViewMatrix());
+            _shader.SetMatrix4("projection", GetProjectionMatrix());
+
+            _shader.SetVector3("viewPos", Transform.Position);
+
         }
         public override void Update()
         {
