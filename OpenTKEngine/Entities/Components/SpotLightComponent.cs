@@ -34,8 +34,7 @@ namespace OpenTKEngine.Entities.Components
         {
             base.Init();
 
-            Entity.AddComponent<TransformComponent>(new TransformComponent(_position));
-            _transform = Entity.GetComponent<TransformComponent>();
+            _transform = Entity.AddComponent(new TransformComponent(_position));
         }
         public override void Draw()
         {

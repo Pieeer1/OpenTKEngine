@@ -11,15 +11,13 @@ namespace OpenTKEngine.Entities.Components
         private readonly Vector3 _ambient;
         private readonly Vector3 _diffuse;
         private readonly Vector3 _specular;
-        private Shader _lightShader;
-        private Shader _lampShader;
+        private Shader _shader;
         private readonly float _constant;
         private readonly float _linear;
         private readonly float _quadratic;
-        public PointLightComponent(Shader lightShader, Shader lampShader, Vector3 position, Vector3? ambient = null, Vector3? diffuse = null, Vector3? specular = null, float? constant = null, float? linear = null, float? quadratic = null)
+        public PointLightComponent(Shader shader, Vector3 position, Vector3? ambient = null, Vector3? diffuse = null, Vector3? specular = null, float? constant = null, float? linear = null, float? quadratic = null)
         {
-            _lightShader = lightShader;
-            _lampShader = lampShader;
+            _shader = shader;
             _position = position;
             _ambient = ambient ?? new Vector3(0.05f, 0.05f, 0.05f);
             _diffuse = diffuse ?? new Vector3(0.8f, 0.8f, 0.8f);
@@ -32,8 +30,7 @@ namespace OpenTKEngine.Entities.Components
         {
             base.Init();
 
-            Entity.AddComponent<TransformComponent>(new TransformComponent(_position));
-            _transform = Entity.GetComponent<TransformComponent>();
+            _transform = Entity.AddComponent(new TransformComponent(_position));
         }
         public override void Draw()
         {
@@ -42,30 +39,19 @@ namespace OpenTKEngine.Entities.Components
             var entities = EntityComponentManager.Instance.GetEntitiesWithType<PointLightComponent>();
             int index = entities.ToList().IndexOf(Entity);
 
-            _lightShader.SetVector3($"pointLights[{index}].position", _position);
-            _lightShader.SetVector3($"pointLights[{index}].ambient", _ambient);
-            _lightShader.SetVector3($"pointLights[{index}].diffuse", _diffuse);
-            _lightShader.SetVector3($"pointLights[{index}].specular", _specular);
-            _lightShader.SetFloat($"pointLights[{index}].constant", _constant);
-            _lightShader.SetFloat($"pointLights[{index}].linear", _linear);
-            _lightShader.SetFloat($"pointLights[{index}].quadratic", _quadratic);
+            _shader.SetVector3($"pointLights[{index}].position", _position);
+            _shader.SetVector3($"pointLights[{index}].ambient", _ambient);
+            _shader.SetVector3($"pointLights[{index}].diffuse", _diffuse);
+            _shader.SetVector3($"pointLights[{index}].specular", _specular);
+            _shader.SetFloat($"pointLights[{index}].constant", _constant);
+            _shader.SetFloat($"pointLights[{index}].linear", _linear);
+            _shader.SetFloat($"pointLights[{index}].quadratic", _quadratic);
 
         }
         public override void PostDraw()
         {
             base.PostDraw();
 
-            CameraComponent camera = EntityComponentManager.Instance.GetEntitiesWithType<CameraComponent>().FirstOrDefault()?.GetComponent<CameraComponent>() ?? throw new NullReferenceException("No Camera In Scene");
-
-            _lampShader.SetMatrix4("view", camera.GetViewMatrix());
-            _lampShader.SetMatrix4("projection", camera.GetProjectionMatrix());
-
-            Matrix4 lampMatrix = Matrix4.CreateScale(0.2f);
-            lampMatrix = lampMatrix * Matrix4.CreateTranslation(_position);
-
-            _lampShader.SetMatrix4("model", lampMatrix);
-
-            GL.DrawArrays(PrimitiveType.Triangles, 0, 36);
         }
         public override void Update() 
         {

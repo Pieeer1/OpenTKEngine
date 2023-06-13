@@ -82,8 +82,7 @@ namespace OpenTKEngine.Entities.Components
         {
             base.Init();
 
-            Entity.AddComponent(new TransformComponent(Vector3.UnitZ * 3));
-            Transform = Entity.GetComponent<TransformComponent>();
+            Transform = Entity.AddComponent(new TransformComponent(Vector3.UnitZ * 3));
         }
         public override void Draw()
         {

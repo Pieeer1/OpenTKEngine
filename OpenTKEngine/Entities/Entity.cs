@@ -38,6 +38,10 @@ namespace OpenTKEngine.Entities
         }
         public T AddComponent<T>(T newComponent) where T : Component
         {
+            if (HasComponent<T>())
+            { 
+                return GetComponent<T>();
+            }
             newComponent.Entity = this;
             newComponent.Init();
             _components.Add(newComponent);
