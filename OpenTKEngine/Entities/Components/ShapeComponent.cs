@@ -21,6 +21,12 @@ namespace OpenTKEngine.Entities.Components
             _position = position;
             _rotation = rotation;
             _scale = scale;
+        }        
+        public ShapeComponent(Shader shader, Shape3D shape, TransformComponent transform) 
+        {
+            _shader = shader;
+            _shape = shape;
+            _transform = transform;
         }
 
         public override void Init()
