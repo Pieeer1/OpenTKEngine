@@ -2,7 +2,19 @@
 {
     public class EntityComponentManager
     {
-        public EntityComponentManager() { }
+        private static EntityComponentManager? _instance;
+        public static EntityComponentManager Instance
+        {
+            get
+            {
+                if (_instance is null)
+                {
+                    _instance = new EntityComponentManager();
+                }
+                return _instance;
+            }
+        }
+        private EntityComponentManager() { }
         private HashSet<Entity> entities { get; set; } = new HashSet<Entity>();
         public void Update()
         {
@@ -36,5 +48,10 @@
             return e;
         }
         public HashSet<Entity> GetEntities() => entities;
+
+        public IEnumerable<Entity> GetEntitiesWithType<T>() where T : Component
+        {
+            return entities.Where(x => x.HasComponent<T>());
+        }
     }
 }
