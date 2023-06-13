@@ -167,11 +167,7 @@ namespace OpenTKEngine.Engine
         {
             base.OnRenderFrame(e);
 
-            foreach (Entity entity in _entityComponentManager.GetEntities())
-            {
-                entity.Draw();
-            }
-
+            _entityComponentManager.Draw();
 
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
@@ -206,21 +202,19 @@ namespace OpenTKEngine.Engine
 
             _lampShader.Use();
 
-            foreach (Entity entity in _entityComponentManager.GetEntities())
-            {
-                entity.PostDraw();
-            }
 
+            _entityComponentManager.PostDraw();
+            
+            
             SwapBuffers();
+
+            _entityComponentManager.Refresh();
         }
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
             base.OnUpdateFrame(e);
 
-            foreach (Entity entity in _entityComponentManager.GetEntities())
-            {
-                entity.Update();
-            }
+            _entityComponentManager.Update();
 
             if (!IsFocused)
             {
@@ -228,9 +222,8 @@ namespace OpenTKEngine.Engine
             }
 
             var input = KeyboardState;
-            var mouse = MouseState;
 
-            _camera.UpdateInput(e, input, mouse, ref _firstMove, ref _lastPos);
+            _entityComponentManager.UpdateInput(e, input, MouseState, ref _firstMove, ref _lastPos);
 
             if (input.IsKeyDown(Keys.Escape))
             {

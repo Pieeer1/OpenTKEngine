@@ -1,4 +1,8 @@
-﻿namespace OpenTKEngine.Entities
+﻿using OpenTK.Mathematics;
+using OpenTK.Windowing.Common;
+using OpenTK.Windowing.GraphicsLibraryFramework;
+
+namespace OpenTKEngine.Entities
 {
     public class EntityComponentManager
     {
@@ -22,12 +26,26 @@
             {
                 entity.Update();
             }
+        }        
+        public void UpdateInput(FrameEventArgs e, KeyboardState input, MouseState mouse, ref bool firstMove, ref Vector2 lastPos)
+        {
+            foreach (var entity in entities)
+            {
+                entity.UpdateInput(e, input, mouse, ref firstMove, ref lastPos);
+            }
         }
         public void Draw()
         {
             foreach (var entity in entities)
             {
                 entity.Draw();
+            }
+        }        
+        public void PostDraw()
+        {
+            foreach (var entity in entities)
+            {
+                entity.PostDraw();
             }
         }
         public void Refresh()

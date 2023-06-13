@@ -91,7 +91,7 @@ namespace OpenTKEngine.Entities.Components
             base.Update();
         }
 
-        public void UpdateInput(FrameEventArgs e, KeyboardState input, MouseState mouse, ref bool firstMove, ref Vector2 lastPos)
+        public override void UpdateInput(FrameEventArgs e, KeyboardState input, MouseState mouse, ref bool firstMove, ref Vector2 lastPos)
         {
             const float cameraSpeed = 1.5f;
             const float sensitivity = 0.2f;

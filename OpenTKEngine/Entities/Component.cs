@@ -1,4 +1,8 @@
-﻿namespace OpenTKEngine.Entities
+﻿using OpenTK.Mathematics;
+using OpenTK.Windowing.Common;
+using OpenTK.Windowing.GraphicsLibraryFramework;
+
+namespace OpenTKEngine.Entities
 {
     public class Component
     {
@@ -17,6 +21,10 @@
             
         }
         public virtual void PostDraw()
+        { 
+        
+        }
+        public virtual void UpdateInput(FrameEventArgs e, KeyboardState input, MouseState mouse, ref bool firstMove, ref Vector2 lastPos)
         { 
         
         }
