@@ -4,6 +4,7 @@ using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 using OpenTKEngine.Entities;
+using OpenTKEngine.Entities.Components;
 using OpenTKEngine.Models;
 using static OpenTKEngine.Models.Constants;
 
@@ -93,7 +94,7 @@ namespace OpenTKEngine.Engine
 
         private Texture _specularMap = null!;
 
-        private Camera _camera = null!;
+        private CameraComponent _camera = null!;
 
         private bool _firstMove = true;
 
@@ -150,7 +151,11 @@ namespace OpenTKEngine.Engine
             _diffuseMap = Texture.LoadFromFile($"{AssetRoutes.Textures}/container2.png");
             _specularMap = Texture.LoadFromFile($"{AssetRoutes.Textures}/container2_specular.png");
 
-            _camera = new Camera(Vector3.UnitZ * 3, Size.X / (float)Size.Y);
+            Entity? cam = null;
+            cam = _entityComponentManager.AddEntity();
+            cam.AddComponent(new CameraComponent(Size.X / (float)Size.Y));
+            _camera = cam.GetComponent<CameraComponent>();
+
 
             CursorState = CursorState.Grabbed;
         }
@@ -175,7 +180,7 @@ namespace OpenTKEngine.Engine
             _lightingShader.SetMatrix4("view", _camera.GetViewMatrix());
             _lightingShader.SetMatrix4("projection", _camera.GetProjectionMatrix());
 
-            _lightingShader.SetVector3("viewPos", _camera.Position);
+            _lightingShader.SetVector3("viewPos", _camera.Transform.Position);
 
             _lightingShader.SetInt("material.diffuse", 0);
             _lightingShader.SetInt("material.specular", 1);
@@ -198,7 +203,7 @@ namespace OpenTKEngine.Engine
                 _lightingShader.SetFloat($"pointLights[{i}].quadratic", 0.032f);
             }
 
-            _lightingShader.SetVector3("spotLight.position", _camera.Position);
+            _lightingShader.SetVector3("spotLight.position", _camera.Transform.Position);
             _lightingShader.SetVector3("spotLight.direction", _camera.Front);
             _lightingShader.SetVector3("spotLight.ambient", new Vector3(0.0f, 0.0f, 0.0f));
             _lightingShader.SetVector3("spotLight.diffuse", new Vector3(1.0f, 1.0f, 1.0f));
@@ -252,56 +257,15 @@ namespace OpenTKEngine.Engine
             }
 
             var input = KeyboardState;
+            var mouse = MouseState;
+
+            _camera.UpdateInput(e, input, mouse, ref _firstMove, ref _lastPos);
 
             if (input.IsKeyDown(Keys.Escape))
             {
                 Close();
             }
 
-            const float cameraSpeed = 1.5f;
-            const float sensitivity = 0.2f;
-
-            if (input.IsKeyDown(Keys.W))
-            {
-                _camera.Position += _camera.Front * cameraSpeed * (float)e.Time; // Forward
-            }
-            if (input.IsKeyDown(Keys.S))
-            {
-                _camera.Position -= _camera.Front * cameraSpeed * (float)e.Time; // Backwards
-            }
-            if (input.IsKeyDown(Keys.A))
-            {
-                _camera.Position -= _camera.Right * cameraSpeed * (float)e.Time; // Left
-            }
-            if (input.IsKeyDown(Keys.D))
-            {
-                _camera.Position += _camera.Right * cameraSpeed * (float)e.Time; // Right
-            }
-            if (input.IsKeyDown(Keys.Space))
-            {
-                _camera.Position += _camera.Up * cameraSpeed * (float)e.Time; // Up
-            }
-            if (input.IsKeyDown(Keys.LeftShift))
-            {
-                _camera.Position -= _camera.Up * cameraSpeed * (float)e.Time; // Down
-            }
-
-            var mouse = MouseState;
-
-            if (_firstMove)
-            {
-                _lastPos = new Vector2(mouse.X, mouse.Y);
-                _firstMove = false;
-            }
-            else
-            {
-                var deltaX = mouse.X - _lastPos.X;
-                var deltaY = mouse.Y - _lastPos.Y;
-                _lastPos = new Vector2(mouse.X, mouse.Y);
-
-                _camera.Yaw += deltaX * sensitivity;
-                _camera.Pitch -= deltaY * sensitivity;
-            }
         }
 
         protected override void OnMouseWheel(MouseWheelEventArgs e)
