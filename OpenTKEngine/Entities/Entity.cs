@@ -22,13 +22,6 @@ namespace OpenTKEngine.Entities
                 component.Draw();
             }
         }        
-        public void PostDraw()
-        {
-            foreach (var component in _components)
-            {
-                component.PostDraw();
-            }
-        }
         public void UpdateInput(FrameEventArgs e, KeyboardState input, MouseState mouse, ref bool firstMove, ref Vector2 lastPos)
         {
             foreach (var component in _components)

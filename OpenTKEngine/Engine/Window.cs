@@ -116,8 +116,6 @@ namespace OpenTKEngine.Engine
             }
 
             _entityComponentManager.Draw();
-
-            _entityComponentManager.PostDraw();
                  
             SwapBuffers();
 
