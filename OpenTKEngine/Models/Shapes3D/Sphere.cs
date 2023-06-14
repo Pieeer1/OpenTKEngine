@@ -15,7 +15,7 @@ namespace OpenTKEngine.Models.Shapes3D
     public class Sphere : Shape3D
     {
         public override float[] _vertices { get => CreateSphere(); }
-        public uint[] _indices { get => CreateSphereIndices(_vertices); }
+        public uint[] _indices { get => CreateSphereIndices(); }
         public override int VAO { get; set; }
 
         private const int xSegments = 64;
@@ -72,7 +72,7 @@ namespace OpenTKEngine.Models.Shapes3D
 
             return DataManipulationService.GetTextureShadedArrayFromVectors(positions, normals, textures).Get1DFrom2D().ToArray();
         }
-        private uint[] CreateSphereIndices(float[] vertices)
+        private uint[] CreateSphereIndices()
         {
             List<uint> indices = new List<uint>();
             for (int y = 0; y < ySegments; y++)
@@ -112,7 +112,7 @@ namespace OpenTKEngine.Models.Shapes3D
             model = model * rotationModel * Matrix4.CreateScale(transform.Scale);
             shader.SetMatrix4("model", model);
 
-            GL.DrawElements(PrimitiveType.TriangleStrip, _indices.Count(), DrawElementsType.UnsignedInt, 0);
+            GL.DrawElements(PrimitiveType.TriangleStrip, _indices.Length, DrawElementsType.UnsignedInt, 0);
         }
     }
 }

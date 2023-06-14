@@ -10,8 +10,6 @@ namespace OpenTKEngine.Services
             {
                 throw new InvalidOperationException("Cannot create float array of different sized Enumerables");
             }
-            float[] floats = new float[positions.Count() * 8]; // 8 since it is the size of the shader array
-
             for (int i = 0; i < positions.Count(); i++)
             {
                 yield return new float[] {
