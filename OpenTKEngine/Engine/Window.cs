@@ -97,6 +97,9 @@ namespace OpenTKEngine.Engine
 
             Entity? lamp0 = _entityComponentManager.AddEntity();
             lamp0.AddComponent(new ShapeComponent(Shaders["lampShader"], new Cube(), new Vector3(-5.0f, 1.0f, -1.5f)));
+                        
+            Entity? sphere = _entityComponentManager.AddEntity();
+            sphere.AddComponent(new ShapeComponent(Shaders["lampShader"], new Sphere(), new Vector3(-5.0f, 3.0f, -1.5f)));
 
 
             CursorState = CursorState.Grabbed;
