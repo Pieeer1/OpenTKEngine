@@ -1,4 +1,5 @@
-﻿using OpenTK.Graphics.OpenGL4;
+﻿using OpenTK.Compute.OpenCL;
+using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using OpenTKEngine.Entities;
 using OpenTKEngine.Entities.Components;
@@ -53,14 +54,14 @@ namespace OpenTKEngine.Models.Shapes3D
             List<Vector3> normals = new List<Vector3>();
             List<Vector2> textures = new List<Vector2>();
 
-            for (int x = 0; x < xSegments; x++)
+            for (int x = 0; x <= xSegments; ++x)
             {
-                for (int y = 0; y < ySegments; y++)
+                for (int y = 0; y <= ySegments; ++y)
                 {
                     float xSegment = (float)x / (float)xSegments;
                     float ySegment = (float)y / (float)ySegments;
                     float xPos = (float)(MathHelper.Cos(xSegment * 2.0f * MathHelper.Pi) * MathHelper.Sin(ySegment * MathHelper.Pi));
-                    float yPos = (float)MathHelper.Sin(ySegment * MathHelper.Pi);
+                    float yPos = (float)MathHelper.Cos(ySegment * MathHelper.Pi);
                     float zPos = (float)(MathHelper.Sin(xSegment * 2.0f * MathHelper.Pi) * MathHelper.Sin(ySegment * MathHelper.Pi));
 
                     positions.Add(new Vector3(xPos, yPos, zPos));
@@ -93,6 +94,7 @@ namespace OpenTKEngine.Models.Shapes3D
                     }
                 }
             }
+
             return indices.ToArray();
         }
 

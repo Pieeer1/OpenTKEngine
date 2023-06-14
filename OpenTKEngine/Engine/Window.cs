@@ -14,9 +14,6 @@ namespace OpenTKEngine.Engine
 {
     public class Window : GameWindow
     {
-        private int _vaoModel;
-
-        private int _vaoLamp;
 
         private Dictionary<string, Shader> Shaders = null!;
 
@@ -41,7 +38,7 @@ namespace OpenTKEngine.Engine
         {
             base.OnLoad();
 
-            GL.ClearColor(0.2f, 0.3f, 0.3f, 1.0f); // background
+            GL.ClearColor(0.05f, 0.05f, 0.05f, 1.0f); // background
 
             GL.Enable(EnableCap.DepthTest);
 
@@ -99,7 +96,10 @@ namespace OpenTKEngine.Engine
             lamp0.AddComponent(new ShapeComponent(Shaders["lampShader"], new Cube(), new Vector3(-5.0f, 1.0f, -1.5f)));
                         
             Entity? sphere = _entityComponentManager.AddEntity();
-            sphere.AddComponent(new ShapeComponent(Shaders["lampShader"], new Sphere(), new Vector3(-5.0f, 3.0f, -1.5f)));
+            sphere.AddComponent(new ShapeComponent(Shaders["containerShader"], new Sphere(), new Vector3(-5.0f, 3.0f, -1.5f)));
+
+            Entity? lampSphere = _entityComponentManager.AddEntity();
+            lampSphere.AddComponent(new ShapeComponent(Shaders["lampShader"], new Sphere(), new Vector3(-5.0f, -3.0f, -1.5f)));
 
 
             CursorState = CursorState.Grabbed;
