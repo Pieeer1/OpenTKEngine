@@ -41,13 +41,6 @@ namespace OpenTKEngine.Entities
                 entity.Draw();
             }
         }        
-        public void PostDraw()
-        {
-            foreach (var entity in entities)
-            {
-                entity.PostDraw();
-            }
-        }
         public void Refresh()
         {
             foreach (var entity in entities)
