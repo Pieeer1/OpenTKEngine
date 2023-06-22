@@ -98,51 +98,5 @@ namespace OpenTKEngine.Entities.Components
         {
             base.Update();
         }
-
-        public override void UpdateInput(FrameEventArgs e, KeyboardState input, MouseState mouse, ref bool firstMove, ref Vector2 lastPos)
-        {
-            const float cameraSpeed = 1.5f;
-            const float sensitivity = 0.2f;
-
-            if (input.IsKeyDown(Keys.W))
-            {
-                Transform.Position += Front * cameraSpeed * (float)e.Time; // Forward
-            }
-            if (input.IsKeyDown(Keys.S))
-            {
-                Transform.Position -= Front * cameraSpeed * (float)e.Time; // Backwards
-            }
-            if (input.IsKeyDown(Keys.A))
-            {
-                Transform.Position -= Right * cameraSpeed * (float)e.Time; // Left
-            }
-            if (input.IsKeyDown(Keys.D))
-            {
-                Transform.Position += Right * cameraSpeed * (float)e.Time; // Right
-            }
-            if (input.IsKeyDown(Keys.Space))
-            {
-                Transform.Position += Up * cameraSpeed * (float)e.Time; // Up
-            }
-            if (input.IsKeyDown(Keys.LeftShift))
-            {
-                Transform.Position -= Up * cameraSpeed * (float)e.Time; // Down
-            }
-
-            if (firstMove)
-            {
-                lastPos = new Vector2(mouse.X, mouse.Y);
-                firstMove = false;
-            }
-            else
-            {
-                var deltaX = mouse.X - lastPos.X;
-                var deltaY = mouse.Y - lastPos.Y;
-                lastPos = new Vector2(mouse.X, mouse.Y);
-
-                Yaw += deltaX * sensitivity;
-                Pitch -= deltaY * sensitivity;
-            }
-        }
     }
 }

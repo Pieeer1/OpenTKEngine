@@ -16,6 +16,7 @@ namespace OpenTKEngine.Entities.Components
         private readonly float _quadratic;
         private readonly float _cutOff;
         private readonly float _outerCutOff;
+        private bool _isActive = true;
         public SpotLightComponent(Shader shader, Vector3 position, Vector3? ambient = null, Vector3? diffuse = null, Vector3? specular = null, float? constant = null, float? linear = null, float? quadratic = null, float? cutOff = null, float? outerCutOff = null)
         {
             _shader = shader;
@@ -29,7 +30,6 @@ namespace OpenTKEngine.Entities.Components
             _cutOff = cutOff ?? MathF.Cos(MathHelper.DegreesToRadians(12.5f));
             _outerCutOff = outerCutOff ?? MathF.Cos(MathHelper.DegreesToRadians(17.5f));
         }
-
         public override void Init()
         {
             base.Init();
@@ -50,14 +50,18 @@ namespace OpenTKEngine.Entities.Components
             _shader.SetFloat("spotLight.constant", _constant);
             _shader.SetFloat("spotLight.linear", _linear);
             _shader.SetFloat("spotLight.quadratic", _quadratic);
-            _shader.SetFloat("spotLight.cutOff", _cutOff);
-            _shader.SetFloat("spotLight.outerCutOff", _outerCutOff);
-
+            _shader.SetFloat("spotLight.cutOff", _isActive ? _cutOff : float.MaxValue);
+            _shader.SetFloat("spotLight.outerCutOff", _isActive? _outerCutOff : float.MaxValue);
+            
         }
         public override void Update()
         {
             base.Update();
         }
 
+        public void ToggleLight()
+        {
+            _isActive = !_isActive;
+        }
     }
 }

@@ -51,10 +51,9 @@ namespace OpenTKEngine.Engine
             _diffuseMap = Texture.LoadFromFile($"{AssetRoutes.Textures}/container2.png");
             _specularMap = Texture.LoadFromFile($"{AssetRoutes.Textures}/container2_specular.png");
 
-            Entity? cam = _entityComponentManager.AddEntity();
-            cam.AddComponent(new CameraComponent(Shaders["containerShader"], Size.X / (float)Size.Y));
-            cam.AddComponent(new SpotLightComponent(Shaders["containerShader"], cam.GetComponent<TransformComponent>().Position));
-            _camera = cam.GetComponent<CameraComponent>();
+            Entity? player = _entityComponentManager.AddEntity();
+            player.AddComponent(new PlayerComponent(Shaders["containerShader"], Size.X / (float)Size.Y));
+            _camera = player.GetComponent<CameraComponent>();
 
             Entity? pointLight1 = _entityComponentManager.AddEntity();
             Entity? pointLight2 = _entityComponentManager.AddEntity();
