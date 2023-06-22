@@ -100,6 +100,8 @@ namespace OpenTKEngine.Engine
             Entity? lampSphere = _entityComponentManager.AddEntity();
             lampSphere.AddComponent(new ShapeComponent(Shaders["lampShader"], new Sphere(), new Vector3(-5.0f, -3.0f, -1.5f)));
 
+            Entity? plane = _entityComponentManager.AddEntity();
+            plane.AddComponent(new ShapeComponent(Shaders["containerShader"], new Plane(), new Vector3(5.0f, 0.0f, -1.5f), Quaternion.FromEulerAngles(90.0f, 0.0f, 0.0f)));
 
             CursorState = CursorState.Grabbed;
         }

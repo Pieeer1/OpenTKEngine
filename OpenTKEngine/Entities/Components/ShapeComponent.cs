@@ -27,7 +27,10 @@ namespace OpenTKEngine.Entities.Components
             _shape = shape;
             _transform = transform;
         }
-
+        public void RotateTo(Quaternion rotation)
+        { 
+            _transform.Rotation =  rotation;
+        }
         public override void Init()
         {
             base.Init();
