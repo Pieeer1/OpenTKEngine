@@ -12,6 +12,5 @@
     </ItemGroup>
     <ItemGroup>
       <Folder Include="Assets\Textures\" />
-      <Folder Include="Services\" />
     </ItemGroup>
 </Project>

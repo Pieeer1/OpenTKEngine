@@ -48,11 +48,6 @@ namespace OpenTKEngine.Entities.Components
             _shader.SetFloat($"pointLights[{index}].quadratic", _quadratic);
 
         }
-        public override void PostDraw()
-        {
-            base.PostDraw();
-
-        }
         public override void Update() 
         {
             base.Update();
