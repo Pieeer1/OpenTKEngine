@@ -62,6 +62,11 @@ namespace OpenTKEngine.Entities.Components
                 _transform.Position -= _camera.Up * cameraSpeed * (float)e.Time; // Down
             }
 
+            if (input.IsKeyPressed(Keys.F))
+            {
+                _flashlight.ToggleLight();
+            }
+
             if (firstMove)
             {
                 lastPos = new Vector2(mouse.X, mouse.Y);
