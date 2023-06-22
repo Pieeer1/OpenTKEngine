@@ -65,8 +65,7 @@ namespace OpenTKEngine.Models.Shapes3D
             shader.SetMatrix4("projection", camera.GetProjectionMatrix());
 
             Matrix4 model = Matrix4.CreateTranslation(transform.Position);
-            Matrix4.CreateFromQuaternion(transform.Rotation, out Matrix4 rotationModel);
-            model = model * rotationModel * Matrix4.CreateScale(transform.Scale);
+            model = model * Matrix4.CreateFromAxisAngle(transform.Rotation.Axis, transform.Rotation.Angle) * Matrix4.CreateScale(transform.Scale);
             shader.SetMatrix4("model", model);
 
             glDraw.Invoke();

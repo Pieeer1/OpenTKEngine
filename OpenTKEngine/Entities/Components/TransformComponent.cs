@@ -1,16 +1,17 @@
 ﻿using OpenTK.Mathematics;
+using OpenTKEngine.Models;
 
 namespace OpenTKEngine.Entities.Components
 {
     public class TransformComponent : Component
     {
         public Vector3 Position { get; set; }
-        public Quaternion Rotation { get; set; }
+        public AxisAngle Rotation { get; set; }
         public Vector3 Scale { get; set; }
-        public TransformComponent(Vector3? postion = null, Quaternion? rotation = null, Vector3? scale = null) 
+        public TransformComponent(Vector3? postion = null, AxisAngle? rotation = null, Vector3? scale = null) 
         {
             Position = postion ?? Vector3.Zero; 
-            Rotation = rotation ?? Quaternion.Identity; 
+            Rotation = rotation ?? AxisAngle.Identity; 
             Scale = scale ?? Vector3.One;
         }
         public override void Init()
@@ -25,6 +26,9 @@ namespace OpenTKEngine.Entities.Components
         {
             base.Draw();
         }
-
+        public void RotateTo(AxisAngle rotation)
+        {
+            Rotation = rotation;
+        }
     }
 }

@@ -10,10 +10,10 @@ namespace OpenTKEngine.Entities.Components
         private readonly Shader _shader;
         private readonly Shape3D _shape;
         private readonly Vector3 _position;
-        private readonly Quaternion? _rotation;
+        private readonly AxisAngle? _rotation;
         private readonly Vector3? _scale;
         private TransformComponent _transform = null!;
-        public ShapeComponent(Shader shader, Shape3D shape, Vector3 position, Quaternion? rotation = null, Vector3? scale = null) 
+        public ShapeComponent(Shader shader, Shape3D shape, Vector3 position, AxisAngle? rotation = null, Vector3? scale = null) 
         {
             _shader = shader;
             _shape = shape;
@@ -26,10 +26,6 @@ namespace OpenTKEngine.Entities.Components
             _shader = shader;
             _shape = shape;
             _transform = transform;
-        }
-        public void RotateTo(Quaternion rotation)
-        { 
-            _transform.Rotation =  rotation;
         }
         public override void Init()
         {
