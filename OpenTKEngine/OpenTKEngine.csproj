@@ -6,17 +6,12 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Compile Remove="Services\**" />
-    <EmbeddedResource Remove="Services\**" />
-    <None Remove="Services\**" />
-  </ItemGroup>
     <ItemGroup>
         <PackageReference Include="OpenTK" Version="4.7.7" />
         <PackageReference Include="StbImageSharp" Version="2.27.13" />
     </ItemGroup>
     <ItemGroup>
       <Folder Include="Assets\Textures\" />
+      <Folder Include="Services\" />
     </ItemGroup>
 </Project>

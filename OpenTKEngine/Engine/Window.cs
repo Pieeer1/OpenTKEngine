@@ -104,7 +104,7 @@ namespace OpenTKEngine.Engine
             plane.AddComponent(new ShapeComponent(Shaders["containerShader"], new Plane(10), new Vector3(5.0f, 0.0f, -1.5f)));
             plane.GetComponent<TransformComponent>().RotateTo(new AxisAngle(new Vector3(1.0f, 0.0f, 0.0f), 90.0f));
 
-
+             
             CursorState = CursorState.Grabbed;
         }
         protected override void OnRenderFrame(FrameEventArgs e)
