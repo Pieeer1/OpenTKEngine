@@ -1,4 +1,5 @@
-﻿using OpenTK.Mathematics;
+﻿using OpenTK.Graphics.OpenGL4;
+using OpenTK.Mathematics;
 using OpenTKEngine.Models;
 using OpenTKEngine.Models.Text;
 
@@ -35,7 +36,6 @@ namespace OpenTKEngine.Entities.Components
         {
             base.Draw();
             _renderedString.Draw(_shader, _transformComponent);
-            
         }
     }
 }

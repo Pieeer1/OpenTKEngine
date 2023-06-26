@@ -4,6 +4,8 @@ using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using OpenTKEngine.Entities.Components;
 using static OpenTKEngine.Models.Constants;
+using System.Reflection.Metadata;
+using OpenTKEngine.Services;
 
 namespace OpenTKEngine.Models.Text
 {
@@ -15,7 +17,7 @@ namespace OpenTKEngine.Models.Text
         private float _y;
         private float _scale;
         private Vector3 _color;
-
+        private int _handle;
         private Dictionary<char, RChar> _characters = new Dictionary<char, RChar>();
 
         public RenderedString(string text, float x, float y, float scale, Vector3 color)
@@ -26,7 +28,6 @@ namespace OpenTKEngine.Models.Text
             _scale = scale;
             _color = color;
         }
-
         public override void BindAndBuffer(Shader shader)
         {
             unsafe
@@ -46,43 +47,43 @@ namespace OpenTKEngine.Models.Text
                 GL.PixelStore(PixelStoreParameter.UnpackAlignment, 1);
                 for (uint c = 0; c < 128 /*basic ascii*/; c++)
                 {
-                    error = FT_Load_Char(face, c, FT_LOAD_RENDER);
+                    error = FT_Load_Char(face, (char)c, FT_LOAD_RENDER);
                     if (error != FT_Error.FT_Err_Ok)
                     {
                         throw new Exception("error");
                     }
 
-                    int texture = GL.GenTexture();
-                    GL.BindTexture(TextureTarget.Texture2D, texture);
+                    int _handle = GL.GenTexture();
+                    GL.BindTexture(TextureTarget.Texture2D, _handle);
                     GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.R8, (int)face_ptr->glyph->bitmap.width, (int)face_ptr->glyph->bitmap.rows, 0, PixelFormat.Red, PixelType.UnsignedByte, face_ptr->glyph->bitmap.buffer);
                     GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureWrapMode.ClampToEdge);
                     GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureWrapMode.ClampToEdge);
                     GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
                     GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMagFilter.Linear);
 
-                    RChar rChar = new RChar((uint)texture, new Vector2(face_ptr->glyph->bitmap.width, face_ptr->glyph->bitmap.rows), new Vector2(face_ptr->glyph->bitmap_left, face_ptr->glyph->bitmap_top), (uint)face_ptr->glyph->advance.x);
+                    RChar rChar = new RChar((uint)_handle, new Vector2(face_ptr->glyph->bitmap.width, face_ptr->glyph->bitmap.rows), new Vector2(face_ptr->glyph->bitmap_left, face_ptr->glyph->bitmap_top), (uint)face_ptr->glyph->advance.x);
                     _characters.Add((char)c, rChar);
                 }
                 FT_Done_Face(face);
                 FT_Done_FreeType(library);
             }
 
-            GL.Enable(EnableCap.Blend);
-            GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
 
-            Matrix4 mat = Matrix4.CreateOrthographic(0.0f, 800.0f, 0.0f, 600.0f);
+            Matrix4 projection = Matrix4.CreateOrthographic(0.0f, 800.0f, 0.0f, 600.0f);
 
-
-            VAO = GL.GenVertexArray();
-            GL.BindVertexArray(VAO);
+            shader.SetMatrix4("projection", projection);
 
 
             VBO = GL.GenBuffer();
             GL.BindBuffer(BufferTarget.ArrayBuffer, VBO);
             GL.BufferData(BufferTarget.ArrayBuffer, sizeof(float) * 6 * 4, 0, BufferUsageHint.DynamicDraw);
 
+            VAO = GL.GenVertexArray();
+            GL.BindVertexArray(VAO);
+
             GL.EnableVertexArrayAttrib(VAO, 0);
             GL.VertexAttribPointer(0, 4, VertexAttribPointerType.Float, false, 4 * sizeof(float), 0);
+
             GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
             GL.BindVertexArray(0);
         }
@@ -100,9 +101,9 @@ namespace OpenTKEngine.Models.Text
 
             for (int i = 0; i < text.Length; i++)
             {
-                RChar rChar = _characters[text[i]];
+                RChar rChar = _characters[(char)text[i]];
                 float xPos = x + rChar.Bearing.X * scale;
-                float yPos = y + (rChar.Size.Y - rChar.Bearing.Y) * scale;
+                float yPos = y - (rChar.Size.Y - rChar.Bearing.Y) * scale;
                 float w = rChar.Size.X * scale;
                 float h = rChar.Size.Y * scale;
                 float[] vertices = new float[]
@@ -124,6 +125,7 @@ namespace OpenTKEngine.Models.Text
 
                 x += (rChar.Advance >> 6) * scale;
             }
+
             GL.BindVertexArray(0);
             GL.BindTexture(TextureTarget.Texture2D, 0);
 

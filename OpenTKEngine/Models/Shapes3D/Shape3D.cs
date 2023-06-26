@@ -28,6 +28,9 @@ namespace OpenTKEngine.Models.Shapes3D
             var texCoordLocation = shader.GetAttribLocation("aTexCoords");
             GL.EnableVertexAttribArray(texCoordLocation);
             GL.VertexAttribPointer(texCoordLocation, 2, VertexAttribPointerType.Float, false, 8 * sizeof(float), 6 * sizeof(float));
+
+            GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
+            GL.BindVertexArray(0);
         }
         private protected void ElementArrayBuffer(Shader shader, uint[] indices)
         {
@@ -54,6 +57,12 @@ namespace OpenTKEngine.Models.Shapes3D
             var texCoordLocation = shader.GetAttribLocation("aTexCoords");
             GL.EnableVertexAttribArray(texCoordLocation);
             GL.VertexAttribPointer(texCoordLocation, 2, VertexAttribPointerType.Float, false, 8 * sizeof(float), 6 * sizeof(float));
+
+            GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
+            GL.BindVertexArray(0);
+
+            GL.BindBuffer(BufferTarget.ElementArrayBuffer, 0);
+            GL.BindVertexArray(0);
         }
         private protected void DrawShape(Shader shader, TransformComponent transform, Action glDraw)
         {

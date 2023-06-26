@@ -43,6 +43,8 @@ namespace OpenTKEngine.Engine
             GL.ClearColor(0.1f, 0.1f, 0.1f, 1.0f); // background
 
             GL.Enable(EnableCap.DepthTest);
+            GL.Enable(EnableCap.Blend);
+            GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
 
             Shaders = new Dictionary<string, Shader>()
             {
@@ -55,7 +57,7 @@ namespace OpenTKEngine.Engine
             _specularMap = Texture.LoadFromFile($"{AssetRoutes.Textures}/container2_specular.png");
 
             Entity? player = _entityComponentManager.AddEntity();
-            player.AddComponent(new PlayerComponent(Shaders[ShaderConstants.TextureShader], Size.X / (float)Size.Y));
+            player.AddComponent(new PlayerComponent(Shaders[ShaderConstants.TextureShader], Size.X / (float)Size.Y, new Vector3(-1.5f, -0.5f, 0.0f)));
             _camera = player.GetComponent<CameraComponent>();
 
             Entity? pointLight1 = _entityComponentManager.AddEntity();
@@ -108,8 +110,8 @@ namespace OpenTKEngine.Engine
             plane.GetComponent<TransformComponent>().RotateTo(new AxisAngle(new Vector3(1.0f, 0.0f, 0.0f), 0.0f));
 
             Entity? testText = _entityComponentManager.AddEntity();
-            testText.AddComponent(new TextComponent(Shaders[ShaderConstants.TextShader], "test testing", new Vector2(25.0f, 25.0f), 1.0f, new Vector3(0.5f, 0.5f, 0.5f)));
-             
+            testText.AddComponent(new TextComponent(Shaders[ShaderConstants.TextShader], "test testing", new Vector2(250.0f, 250.0f), 1.0f, new Vector3(0.3f, 0.7f, 0.9f)));
+
             CursorState = CursorState.Grabbed;
         }
         protected override void OnRenderFrame(FrameEventArgs e)
@@ -121,10 +123,6 @@ namespace OpenTKEngine.Engine
             _diffuseMap.Use(TextureUnit.Texture0);
             _specularMap.Use(TextureUnit.Texture1);
 
-            //foreach (Shader shader in Shaders.Values)
-            //{
-            //    shader.Use();
-            //}
 
             _entityComponentManager.Draw();
                  
