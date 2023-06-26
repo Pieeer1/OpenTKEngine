@@ -10,7 +10,7 @@ namespace OpenTKEngine.Models.Shapes3D
         private uint _dimensions;
         public Plane(uint dimensions) 
         {
-            _dimensions = dimensions;
+            _dimensions = dimensions < 2 ? 2 : dimensions; // lower than 2 removes the entire plane
         }
 
         public override float[] _vertices { get => CreatePlaneVertices(); }
@@ -42,7 +42,7 @@ namespace OpenTKEngine.Models.Shapes3D
 
                     positions.Add(new Vector3(xSeg, ySeg, zSeg));
                     normals.Add(new Vector3(xSeg, ySeg, zSeg));
-                    textures.Add(new Vector2(_dimensions, _dimensions));
+                    textures.Add(new Vector2(i, j)); // currently repeats the image over the size of the texture
                 }
             }
 
