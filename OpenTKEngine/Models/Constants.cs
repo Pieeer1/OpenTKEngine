@@ -12,5 +12,11 @@
         {
             public const string Textures = "../../../Assets/Textures";
         }
+        public static class ShaderConstants
+        {
+            public const string TextureShader = "TextureShader";
+            public const string LightShader = "LightShader";
+            public const string ColorTexture = "ColorShader";//not yet implemented
+        }
     }
 }
