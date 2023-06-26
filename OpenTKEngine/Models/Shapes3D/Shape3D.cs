@@ -10,8 +10,8 @@ namespace OpenTKEngine.Models.Shapes3D
         public abstract float[] _vertices { get; }
         private protected void ArrayBuffer(Shader shader)
         {
-            int vertexBufferObject = GL.GenBuffer();
-            GL.BindBuffer(BufferTarget.ArrayBuffer, vertexBufferObject);
+            VBO = GL.GenBuffer();
+            GL.BindBuffer(BufferTarget.ArrayBuffer, VBO);
             GL.BufferData(BufferTarget.ArrayBuffer, _vertices.Length * sizeof(float), _vertices, BufferUsageHint.StaticDraw);
 
             VAO = GL.GenVertexArray();
@@ -31,15 +31,15 @@ namespace OpenTKEngine.Models.Shapes3D
         }
         private protected void ElementArrayBuffer(Shader shader, uint[] indices)
         {
-            int vertexBufferObject = GL.GenBuffer();
-            GL.BindBuffer(BufferTarget.ArrayBuffer, vertexBufferObject);
+            VBO = GL.GenBuffer();
+            GL.BindBuffer(BufferTarget.ArrayBuffer, VBO);
             GL.BufferData(BufferTarget.ArrayBuffer, _vertices.Length * sizeof(float), _vertices, BufferUsageHint.StaticDraw);
 
             VAO = GL.GenVertexArray();
             GL.BindVertexArray(VAO);
 
-            int elementArrayBufferObject = GL.GenBuffer();
-            GL.BindBuffer(BufferTarget.ElementArrayBuffer, elementArrayBufferObject);
+            EBO = GL.GenBuffer();
+            GL.BindBuffer(BufferTarget.ElementArrayBuffer, EBO.Value);
             GL.BufferData(BufferTarget.ElementArrayBuffer, indices.Length * sizeof(uint), indices, BufferUsageHint.StaticDraw);
 
 

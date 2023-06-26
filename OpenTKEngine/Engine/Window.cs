@@ -8,7 +8,9 @@ using OpenTKEngine.Entities.Components;
 using OpenTKEngine.Models;
 using OpenTKEngine.Models.Shapes3D;
 using System;
+using FreeTypeSharp;
 using static OpenTKEngine.Models.Constants;
+using FreeTypeSharp.Native;
 
 namespace OpenTKEngine.Engine
 {
@@ -38,7 +40,7 @@ namespace OpenTKEngine.Engine
         {
             base.OnLoad();
 
-            GL.ClearColor(0.05f, 0.05f, 0.05f, 1.0f); // background
+            GL.ClearColor(0.1f, 0.1f, 0.1f, 1.0f); // background
 
             GL.Enable(EnableCap.DepthTest);
 
@@ -46,6 +48,7 @@ namespace OpenTKEngine.Engine
             {
                 { ShaderConstants.TextureShader, new Shader(ShaderRoutes.BaseVertexShader, ShaderRoutes.BaseLightingShader)},
                 { ShaderConstants.LightShader, new Shader(ShaderRoutes.BaseVertexShader, ShaderRoutes.BaseFragmentShader)},
+                { ShaderConstants.TextShader, new Shader(ShaderRoutes.BaseTextVertexShader, ShaderRoutes.BaseTextFragmentShader)},
             };
 
             _diffuseMap = Texture.LoadFromFile($"{AssetRoutes.Textures}/container2.png");
@@ -101,9 +104,11 @@ namespace OpenTKEngine.Engine
             lampSphere.AddComponent(new ShapeComponent(Shaders[ShaderConstants.LightShader], new Sphere(), new Vector3(-5.0f, -3.0f, -1.5f)));
 
             Entity? plane = _entityComponentManager.AddEntity();
-            plane.AddComponent(new ShapeComponent(Shaders[ShaderConstants.TextureShader], new Plane(2), new Vector3(5.0f, 0.0f, -1.5f)));
+            plane.AddComponent(new ShapeComponent(Shaders[ShaderConstants.TextureShader], new Plane(5), new Vector3(5.0f, 0.0f, -1.5f)));
             plane.GetComponent<TransformComponent>().RotateTo(new AxisAngle(new Vector3(1.0f, 0.0f, 0.0f), 0.0f));
 
+            Entity? testText = _entityComponentManager.AddEntity();
+            testText.AddComponent(new TextComponent(Shaders[ShaderConstants.TextShader], "test testing", new Vector2(25.0f, 25.0f), 1.0f, new Vector3(0.5f, 0.5f, 0.5f)));
              
             CursorState = CursorState.Grabbed;
         }
@@ -116,10 +121,10 @@ namespace OpenTKEngine.Engine
             _diffuseMap.Use(TextureUnit.Texture0);
             _specularMap.Use(TextureUnit.Texture1);
 
-            foreach (Shader shader in Shaders.Values)
-            {
-                shader.Use();
-            }
+            //foreach (Shader shader in Shaders.Values)
+            //{
+            //    shader.Use();
+            //}
 
             _entityComponentManager.Draw();
                  
@@ -142,11 +147,14 @@ namespace OpenTKEngine.Engine
 
             _entityComponentManager.UpdateInput(e, input, MouseState, ref _firstMove, ref _lastPos);
 
-            if (input.IsKeyDown(Keys.Escape))
+            if (input.IsKeyPressed(Keys.Escape))
+            { 
+                CursorState = CursorState == CursorState.Grabbed ? CursorState.Normal : CursorState.Grabbed;
+            }
+            if (input.IsKeyDown(Keys.Escape) && input.IsKeyDown(Keys.LeftShift))
             {
                 Close();
             }
-
         }
 
         protected override void OnMouseWheel(MouseWheelEventArgs e)
