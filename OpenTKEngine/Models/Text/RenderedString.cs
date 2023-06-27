@@ -32,13 +32,13 @@ namespace OpenTKEngine.Models.Text
         {
             unsafe
             {
-                IntPtr library, face;
+                IntPtr library;
                 FT_Error error;
                 FT_FaceRec* face_ptr;
 
                 error = FT_Init_FreeType(out library);
 
-                error = FT_New_Face(library, FontRoutes.Corbel /*TODO: MAKE DYNAMIC*/, 0, out face);
+                error = FT_New_Face(library, FontRoutes.Corbel /*TODO: MAKE DYNAMIC*/, 0, out nint face);
 
                 face_ptr = (FT_FaceRec*)face;
 
@@ -53,9 +53,10 @@ namespace OpenTKEngine.Models.Text
                         throw new Exception("error");
                     }
 
-                    int _handle = GL.GenTexture();
+                    _handle = GL.GenTexture();
                     GL.BindTexture(TextureTarget.Texture2D, _handle);
                     GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.R8, (int)face_ptr->glyph->bitmap.width, (int)face_ptr->glyph->bitmap.rows, 0, PixelFormat.Red, PixelType.UnsignedByte, face_ptr->glyph->bitmap.buffer);
+
                     GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureWrapMode.ClampToEdge);
                     GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureWrapMode.ClampToEdge);
                     GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
@@ -81,7 +82,7 @@ namespace OpenTKEngine.Models.Text
             VAO = GL.GenVertexArray();
             GL.BindVertexArray(VAO);
 
-            GL.EnableVertexArrayAttrib(VAO, 0);
+            GL.EnableVertexAttribArray(0);
             GL.VertexAttribPointer(0, 4, VertexAttribPointerType.Float, false, 4 * sizeof(float), 0);
 
             GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
