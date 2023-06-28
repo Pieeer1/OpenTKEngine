@@ -8,7 +8,9 @@ using OpenTKEngine.Entities.Components;
 using OpenTKEngine.Models;
 using OpenTKEngine.Models.Shapes3D;
 using System;
+using FreeTypeSharp;
 using static OpenTKEngine.Models.Constants;
+using FreeTypeSharp.Native;
 
 namespace OpenTKEngine.Engine
 {
@@ -16,10 +18,6 @@ namespace OpenTKEngine.Engine
     {
 
         private Dictionary<string, Shader> Shaders = null!;
-
-        private Texture _diffuseMap = null!;
-
-        private Texture _specularMap = null!;
 
         private CameraComponent _camera = null!;
 
@@ -33,26 +31,33 @@ namespace OpenTKEngine.Engine
         {
             _entityComponentManager = EntityComponentManager.Instance;
         }
-
         protected override void OnLoad()
         {
             base.OnLoad();
 
-            GL.ClearColor(0.05f, 0.05f, 0.05f, 1.0f); // background
+            GL.ClearColor(0.1f, 0.1f, 0.1f, 1.0f); // background
 
             GL.Enable(EnableCap.DepthTest);
+            GL.Enable(EnableCap.Blend);
+            GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
+
 
             Shaders = new Dictionary<string, Shader>()
             {
                 { ShaderConstants.TextureShader, new Shader(ShaderRoutes.BaseVertexShader, ShaderRoutes.BaseLightingShader)},
                 { ShaderConstants.LightShader, new Shader(ShaderRoutes.BaseVertexShader, ShaderRoutes.BaseFragmentShader)},
+                { ShaderConstants.TextShader, new Shader(ShaderRoutes.BaseTextVertexShader, ShaderRoutes.BaseTextFragmentShader)},
             };
 
-            _diffuseMap = Texture.LoadFromFile($"{AssetRoutes.Textures}/container2.png");
-            _specularMap = Texture.LoadFromFile($"{AssetRoutes.Textures}/container2_specular.png");
+            List<Texture> containerTextures = new List<Texture>
+            {
+                Texture.LoadFromFile($"{AssetRoutes.Textures}/container2.png"),
+                Texture.LoadFromFile($"{AssetRoutes.Textures}/container2_specular.png")
+            };
+
 
             Entity? player = _entityComponentManager.AddEntity();
-            player.AddComponent(new PlayerComponent(Shaders[ShaderConstants.TextureShader], Size.X / (float)Size.Y));
+            player.AddComponent(new PlayerComponent(Shaders[ShaderConstants.TextureShader], new Vector3(-1.5f, -0.5f, 0.0f)));
             _camera = player.GetComponent<CameraComponent>();
 
             Entity? pointLight1 = _entityComponentManager.AddEntity();
@@ -80,16 +85,16 @@ namespace OpenTKEngine.Engine
             Entity? shape7 = _entityComponentManager.AddEntity();
             Entity? shape8 = _entityComponentManager.AddEntity();
             Entity? shape9 = _entityComponentManager.AddEntity();
-            shape1.AddComponent(new ShapeComponent(Shaders[ShaderConstants.TextureShader], new Cube(), new Vector3(0.0f, 0.0f, 0.0f)));
-            shape2.AddComponent(new ShapeComponent(Shaders[ShaderConstants.TextureShader], new Cube(), new Vector3(2.0f, 5.0f, -15.0f)));
-            shape3.AddComponent(new ShapeComponent(Shaders[ShaderConstants.TextureShader], new Cube(), new Vector3(-1.5f, -2.2f, -2.5f)));
-            shape4.AddComponent(new ShapeComponent(Shaders[ShaderConstants.TextureShader], new Cube(), new Vector3(-3.8f, -2.0f, -12.3f)));
-            shape5.AddComponent(new ShapeComponent(Shaders[ShaderConstants.TextureShader], new Cube(), new Vector3(2.4f, -0.4f, -3.5f)));
-            shape6.AddComponent(new ShapeComponent(Shaders[ShaderConstants.TextureShader], new Cube(), new Vector3(-1.7f, 3.0f, -7.5f)));
-            shape7.AddComponent(new ShapeComponent(Shaders[ShaderConstants.TextureShader], new Cube(), new Vector3(1.3f, -2.0f, -2.5f)));
-            shape8.AddComponent(new ShapeComponent(Shaders[ShaderConstants.TextureShader], new Cube(), new Vector3(1.5f, 2.0f, -2.5f)));
-            shape9.AddComponent(new ShapeComponent(Shaders[ShaderConstants.TextureShader], new Cube(), new Vector3(1.5f, 0.2f, -1.5f)));
-            shape0.AddComponent(new ShapeComponent(Shaders[ShaderConstants.TextureShader], new Cube(), new Vector3(-1.3f, 1.0f, -1.5f)));
+            shape1.AddComponent(new ShapeComponent(Shaders[ShaderConstants.TextureShader], new Cube(), new Vector3(0.0f, 0.0f, 0.0f), textures: containerTextures));
+            shape2.AddComponent(new ShapeComponent(Shaders[ShaderConstants.TextureShader], new Cube(), new Vector3(2.0f, 5.0f, -15.0f), textures: containerTextures));
+            shape3.AddComponent(new ShapeComponent(Shaders[ShaderConstants.TextureShader], new Cube(), new Vector3(-1.5f, -2.2f, -2.5f), textures: containerTextures));
+            shape4.AddComponent(new ShapeComponent(Shaders[ShaderConstants.TextureShader], new Cube(), new Vector3(-3.8f, -2.0f, -12.3f), textures: containerTextures));
+            shape5.AddComponent(new ShapeComponent(Shaders[ShaderConstants.TextureShader], new Cube(), new Vector3(2.4f, -0.4f, -3.5f), textures: containerTextures));
+            shape6.AddComponent(new ShapeComponent(Shaders[ShaderConstants.TextureShader], new Cube(), new Vector3(-1.7f, 3.0f, -7.5f), textures: containerTextures));
+            shape7.AddComponent(new ShapeComponent(Shaders[ShaderConstants.TextureShader], new Cube(), new Vector3(1.3f, -2.0f, -2.5f), textures: containerTextures));
+            shape8.AddComponent(new ShapeComponent(Shaders[ShaderConstants.TextureShader], new Cube(), new Vector3(1.5f, 2.0f, -2.5f), textures: containerTextures));
+            shape9.AddComponent(new ShapeComponent(Shaders[ShaderConstants.TextureShader], new Cube(), new Vector3(1.5f, 0.2f, -1.5f), textures: containerTextures));
+            shape0.AddComponent(new ShapeComponent(Shaders[ShaderConstants.TextureShader], new Cube(), new Vector3(-1.3f, 1.0f, -1.5f), textures: containerTextures));
 
             Entity? lamp0 = _entityComponentManager.AddEntity();
             lamp0.AddComponent(new ShapeComponent(Shaders[ShaderConstants.LightShader], new Cube(), new Vector3(-5.0f, 1.0f, -1.5f)));
@@ -101,10 +106,12 @@ namespace OpenTKEngine.Engine
             lampSphere.AddComponent(new ShapeComponent(Shaders[ShaderConstants.LightShader], new Sphere(), new Vector3(-5.0f, -3.0f, -1.5f)));
 
             Entity? plane = _entityComponentManager.AddEntity();
-            plane.AddComponent(new ShapeComponent(Shaders[ShaderConstants.TextureShader], new Plane(2), new Vector3(5.0f, 0.0f, -1.5f)));
+            plane.AddComponent(new ShapeComponent(Shaders[ShaderConstants.TextureShader], new Plane(5), new Vector3(5.0f, 0.0f, -1.5f)));
             plane.GetComponent<TransformComponent>().RotateTo(new AxisAngle(new Vector3(1.0f, 0.0f, 0.0f), 0.0f));
 
-             
+            Entity? testText = _entityComponentManager.AddEntity();
+            testText.AddComponent(new TextComponent(Shaders[ShaderConstants.TextShader], "test testing", new Vector2(250.0f, 250.0f), 1.0f, new Vector3(0.3f, 0.7f, 0.9f)));
+                        
             CursorState = CursorState.Grabbed;
         }
         protected override void OnRenderFrame(FrameEventArgs e)
@@ -113,13 +120,6 @@ namespace OpenTKEngine.Engine
 
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
-            _diffuseMap.Use(TextureUnit.Texture0);
-            _specularMap.Use(TextureUnit.Texture1);
-
-            foreach (Shader shader in Shaders.Values)
-            {
-                shader.Use();
-            }
 
             _entityComponentManager.Draw();
                  
@@ -142,11 +142,14 @@ namespace OpenTKEngine.Engine
 
             _entityComponentManager.UpdateInput(e, input, MouseState, ref _firstMove, ref _lastPos);
 
-            if (input.IsKeyDown(Keys.Escape))
+            if (input.IsKeyPressed(Keys.Escape))
+            { 
+                CursorState = CursorState == CursorState.Grabbed ? CursorState.Normal : CursorState.Grabbed;
+            }
+            if (input.IsKeyDown(Keys.Escape) && input.IsKeyDown(Keys.LeftShift))
             {
                 Close();
             }
-
         }
 
         protected override void OnMouseWheel(MouseWheelEventArgs e)
@@ -161,7 +164,8 @@ namespace OpenTKEngine.Engine
             base.OnResize(e);
 
             GL.Viewport(0, 0, Size.X, Size.Y);
-            _camera.AspectRatio = Size.X / (float)Size.Y;
+
+            _entityComponentManager.ScreenSize = Size;
         }
     }
 }
