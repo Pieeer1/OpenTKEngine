@@ -18,12 +18,10 @@ namespace OpenTKEngine.Entities.Components
         private float _fov = MathHelper.PiOver2;
 
         public TransformComponent Transform = null!;
-        public float AspectRatio { private get; set; }
 
-        public CameraComponent(Shader shader, float aspectRatio)
+        public CameraComponent(Shader shader)
         {
             _shader = shader;
-            AspectRatio = aspectRatio;
         }
 
         public Vector3 Front => _front;
@@ -64,7 +62,7 @@ namespace OpenTKEngine.Entities.Components
         }
         public Matrix4 GetProjectionMatrix()
         {
-            return Matrix4.CreatePerspectiveFieldOfView(_fov, AspectRatio, 0.01f, 100f);
+            return Matrix4.CreatePerspectiveFieldOfView(_fov, EntityComponentManager.Instance.ScreenSize.X/EntityComponentManager.Instance.ScreenSize.Y, 0.01f, 100f);
         }
         private void UpdateVectors()
         {

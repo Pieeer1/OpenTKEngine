@@ -33,11 +33,6 @@ namespace OpenTKEngine.Models.Text
         }
         public override void BindAndBuffer(Shader shader)
         {
-
-            Matrix4 projection = Matrix4.CreateOrthographicOffCenter(0.0f, 800.0f, 0.0f, 600.0f, 1.0f, -1.0f);
-
-            GL.UniformMatrix4(GL.GetUniformLocation(shader.Handle, "projection"), false, ref projection);  
-
             unsafe
             {
                 IntPtr library;
@@ -100,7 +95,7 @@ namespace OpenTKEngine.Models.Text
         {
             shader.Use();
 
-            Matrix4 projection = Matrix4.CreateOrthographicOffCenter(0.0f, 800.0f, 0.0f, 600.0f, 1.0f, -1.0f);
+            Matrix4 projection = Matrix4.CreateOrthographicOffCenter(0.0f, EntityComponentManager.Instance.ScreenSize.X, 0.0f, EntityComponentManager.Instance.ScreenSize.Y, 1.0f, -1.0f);
 
             GL.UniformMatrix4(GL.GetUniformLocation(shader.Handle, "projection"), false, ref projection);
 

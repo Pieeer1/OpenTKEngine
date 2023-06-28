@@ -13,18 +13,16 @@ namespace OpenTKEngine.Entities.Components
 
         private readonly Vector3? _startingLocation;
         private readonly Shader _shader;
-        private readonly float _aspectRatio;
-        public PlayerComponent(Shader shader, float aspectRatio, Vector3? startingLocation = null)
+        public PlayerComponent(Shader shader, Vector3? startingLocation = null)
         {
             _shader = shader;
-            _aspectRatio = aspectRatio;
             _startingLocation = startingLocation;
         }
 
         public override void Init()
         {
             _transform = Entity.AddComponent<TransformComponent>(new TransformComponent(_startingLocation));
-            _camera = Entity.AddComponent<CameraComponent>(new CameraComponent(_shader, _aspectRatio));
+            _camera = Entity.AddComponent<CameraComponent>(new CameraComponent(_shader));
             _flashlight = Entity.AddComponent<SpotLightComponent>(new SpotLightComponent(_shader, _transform.Position));
         }
 

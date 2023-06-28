@@ -31,7 +31,6 @@ namespace OpenTKEngine.Engine
         {
             _entityComponentManager = EntityComponentManager.Instance;
         }
-
         protected override void OnLoad()
         {
             base.OnLoad();
@@ -58,7 +57,7 @@ namespace OpenTKEngine.Engine
 
 
             Entity? player = _entityComponentManager.AddEntity();
-            player.AddComponent(new PlayerComponent(Shaders[ShaderConstants.TextureShader], Size.X / (float)Size.Y, new Vector3(-1.5f, -0.5f, 0.0f)));
+            player.AddComponent(new PlayerComponent(Shaders[ShaderConstants.TextureShader], new Vector3(-1.5f, -0.5f, 0.0f)));
             _camera = player.GetComponent<CameraComponent>();
 
             Entity? pointLight1 = _entityComponentManager.AddEntity();
@@ -165,7 +164,8 @@ namespace OpenTKEngine.Engine
             base.OnResize(e);
 
             GL.Viewport(0, 0, Size.X, Size.Y);
-            _camera.AspectRatio = Size.X / (float)Size.Y;
+
+            _entityComponentManager.ScreenSize = Size;
         }
     }
 }

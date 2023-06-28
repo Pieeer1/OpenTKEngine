@@ -6,6 +6,7 @@ namespace OpenTKEngine.Entities
 {
     public class EntityComponentManager
     {
+        public Vector2 ScreenSize { get; set; }
         private static EntityComponentManager? _instance;
         public static EntityComponentManager Instance
         {
