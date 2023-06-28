@@ -6,6 +6,9 @@ using OpenTKEngine.Entities.Components;
 using static OpenTKEngine.Models.Constants;
 using System.Reflection.Metadata;
 using OpenTKEngine.Services;
+using static System.Formats.Asn1.AsnWriter;
+using static System.Net.Mime.MediaTypeNames;
+using OpenTKEngine.Entities;
 
 namespace OpenTKEngine.Models.Text
 {
@@ -30,6 +33,11 @@ namespace OpenTKEngine.Models.Text
         }
         public override void BindAndBuffer(Shader shader)
         {
+
+            Matrix4 projection = Matrix4.CreateOrthographicOffCenter(0.0f, 800.0f, 0.0f, 600.0f, 1.0f, -1.0f);
+
+            GL.UniformMatrix4(GL.GetUniformLocation(shader.Handle, "projection"), false, ref projection);  
+
             unsafe
             {
                 IntPtr library;
@@ -65,22 +73,17 @@ namespace OpenTKEngine.Models.Text
                     RChar rChar = new RChar((uint)_handle, new Vector2(face_ptr->glyph->bitmap.width, face_ptr->glyph->bitmap.rows), new Vector2(face_ptr->glyph->bitmap_left, face_ptr->glyph->bitmap_top), (uint)face_ptr->glyph->advance.x);
                     _characters.Add((char)c, rChar);
                 }
+                GL.BindTexture(TextureTarget.Texture2D, 0);
                 FT_Done_Face(face);
                 FT_Done_FreeType(library);
             }
 
-
-            Matrix4 projection = Matrix4.CreateOrthographic(0.0f, 800.0f, 0.0f, 600.0f);
-
-            shader.SetMatrix4("projection", projection);
-
+            VAO = GL.GenVertexArray();
+            GL.BindVertexArray(VAO);
 
             VBO = GL.GenBuffer();
             GL.BindBuffer(BufferTarget.ArrayBuffer, VBO);
             GL.BufferData(BufferTarget.ArrayBuffer, sizeof(float) * 6 * 4, 0, BufferUsageHint.DynamicDraw);
-
-            VAO = GL.GenVertexArray();
-            GL.BindVertexArray(VAO);
 
             GL.EnableVertexAttribArray(0);
             GL.VertexAttribPointer(0, 4, VertexAttribPointerType.Float, false, 4 * sizeof(float), 0);
@@ -96,6 +99,11 @@ namespace OpenTKEngine.Models.Text
         private void RenderText(Shader shader, string text, float x, float y, float scale, Vector3 color)
         {
             shader.Use();
+
+            Matrix4 projection = Matrix4.CreateOrthographicOffCenter(0.0f, 800.0f, 0.0f, 600.0f, 1.0f, -1.0f);
+
+            GL.UniformMatrix4(GL.GetUniformLocation(shader.Handle, "projection"), false, ref projection);
+
             GL.Uniform3(GL.GetUniformLocation(shader.Handle, "textColor"), color.X, color.Y, color.Z);
             GL.ActiveTexture(TextureUnit.Texture0);
             GL.BindVertexArray(VAO);
@@ -107,15 +115,15 @@ namespace OpenTKEngine.Models.Text
                 float yPos = y - (rChar.Size.Y - rChar.Bearing.Y) * scale;
                 float w = rChar.Size.X * scale;
                 float h = rChar.Size.Y * scale;
-                float[] vertices = new float[]
+                float[,] vertices = new float[,]
                 {
-                    xPos, yPos + h, 0.0f, 0.0f,
-                    xPos, yPos, 0,0f, 1.0f,
-                    xPos + w, yPos, 1.0f, 1.0f,
+                    { xPos, yPos + h, 0.0f, 0.0f },
+                    { xPos, yPos, 0.0f, 1.0f },
+                    { xPos + w, yPos, 1.0f, 1.0f },
 
-                    xPos, yPos + h, 0.0f, 0.0f,
-                    xPos + w, yPos, 1.0f, 1.0f,
-                    xPos + w, yPos + h, 1.0f, 0.0f
+                    { xPos, yPos + h, 0.0f, 0.0f },
+                    { xPos + w, yPos, 1.0f, 1.0f },
+                    { xPos + w, yPos + h, 1.0f, 0.0f }
                 };
                 GL.BindTexture(TextureTarget.Texture2D, rChar.TextureId);
                 GL.BindBuffer(BufferTarget.ArrayBuffer, VBO);

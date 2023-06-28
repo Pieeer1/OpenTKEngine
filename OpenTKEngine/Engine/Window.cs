@@ -42,6 +42,7 @@ namespace OpenTKEngine.Engine
             GL.Enable(EnableCap.Blend);
             GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
 
+
             Shaders = new Dictionary<string, Shader>()
             {
                 { ShaderConstants.TextureShader, new Shader(ShaderRoutes.BaseVertexShader, ShaderRoutes.BaseLightingShader)},
@@ -112,9 +113,6 @@ namespace OpenTKEngine.Engine
             Entity? testText = _entityComponentManager.AddEntity();
             testText.AddComponent(new TextComponent(Shaders[ShaderConstants.TextShader], "test testing", new Vector2(250.0f, 250.0f), 1.0f, new Vector3(0.3f, 0.7f, 0.9f)));
                         
-            Entity? testText2 = _entityComponentManager.AddEntity();
-            testText2.AddComponent(new TextComponent(Shaders[ShaderConstants.TextShader], "ahbkljduiehdiuhweAAAA", new Vector2(2.0f, 15.0f), 1.0f, new Vector3(0.5f, 0.2f, 0.9f)));
-
             CursorState = CursorState.Grabbed;
         }
         protected override void OnRenderFrame(FrameEventArgs e)
