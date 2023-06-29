@@ -1,6 +1,7 @@
 ﻿using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.GraphicsLibraryFramework;
+using System.Reflection;
 
 namespace OpenTKEngine.Entities
 {
@@ -48,7 +49,21 @@ namespace OpenTKEngine.Entities
                 return true;
             }
             return false;
-        }  
+        }
+        public void SetPropertyReferenceWithAttribute(Attribute att, object value)
+        { 
+            foreach (var component in _components)
+            {
+                IEnumerable<PropertyInfo> properties = component.GetType().GetProperties();
+                foreach (var property in properties)
+                {
+                    if (property.GetCustomAttributes(true).Contains(att))
+                    {
+                        property.SetValue(component, value);
+                    }
+                }
+            }
+        }
         public T GetComponent<T>() where T : Component => (_components.First(x => x.GetType() == typeof(T)) as T ?? throw new InvalidCastException($"Could not Find any Components of Type {typeof(T).Name}"));
         public bool HasComponent<T>() where T : Component => _components.Any(x => x.GetType() == typeof(T));
         public void Destroy() => IsActive = false;

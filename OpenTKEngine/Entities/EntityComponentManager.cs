@@ -6,7 +6,6 @@ namespace OpenTKEngine.Entities
 {
     public class EntityComponentManager
     {
-        public Vector2 ScreenSize { get; set; }
         private static EntityComponentManager? _instance;
         public static EntityComponentManager Instance
         {
@@ -64,6 +63,13 @@ namespace OpenTKEngine.Entities
         public IEnumerable<Entity> GetEntitiesWithType<T>() where T : Component
         {
             return entities.Where(x => x.HasComponent<T>());
+        }
+        public void SetComponentReferencesWithAttribute(Attribute att, object value)
+        {
+            foreach (var entity in entities)
+            {
+                entity.SetPropertyReferenceWithAttribute(att, value);
+            }
         }
     }
 }

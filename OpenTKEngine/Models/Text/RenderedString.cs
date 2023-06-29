@@ -4,17 +4,14 @@ using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using OpenTKEngine.Entities.Components;
 using static OpenTKEngine.Models.Constants;
-using System.Reflection.Metadata;
-using OpenTKEngine.Services;
-using static System.Formats.Asn1.AsnWriter;
-using static System.Net.Mime.MediaTypeNames;
 using OpenTKEngine.Entities;
+using OpenTKEngine.Attributes;
 
 namespace OpenTKEngine.Models.Text
 {
     public class RenderedString : RenderableObject
     {
-
+        public Vector2 ScreenSize { get; set; }
         private string _text;
         private float _x;
         private float _y;
@@ -95,7 +92,7 @@ namespace OpenTKEngine.Models.Text
         {
             shader.Use();
 
-            Matrix4 projection = Matrix4.CreateOrthographicOffCenter(0.0f, EntityComponentManager.Instance.ScreenSize.X, 0.0f, EntityComponentManager.Instance.ScreenSize.Y, 1.0f, -1.0f);
+            Matrix4 projection = Matrix4.CreateOrthographicOffCenter(0.0f, ScreenSize.X, 0.0f, ScreenSize.Y, 1.0f, -1.0f);
 
             GL.UniformMatrix4(GL.GetUniformLocation(shader.Handle, "projection"), false, ref projection);
 

@@ -1,16 +1,19 @@
 ﻿using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.GraphicsLibraryFramework;
+using OpenTKEngine.Attributes;
 using OpenTKEngine.Models;
 
 namespace OpenTKEngine.Entities.Components
 {
     public class CameraComponent : Component
     {
+        [OnResize]
+        public Vector2 ScreenSize { get; set; }
+
         private Vector3 _front = -Vector3.UnitZ;
         private Vector3 _up = Vector3.UnitY;
         private Vector3 _right = Vector3.UnitX;
-
         private Shader _shader;
 
         private float _pitch;
@@ -62,7 +65,7 @@ namespace OpenTKEngine.Entities.Components
         }
         public Matrix4 GetProjectionMatrix()
         {
-            return Matrix4.CreatePerspectiveFieldOfView(_fov, EntityComponentManager.Instance.ScreenSize.X/EntityComponentManager.Instance.ScreenSize.Y, 0.01f, 100f);
+            return Matrix4.CreatePerspectiveFieldOfView(_fov, ScreenSize.X/ ScreenSize.Y, 0.01f, 100f);
         }
         private void UpdateVectors()
         {

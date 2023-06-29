@@ -1,5 +1,6 @@
 ﻿using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
+using OpenTKEngine.Attributes;
 using OpenTKEngine.Models;
 using OpenTKEngine.Models.Text;
 
@@ -14,6 +15,8 @@ namespace OpenTKEngine.Entities.Components
         private float _scale { get; set; }
         private Vector3 _color { get; set; }
         private RenderedString _renderedString = null!;
+        [OnResize]
+        public Vector2 ScreenSize { set => _renderedString.ScreenSize = value; }
 
         public TextComponent(Shader shader, string displayText, Vector2 position, float scale = 1.0f, Vector3? color = null ) 
         {
