@@ -11,6 +11,8 @@ using System;
 using FreeTypeSharp;
 using static OpenTKEngine.Models.Constants;
 using FreeTypeSharp.Native;
+using OpenTKEngine.Attributes;
+using System.Reflection;
 
 namespace OpenTKEngine.Engine
 {
@@ -165,7 +167,11 @@ namespace OpenTKEngine.Engine
 
             GL.Viewport(0, 0, Size.X, Size.Y);
 
-            _entityComponentManager.ScreenSize = Size;
+            HandleResizeAttributes(Size);
+        }
+        private void HandleResizeAttributes(Vector2 screenSize)
+        {
+            _entityComponentManager.SetComponentReferencesWithAttribute(new OnResizeAttribute(), screenSize);
         }
     }
 }
