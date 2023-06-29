@@ -7,30 +7,32 @@ namespace OpenTKEngine.Entities
 {
     public class Entity
     {
-        private HashSet<Component> _components { get; set; } = new HashSet<Component>();
+        private Dictionary<Component, uint> _components { get; set; } = new Dictionary<Component, uint>();
         public bool IsActive { get; private set; } = true;
+        public bool IsVisible { get; set; } = true;
+
         public void Update()
         {
-            foreach (var component in _components.ToList())
+            foreach (var component in _components.ToList().OrderByDescending(x => x.Value))
             {
-                component.Update();
+                component.Key.Update();
             }
         }
         public void Draw()
         {
-            foreach (var component in _components.ToList())
+            foreach (var component in _components.ToList().OrderByDescending(x => x.Value))
             {
-                component.Draw();
+                component.Key.Draw();
             }
         }        
         public void UpdateInput(FrameEventArgs e, KeyboardState input, MouseState mouse, ref bool firstMove, ref Vector2 lastPos)
         {
-            foreach (var component in _components.ToList())
+            foreach (var component in _components.ToList().OrderByDescending(x => x.Value))
             {
-                component.UpdateInput(e, input, mouse, ref firstMove, ref lastPos);
+                component.Key.UpdateInput(e, input, mouse, ref firstMove, ref lastPos);
             }
         }
-        public T AddComponent<T>(T newComponent) where T : Component
+        public T AddComponent<T>(T newComponent, uint layer = 0) where T : Component
         {
             if (HasComponent<T>())
             { 
@@ -38,7 +40,7 @@ namespace OpenTKEngine.Entities
             }
             newComponent.Entity = this;
             newComponent.Init();
-            _components.Add(newComponent);
+            _components.Add(newComponent, layer);
             return newComponent;
         }
         public bool RemoveComponent<T>() where T : Component
@@ -52,7 +54,7 @@ namespace OpenTKEngine.Entities
         }
         public void SetPropertyReferenceWithAttribute(Attribute att, object value)
         { 
-            foreach (var component in _components)
+            foreach (var component in _components.Keys)
             {
                 IEnumerable<PropertyInfo> properties = component.GetType().GetProperties();
                 foreach (var property in properties)
@@ -64,8 +66,8 @@ namespace OpenTKEngine.Entities
                 }
             }
         }
-        public T GetComponent<T>() where T : Component => (_components.First(x => x.GetType() == typeof(T)) as T ?? throw new InvalidCastException($"Could not Find any Components of Type {typeof(T).Name}"));
-        public bool HasComponent<T>() where T : Component => _components.Any(x => x.GetType() == typeof(T));
+        public T GetComponent<T>() where T : Component => (_components.Keys.First(x => x.GetType() == typeof(T)) as T ?? throw new InvalidCastException($"Could not Find any Components of Type {typeof(T).Name}"));
+        public bool HasComponent<T>() where T : Component => _components.Keys.Any(x => x.GetType() == typeof(T));
         public void Destroy() => IsActive = false;
     }
 }

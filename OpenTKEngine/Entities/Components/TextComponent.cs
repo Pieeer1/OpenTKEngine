@@ -3,6 +3,7 @@ using OpenTK.Mathematics;
 using OpenTKEngine.Attributes;
 using OpenTKEngine.Models;
 using OpenTKEngine.Models.Text;
+using static OpenTKEngine.Models.Constants;
 
 namespace OpenTKEngine.Entities.Components
 {
@@ -24,7 +25,7 @@ namespace OpenTKEngine.Entities.Components
             _displayText = displayText;
             _position = position;
             _scale = scale;
-            _color = color ?? Vector3.One;
+            _color = color ?? ColorVectors.White;
         }
 
         public override void Init()
