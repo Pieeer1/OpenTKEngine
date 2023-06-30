@@ -14,7 +14,6 @@
     </ItemGroup>
     <ItemGroup>
       <Folder Include="Assets\Textures\" />
-      <Folder Include="Models\Shapes2D\" />
       <Folder Include="Services\" />
     </ItemGroup>
 </Project>
