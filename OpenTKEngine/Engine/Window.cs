@@ -48,18 +48,18 @@ namespace OpenTKEngine.Engine
             {
                 { ShaderConstants.TextureShader, new Shader(ShaderRoutes.BaseVertexShader, ShaderRoutes.BaseLightingShader)},
                 { ShaderConstants.LightShader, new Shader(ShaderRoutes.BaseVertexShader, ShaderRoutes.BaseFragmentShader)},
-                { ShaderConstants.TextShader, new Shader(ShaderRoutes.BaseTextVertexShader, ShaderRoutes.BaseTextFragmentShader)},
-                { ShaderConstants.StaticColorShader, new Shader(ShaderRoutes.BaseStaticColorVertexShader, ShaderRoutes.BaseStaticColorFragmentShader)},
+                { ShaderConstants.TextShader, new Shader(ShaderRoutes.BaseTextVertexShader, ShaderRoutes.BaseTextFragmentShader)}
             };
 
             List<Texture> containerTextures = new List<Texture>
             {
                 Texture.LoadFromFile($"{AssetRoutes.Textures}/container2.png"),
-                Texture.LoadFromFile($"{AssetRoutes.Textures}/container2_specular.png")
+                Texture.LoadFromFile($"{AssetRoutes.Textures}/container2_specular.png"),
             };
 
+            Texture blankCanvas = Texture.LoadFromFile($"{AssetRoutes.Textures}/blank_canvas.png");
 
-            Entity? player = _entityComponentManager.AddEntity();
+            Entity ? player = _entityComponentManager.AddEntity();
             player.AddComponent(new PlayerComponent(Shaders[ShaderConstants.TextureShader], new Vector3(-1.5f, -0.5f, 0.0f)));
             _camera = player.GetComponent<CameraComponent>();
 
@@ -113,7 +113,7 @@ namespace OpenTKEngine.Engine
             plane.GetComponent<TransformComponent>().RotateTo(new AxisAngle(new Vector3(1.0f, 0.0f, 0.0f), 0.0f));
 
             Entity? button = _entityComponentManager.AddEntity();
-            button.AddComponent(new ButtonComponent(Shaders[ShaderConstants.TextShader], new Vector2(250.0f, 250.0f), "test testing"));
+            button.AddComponent(new ButtonComponent(Shaders[ShaderConstants.TextShader], new Vector2(250.0f, 250.0f), "test testing", blankCanvas, 1.0f));
                         
             CursorState = CursorState.Grabbed;
         }
