@@ -1,6 +1,8 @@
 ﻿using ImGuiNET;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
+using OpenTK.Windowing.Desktop;
+using OpenTK.Windowing.GraphicsLibraryFramework;
 using OpenTKEngine.Attributes;
 using OpenTKEngine.Entities.Components;
 using System.Runtime.CompilerServices;
@@ -59,9 +61,22 @@ namespace OpenTKEngine.Models.UI
         }
         private void SetPerFrameImGuiData(double time)
         {
-            ImGui.GetIO().DisplaySize = new System.Numerics.Vector2(ScreenSize.X, ScreenSize.Y);
-            ImGui.GetIO().DisplayFramebufferScale = System.Numerics.Vector2.One;
-            ImGui.GetIO().DeltaTime = (float)ElapsedTime;
+            ImGuiIOPtr io = ImGui.GetIO();
+            io.DisplaySize = new System.Numerics.Vector2(ScreenSize.X, ScreenSize.Y);
+            io.DisplayFramebufferScale = System.Numerics.Vector2.One;
+            io.DeltaTime = (float)ElapsedTime;
+        }
+        public void HandleInput(MouseState mouseState)
+        {
+            ImGuiIOPtr io = ImGui.GetIO();
+
+            io.MouseDown[0] = mouseState[MouseButton.Left];
+            io.MouseDown[1] = mouseState[MouseButton.Right];
+            io.MouseDown[2] = mouseState[MouseButton.Middle];
+
+            var screenPoint = new Vector2i((int)mouseState.X, (int)mouseState.Y);
+            var point = screenPoint;//wnd.PointToClient(screenPoint);
+            io.MousePos = new System.Numerics.Vector2(point.X, point.Y);
         }
         public override void Draw(Shader shader, TransformComponent transform)
         {
@@ -71,7 +86,20 @@ namespace OpenTKEngine.Models.UI
 
             ImGui.NewFrame();
 
+            //PLAY AROUND HERE
+            //
+            ////
+            //ImGui.ShowDebugLogWindow();
+            //ImGui.GetIO().MousePos = new System.Numerics.Vector2(0.0f, 0.0f);
+            //ImGui.Text("test");
+
+
+            //PICK STUFF TO RENDER HERE
             ImGui.ShowDemoWindow();
+
+
+            //OR HERE
+
 
             ImGui.Render();
 

@@ -1,5 +1,7 @@
 ﻿using ImGuiNET;
 using OpenTK.Mathematics;
+using OpenTK.Windowing.Common;
+using OpenTK.Windowing.GraphicsLibraryFramework;
 using OpenTKEngine.Attributes;
 using OpenTKEngine.Models;
 using OpenTKEngine.Models.UI;
@@ -28,6 +30,10 @@ namespace OpenTKEngine.Entities.Components
         public override void Draw()
         {
             _canvas.Draw(_shader, _transform);
+        }
+        public override void UpdateInput(FrameEventArgs e, KeyboardState input, MouseState mouse, ref bool firstMove, ref Vector2 lastPos)
+        {
+            _canvas.HandleInput(mouse);
         }
     }
 }
