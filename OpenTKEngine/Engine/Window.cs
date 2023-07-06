@@ -3,16 +3,12 @@ using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
 using OpenTK.Windowing.GraphicsLibraryFramework;
+using OpenTKEngine.Attributes;
 using OpenTKEngine.Entities;
 using OpenTKEngine.Entities.Components;
 using OpenTKEngine.Models;
 using OpenTKEngine.Models.Shapes3D;
-using System;
-using FreeTypeSharp;
 using static OpenTKEngine.Models.Constants;
-using FreeTypeSharp.Native;
-using OpenTKEngine.Attributes;
-using System.Reflection;
 
 namespace OpenTKEngine.Engine
 {
@@ -101,7 +97,7 @@ namespace OpenTKEngine.Engine
 
             Entity? lamp0 = _entityComponentManager.AddEntity();
             lamp0.AddComponent(new ShapeComponent(Shaders[ShaderConstants.LightShader], new Cube(), new Vector3(-5.0f, 1.0f, -1.5f)));
-                        
+
             Entity? sphere = _entityComponentManager.AddEntity();
             sphere.AddComponent(new ShapeComponent(Shaders[ShaderConstants.TextureShader], new Sphere(), new Vector3(-5.0f, 3.0f, -1.5f)));
 
@@ -112,17 +108,16 @@ namespace OpenTKEngine.Engine
             plane.AddComponent(new ShapeComponent(Shaders[ShaderConstants.TextureShader], new Plane(5), new Vector3(5.0f, 0.0f, -1.5f)));
             plane.GetComponent<TransformComponent>().RotateTo(new AxisAngle(new Vector3(1.0f, 0.0f, 0.0f), 0.0f));
 
-            Entity? button = _entityComponentManager.AddEntity();
-            button.AddComponent(new ButtonComponent(Shaders[ShaderConstants.TextShader], new Vector2(250.0f, 250.0f), "test testing", blankCanvas, 1.0f));
-                        
+            Entity? canvas = _entityComponentManager.AddEntity();
+            canvas.AddComponent(new CanvasComponent(Shaders[ShaderConstants.TextShader]));
+
             CursorState = CursorState.Grabbed;
         }
         protected override void OnRenderFrame(FrameEventArgs e)
         {
             base.OnRenderFrame(e);
 
-            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-
+            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit | ClearBufferMask.StencilBufferBit);
 
             _entityComponentManager.Draw();
                  
@@ -130,9 +125,13 @@ namespace OpenTKEngine.Engine
 
             _entityComponentManager.Refresh();
         }
+
+        private int Tick;
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
             base.OnUpdateFrame(e);
+
+            Tick++;
 
             _entityComponentManager.Update();
 
@@ -144,6 +143,8 @@ namespace OpenTKEngine.Engine
             var input = KeyboardState;
 
             _entityComponentManager.UpdateInput(e, input, MouseState, ref _firstMove, ref _lastPos);
+            _entityComponentManager.SetComponentReferencesWithAttribute(new OnTickAttribute(), Tick);
+
 
             if (input.IsKeyPressed(Keys.Escape))
             { 

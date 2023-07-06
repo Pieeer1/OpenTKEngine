@@ -69,12 +69,12 @@ namespace OpenTKEngine.Models.Shapes3D
 
             CameraComponent camera = EntityComponentManager.Instance.GetEntitiesWithType<CameraComponent>().FirstOrDefault()?.GetComponent<CameraComponent>() ?? throw new NullReferenceException("No Camera In Scene");
 
-            shader.SetMatrix4("view", camera.GetViewMatrix());
-            shader.SetMatrix4("projection", camera.GetProjectionMatrix());
+            shader.SetMatrix4("view", true, camera.GetViewMatrix());
+            shader.SetMatrix4("projection", true, camera.GetProjectionMatrix());
 
             Matrix4 model = Matrix4.CreateTranslation(transform.Position);
             model = model * Matrix4.CreateFromAxisAngle(transform.Rotation.Axis, transform.Rotation.Angle) * Matrix4.CreateScale(transform.Scale);
-            shader.SetMatrix4("model", model);
+            shader.SetMatrix4("model", true, model);
 
             glDraw.Invoke();
         }
