@@ -6,6 +6,7 @@ using OpenTKEngine.Entities.Components;
 using static OpenTKEngine.Models.Constants;
 using OpenTKEngine.Entities;
 using OpenTKEngine.Attributes;
+using OpenTKEngine.Enums;
 
 namespace OpenTKEngine.Models.Text
 {
@@ -16,17 +17,20 @@ namespace OpenTKEngine.Models.Text
         private float _x;
         private float _y;
         private float _scale;
+        private Font _font;
         private Vector3 _color;
         private int _handle;
         private Dictionary<char, RChar> _characters = new Dictionary<char, RChar>();
 
-        public RenderedString(string text, float x, float y, float scale, Vector3 color)
+        public RenderedString(string text, float x, float y, float scale, Vector3 color, Font font = Font.Arial)
         {
             _text = text;
             _x = x;
             _y = y;
             _scale = scale;
             _color = color;
+            _font = font;
+
         }
         public override void BindAndBuffer(Shader shader)
         {
@@ -38,7 +42,7 @@ namespace OpenTKEngine.Models.Text
 
                 error = FT_Init_FreeType(out library);
 
-                error = FT_New_Face(library, FontRoutes.Corbel /*TODO: MAKE DYNAMIC*/, 0, out nint face);
+                error = FT_New_Face(library, FontToStringPath(_font), 0, out nint face);
 
                 face_ptr = (FT_FaceRec*)face;
 
@@ -147,5 +151,11 @@ namespace OpenTKEngine.Models.Text
                 Advance = advance;
             }
         }
+        private string FontToStringPath(Font font)  => font switch
+            {
+                Font.Arial => FontRoutes.Arial,
+                Font.Corbel => FontRoutes.Corbel,
+                _ => throw new InvalidOperationException("Unknown Font")
+            };
     }
 }

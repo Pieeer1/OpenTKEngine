@@ -15,6 +15,7 @@ namespace OpenTKEngine.Models
         public static class FontRoutes
         {
             public const string Corbel = "../../../Assets/Fonts/CORBEL.TTF";
+            public const string Arial = "../../../Assets/Fonts/ARIAL.TTF";
         }
         public static class AssetRoutes
         {
