@@ -1,4 +1,6 @@
-﻿namespace OpenTKEngine.Models
+﻿using OpenTK.Mathematics;
+
+namespace OpenTKEngine.Models
 {
     public static class Constants
     {
@@ -13,6 +15,7 @@
         public static class FontRoutes
         {
             public const string Corbel = "../../../Assets/Fonts/CORBEL.TTF";
+            public const string Arial = "../../../Assets/Fonts/ARIAL.TTF";
         }
         public static class AssetRoutes
         {
@@ -22,8 +25,12 @@
         {
             public const string TextureShader = "TextureShader";
             public const string LightShader = "LightShader";
-            public const string ColorTexture = "ColorShader";//not yet implemented
             public const string TextShader = "TextShader";
+        }
+        public static class ColorVectors
+        {
+            public static Vector3 Black = Vector3.Zero;
+            public static Vector3 White = Vector3.One;
         }
     }
 }
