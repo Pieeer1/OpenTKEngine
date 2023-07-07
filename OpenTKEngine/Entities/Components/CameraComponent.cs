@@ -89,8 +89,8 @@ namespace OpenTKEngine.Entities.Components
         {
             base.Draw();
 
-            _shader.SetMatrix4("view", GetViewMatrix());
-            _shader.SetMatrix4("projection", GetProjectionMatrix());
+            _shader.SetMatrix4("view", true, GetViewMatrix());
+            _shader.SetMatrix4("projection", true, GetProjectionMatrix());
 
             _shader.SetVector3("viewPos", Transform.Position);
 

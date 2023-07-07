@@ -81,10 +81,10 @@ namespace OpenTKEngine.Models
             GL.UseProgram(Handle);
             GL.Uniform1(_uniformLocations[name], data);
         }
-        public void SetMatrix4(string name, Matrix4 data)
+        public void SetMatrix4(string name, bool transpose, Matrix4 data)
         {
             GL.UseProgram(Handle);
-            GL.UniformMatrix4(_uniformLocations[name], true, ref data);
+            GL.UniformMatrix4(_uniformLocations[name], transpose, ref data);
         }
         public void SetVector3(string name, Vector3 data)
         {
