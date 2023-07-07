@@ -112,8 +112,8 @@ namespace OpenTKEngine.Engine
             canvas.AddComponent(new CanvasComponent(_shaders[ShaderConstants.TextShader]));
             const ImGuiWindowFlags baseFlags = ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoTitleBar | ImGuiWindowFlags.NoSavedSettings;
             canvas.GetComponent<CanvasComponent>().AddUIElement(new Label("Test Label", baseFlags, "window0"));
-            canvas.GetComponent<CanvasComponent>().AddUIElement(new Button(() => Console.WriteLine("Hello World"), "test button", new Vector2(250, 50), baseFlags, "window0"));
-            canvas.GetComponent<CanvasComponent>().AddUIElement(new Button(() => Console.WriteLine("Hello World"), "test button2", new Vector2(250, 50), baseFlags, "window0"));
+            canvas.GetComponent<CanvasComponent>().AddUIElement(new Button(() => Console.WriteLine("Options"), "Options", new Vector2(250, 50), baseFlags, "window0"));
+            canvas.GetComponent<CanvasComponent>().AddUIElement(new Button(Close, "Quit", new Vector2(250, 50), baseFlags, "window0"));
             canvas.GetComponent<CanvasComponent>().IsVisible = false;
             canvas.GetComponent<CanvasComponent>().IsEnabled = false;
 
@@ -156,10 +156,6 @@ namespace OpenTKEngine.Engine
                 CursorState = CursorState == CursorState.Grabbed ? CursorState.Normal : CursorState.Grabbed;
                 _entityComponentManager.SetComponentReferencesWithAttribute(new MenuDisableAttribute(), CursorState == CursorState.Grabbed);
                 _entityComponentManager.SetComponentReferencesWithAttribute(new MenuEnableAttribute(), CursorState != CursorState.Grabbed);
-            }
-            if (KeyboardState.IsKeyDown(Keys.Escape) && KeyboardState.IsKeyDown(Keys.LeftShift))
-            {
-                Close();
             }
         }
 
