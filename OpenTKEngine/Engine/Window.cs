@@ -8,6 +8,7 @@ using OpenTKEngine.Entities;
 using OpenTKEngine.Entities.Components;
 using OpenTKEngine.Models;
 using OpenTKEngine.Models.Shapes3D;
+using OpenTKEngine.Models.UI;
 using static OpenTKEngine.Models.Constants;
 
 namespace OpenTKEngine.Engine
@@ -110,6 +111,7 @@ namespace OpenTKEngine.Engine
 
             Entity? canvas = _entityComponentManager.AddEntity();
             canvas.AddComponent(new CanvasComponent(Shaders[ShaderConstants.TextShader]));
+            canvas.GetComponent<CanvasComponent>().AddUIElement(new Button(() => Console.WriteLine("Hello World"), "test button", new Vector2(250, 50), ImGuiNET.ImGuiWindowFlags.NoResize | ImGuiNET.ImGuiWindowFlags.NoTitleBar | ImGuiNET.ImGuiWindowFlags.NoSavedSettings, "button1"));
 
             CursorState = CursorState.Grabbed;
         }

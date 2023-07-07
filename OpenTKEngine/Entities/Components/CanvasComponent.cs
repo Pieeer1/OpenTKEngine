@@ -35,5 +35,9 @@ namespace OpenTKEngine.Entities.Components
         {
             _canvas.HandleInput(mouse);
         }
+        public void AddUIElement(UIElement element)
+        { 
+            _canvas.UIElements.Add(element);
+        }
     }
 }

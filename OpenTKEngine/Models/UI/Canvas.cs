@@ -17,6 +17,7 @@ namespace OpenTKEngine.Models.UI
         private int _texture;
         private int _vboSize = 10000;
         private int _eboSize = 2000;
+        public List<UIElement> UIElements { get; set; } = new List<UIElement>();
         public Canvas(Shader shader)
         {
             _shader = shader;
@@ -86,15 +87,11 @@ namespace OpenTKEngine.Models.UI
 
             ImGui.NewFrame();
 
-            //example of the rendering
-            ImGuiWindowFlags defaultWindow = ImGuiWindowFlags.NoMove | ImGuiWindowFlags.NoTitleBar | ImGuiWindowFlags.NoResize;
-            ImGui.Begin("Window A", defaultWindow);
-            ImGui.Text("test");
-            if (ImGui.Button("testbutton", new System.Numerics.Vector2(200, 200))) 
+            UIElements.ForEach(element =>
             {
-                Console.WriteLine("test button pressed");
-            };
-            ImGui.End();
+                element.StartRender();
+                element.EndRender();
+            });
 
             ImGui.Render();
 
