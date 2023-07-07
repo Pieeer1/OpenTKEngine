@@ -86,20 +86,14 @@ namespace OpenTKEngine.Models.UI
 
             ImGui.NewFrame();
 
-            //PLAY AROUND HERE
-            //
-            ////
-            //ImGui.ShowDebugLogWindow();
-            //ImGui.GetIO().MousePos = new System.Numerics.Vector2(0.0f, 0.0f);
-            //ImGui.Text("test");
-
-
-            //PICK STUFF TO RENDER HERE
-            ImGui.ShowDemoWindow();
-
-
-            //OR HERE
-
+            //example of the rendering
+            ImGui.Begin("Window A", ImGuiWindowFlags.NoMove | ImGuiWindowFlags.NoTitleBar | ImGuiWindowFlags.NoResize);
+            ImGui.Text("test");
+            if (ImGui.Button("testbutton", new System.Numerics.Vector2(200, 200))) 
+            {
+                Console.WriteLine("test button pressed");
+            };
+            ImGui.End();
 
             ImGui.Render();
 
@@ -192,6 +186,7 @@ namespace OpenTKEngine.Models.UI
 
             GL.Disable(EnableCap.ScissorTest);
             GL.Enable(EnableCap.DepthTest);
+            ImGui.EndFrame();
 
         }
 
