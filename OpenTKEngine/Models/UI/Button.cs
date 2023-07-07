@@ -7,20 +7,20 @@ namespace OpenTKEngine.Models.UI
     {
         private Action _action;
         private string _label;
-        private Vector2 _position;
+        private Vector2 _size;
 
-        public Button(Action action, string label, Vector2 position, ImGuiWindowFlags flags, string name) : base(flags, name)
+        public Button(Action action, string label, Vector2 size, ImGuiWindowFlags flags, string name, Vector2? location = null) : base(flags, name, location)
         {
             _action = action;
             _label = label;
-            _position = position;
+            _size = size;
         }
 
         public override void StartRender()
         {
             base.StartRender();
 
-            if (ImGui.Button(_label, new System.Numerics.Vector2(_position.X, _position.Y)))
+            if (ImGui.Button(_label, new System.Numerics.Vector2(_size.X, _size.Y)))
             {
                 _action.Invoke();
             };

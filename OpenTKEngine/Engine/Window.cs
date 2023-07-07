@@ -1,4 +1,5 @@
-﻿using OpenTK.Graphics.OpenGL4;
+﻿using ImGuiNET;
+using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
@@ -111,7 +112,13 @@ namespace OpenTKEngine.Engine
 
             Entity? canvas = _entityComponentManager.AddEntity();
             canvas.AddComponent(new CanvasComponent(Shaders[ShaderConstants.TextShader]));
-            canvas.GetComponent<CanvasComponent>().AddUIElement(new Button(() => Console.WriteLine("Hello World"), "test button", new Vector2(250, 50), ImGuiNET.ImGuiWindowFlags.NoResize | ImGuiNET.ImGuiWindowFlags.NoTitleBar | ImGuiNET.ImGuiWindowFlags.NoSavedSettings, "button1"));
+            ImGuiWindowFlags baseFlags = ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoTitleBar | ImGuiWindowFlags.NoSavedSettings;
+            canvas.GetComponent<CanvasComponent>().AddUIElement(new Label("Test Label", baseFlags, "window0"));
+            canvas.GetComponent<CanvasComponent>().AddUIElement(new Button(() => Console.WriteLine("Hello World"), "test button", new Vector2(250, 50), baseFlags, "window0"));
+            canvas.GetComponent<CanvasComponent>().AddUIElement(new Button(() => Console.WriteLine("Hello World"), "test button2", new Vector2(250, 50), baseFlags, "window0"));
+            canvas.GetComponent<CanvasComponent>().IsVisible = false;
+            canvas.GetComponent<CanvasComponent>().IsEnabled = false;
+
 
             CursorState = CursorState.Grabbed;
         }
@@ -151,6 +158,8 @@ namespace OpenTKEngine.Engine
             if (input.IsKeyPressed(Keys.Escape))
             { 
                 CursorState = CursorState == CursorState.Grabbed ? CursorState.Normal : CursorState.Grabbed;
+                _entityComponentManager.SetComponentReferencesWithAttribute(new MenuDisableAttribute(), CursorState == CursorState.Grabbed);
+                _entityComponentManager.SetComponentReferencesWithAttribute(new MenuEnableAttribute(), CursorState != CursorState.Grabbed);
             }
             if (input.IsKeyDown(Keys.Escape) && input.IsKeyDown(Keys.LeftShift))
             {

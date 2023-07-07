@@ -1,6 +1,7 @@
 ﻿using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.GraphicsLibraryFramework;
+using OpenTKEngine.Attributes;
 using OpenTKEngine.Models;
 
 namespace OpenTKEngine.Entities.Components
@@ -10,6 +11,9 @@ namespace OpenTKEngine.Entities.Components
         private TransformComponent _transform = null!;
         private CameraComponent _camera = null!;
         private SpotLightComponent _flashlight = null!;
+
+        [MenuDisable]
+        public bool IsControlEnabled { get; set; } = true;
 
         private readonly Vector3? _startingLocation;
         private readonly Shader _shader;
@@ -32,6 +36,7 @@ namespace OpenTKEngine.Entities.Components
         }
         public override void UpdateInput(FrameEventArgs e, KeyboardState input, MouseState mouse, ref bool firstMove, ref Vector2 lastPos)
         {
+            if (!IsControlEnabled) { return; }
             const float cameraSpeed = 1.5f;
             const float sensitivity = 0.2f;
 
