@@ -87,7 +87,8 @@ namespace OpenTKEngine.Models.UI
             ImGui.NewFrame();
 
             //example of the rendering
-            ImGui.Begin("Window A", ImGuiWindowFlags.NoMove | ImGuiWindowFlags.NoTitleBar | ImGuiWindowFlags.NoResize);
+            ImGuiWindowFlags defaultWindow = ImGuiWindowFlags.NoMove | ImGuiWindowFlags.NoTitleBar | ImGuiWindowFlags.NoResize;
+            ImGui.Begin("Window A", defaultWindow);
             ImGui.Text("test");
             if (ImGui.Button("testbutton", new System.Numerics.Vector2(200, 200))) 
             {
