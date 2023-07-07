@@ -5,7 +5,7 @@ namespace OpenTKEngine.Models.UI
 {
     public class Label : UIElement
     {
-        private string _text;
+        private readonly string _text;
 
         public Label(string text, ImGuiWindowFlags imGuiWindowFlags, string name, Vector2? location = null) : base(imGuiWindowFlags, name, location)
         {

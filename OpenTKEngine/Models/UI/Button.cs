@@ -5,9 +5,9 @@ namespace OpenTKEngine.Models.UI
 {
     public class Button : UIElement
     {
-        private Action _action;
-        private string _label;
-        private Vector2 _size;
+        private readonly  Action _action;
+        private readonly string _label;
+        private readonly Vector2 _size;
 
         public Button(Action action, string label, Vector2 size, ImGuiWindowFlags flags, string name, Vector2? location = null) : base(flags, name, location)
         {
