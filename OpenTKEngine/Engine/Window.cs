@@ -14,9 +14,7 @@ namespace OpenTKEngine.Engine
     {
         private bool _firstMove = true;
 
-        Stopwatch stopwatch = new Stopwatch();
         private int _frameCount;
-        private int _maxFps = 8; // actual value is 120, this is the ratio of ms/frame
         private Vector2 _lastPos;
 
         private readonly SceneManager _sceneManager;
@@ -33,7 +31,6 @@ namespace OpenTKEngine.Engine
             _sceneManager.AddScene(new BaseDebugScene("base debug 1")); // default scene
             _sceneManager.SwapScene(0);
             _sceneManager.LoadScene(0);
-            stopwatch.Start();
 
             CursorState = CursorState.Grabbed;
         }
@@ -41,10 +38,7 @@ namespace OpenTKEngine.Engine
         {
             base.OnRenderFrame(e);
 
-            if (stopwatch.Elapsed.Milliseconds < _maxFps)
-            {
-                return;
-            }
+            
 
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit | ClearBufferMask.StencilBufferBit);
 
@@ -58,8 +52,6 @@ namespace OpenTKEngine.Engine
             Console.WriteLine(_frameCount);
 
             _timeService.DeltaTime = RenderTime + UpdateTime;
-            stopwatch.Stop();
-            stopwatch.Restart();
         }
 
         protected override void OnUpdateFrame(FrameEventArgs e)
