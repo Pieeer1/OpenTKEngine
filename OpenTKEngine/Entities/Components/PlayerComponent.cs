@@ -46,7 +46,7 @@ namespace OpenTKEngine.Entities.Components
             }
             if (input.IsKeyDown(Keys.S))
             {
-                _transform.Position -= _camera.Front * cameraSpeed * (float)e.Time; // Backwards
+                _transform.Position -= _camera.Front * cameraSpeed * (float)e.Time * (float)DeltaTime; // Backwards
             }
             if (input.IsKeyDown(Keys.A))
             {

@@ -6,6 +6,7 @@ using OpenTK.Windowing.GraphicsLibraryFramework;
 using OpenTKEngine.Attributes;
 using OpenTKEngine.Scenes;
 using OpenTKEngine.Services;
+using System.Diagnostics;
 
 namespace OpenTKEngine.Engine
 {
@@ -13,6 +14,9 @@ namespace OpenTKEngine.Engine
     {
         private bool _firstMove = true;
 
+        Stopwatch stopwatch = new Stopwatch();
+        private int _frameCount;
+        private int _maxFps = 5;
         private Vector2 _lastPos;
 
         private readonly SceneManager _sceneManager;
@@ -29,12 +33,18 @@ namespace OpenTKEngine.Engine
             _sceneManager.AddScene(new BaseDebugScene("base debug 1")); // default scene
             _sceneManager.SwapScene(0);
             _sceneManager.LoadScene(0);
+            stopwatch.Start();
 
             CursorState = CursorState.Grabbed;
         }
         protected override void OnRenderFrame(FrameEventArgs e)
         {
             base.OnRenderFrame(e);
+
+            if (stopwatch.Elapsed.Milliseconds < _maxFps)
+            {
+                return;
+            }
 
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit | ClearBufferMask.StencilBufferBit);
 
@@ -43,14 +53,18 @@ namespace OpenTKEngine.Engine
             SwapBuffers();
             
             _sceneManager.RefreshActiveScene();
+
+            _frameCount++;
+            Console.WriteLine(_frameCount);
+
             _timeService.DeltaTime = RenderTime + UpdateTime;
+            stopwatch.Stop();
+            stopwatch.Restart();
         }
 
-        private int _frameCount;
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
             base.OnUpdateFrame(e);
-            _frameCount++;
 
             _sceneManager.UpdateActiveScene();
 
