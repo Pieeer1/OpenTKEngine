@@ -2,6 +2,7 @@
 using OpenTK.Mathematics;
 using OpenTKEngine.Entities;
 using OpenTKEngine.Entities.Components;
+using OpenTKEngine.Scenes;
 
 namespace OpenTKEngine.Models.Shapes3D
 {
@@ -67,7 +68,7 @@ namespace OpenTKEngine.Models.Shapes3D
         {
             GL.BindVertexArray(VAO);
 
-            CameraComponent camera = EntityComponentManager.Instance.GetEntitiesWithType<CameraComponent>().FirstOrDefault()?.GetComponent<CameraComponent>() ?? throw new NullReferenceException("No Camera In Scene");
+            CameraComponent camera = SceneManager.Instance.ActiveScene.EntityComponentManager.GetEntitiesWithType<CameraComponent>().FirstOrDefault()?.GetComponent<CameraComponent>() ?? throw new NullReferenceException("No Camera In Scene");
 
             shader.SetMatrix4("view", true, camera.GetViewMatrix());
             shader.SetMatrix4("projection", true, camera.GetProjectionMatrix());
