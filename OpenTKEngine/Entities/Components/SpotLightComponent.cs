@@ -1,5 +1,6 @@
 ﻿using OpenTK.Mathematics;
 using OpenTKEngine.Models;
+using OpenTKEngine.Scenes;
 
 namespace OpenTKEngine.Entities.Components
 {
@@ -40,7 +41,7 @@ namespace OpenTKEngine.Entities.Components
         {
             base.Draw();
 
-            CameraComponent camera = EntityComponentManager.Instance.GetEntitiesWithType<CameraComponent>().FirstOrDefault()?.GetComponent<CameraComponent>() ?? throw new NullReferenceException("No Camera In Scene");
+            CameraComponent camera = SceneManager.Instance.ActiveScene.EntityComponentManager.GetEntitiesWithType<CameraComponent>().FirstOrDefault()?.GetComponent<CameraComponent>() ?? throw new NullReferenceException("No Camera In Scene");
 
             _shader.SetVector3("spotLight.position", camera.Transform.Position);
             _shader.SetVector3("spotLight.direction", camera.Front);

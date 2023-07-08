@@ -1,6 +1,7 @@
 ﻿using OpenTKEngine.Models;
 using OpenTK.Mathematics;
 using OpenTK.Graphics.OpenGL4;
+using OpenTKEngine.Scenes;
 
 namespace OpenTKEngine.Entities.Components
 {
@@ -36,7 +37,7 @@ namespace OpenTKEngine.Entities.Components
         {
             base.Draw();
 
-            var entities = EntityComponentManager.Instance.GetEntitiesWithType<PointLightComponent>();
+            var entities = SceneManager.Instance.ActiveScene.EntityComponentManager.GetEntitiesWithType<PointLightComponent>();
             int index = entities.ToList().IndexOf(Entity);
 
             _shader.SetVector3($"pointLights[{index}].position", _position);

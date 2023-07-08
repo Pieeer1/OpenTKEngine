@@ -106,5 +106,6 @@ namespace OpenTKEngine.Scenes
                 _scenes.First(x => x.IsActive).SetComponentReferencesWithAttribute(att, value);
             }
         }
+        public Scene ActiveScene => _scenes.First(x => x.IsActive);
     }
 }

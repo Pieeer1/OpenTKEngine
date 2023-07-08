@@ -25,6 +25,7 @@ namespace OpenTKEngine.Engine
             base.OnLoad();
 
             _sceneManager.AddScene(new BaseDebugScene("base debug 1")); // default scene
+            _sceneManager.AddScene(new BaseDebugScene("base debug 2")); // default scene
             _sceneManager.SwapScene(0);
             _sceneManager.LoadScene(0);
 
@@ -69,6 +70,17 @@ namespace OpenTKEngine.Engine
                 CursorState = CursorState == CursorState.Grabbed ? CursorState.Normal : CursorState.Grabbed;
                 _sceneManager.SetActiveComponentReferences(new MenuDisableAttribute(), CursorState == CursorState.Grabbed);
                 _sceneManager.SetActiveComponentReferences(new MenuEnableAttribute(), CursorState != CursorState.Grabbed);
+            }
+            Console.WriteLine(_tick);
+            if (_tick == 1000)
+            {
+                _sceneManager.LoadScene(1);
+                _sceneManager.SwapScene(1);
+            }
+            if (_tick == 2000)
+            {
+                _sceneManager.LoadScene(0);
+                _sceneManager.SwapScene(0);
             }
         }
 

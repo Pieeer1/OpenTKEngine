@@ -17,9 +17,7 @@ namespace OpenTKEngine.Scenes
         {
         }
 
-        protected override EntityComponentManager _entityComponentManager => SceneScopedService<EntityComponentManager, BaseDebugScene>.Instance;
-
-        public override void OnLoad()
+        public override void OnAwake()
         {
             GL.ClearColor(0.1f, 0.1f, 0.1f, 1.0f); // background
 
@@ -41,35 +39,35 @@ namespace OpenTKEngine.Scenes
                 Texture.LoadFromFile($"{AssetRoutes.Textures}/container2_specular.png"),
             };
 
-            Entity player = _entityComponentManager.AddEntity();
+            Entity player = EntityComponentManager.AddEntity();
             player.AddComponent(new PlayerComponent(_shaders[ShaderConstants.TextureShader], new Vector3(-1.5f, -0.5f, 0.0f)));
             CameraComponent camera = player.GetComponent<CameraComponent>();
 
-            Entity pointLight1 = _entityComponentManager.AddEntity();
-            Entity pointLight2 = _entityComponentManager.AddEntity();
-            Entity pointLight3 = _entityComponentManager.AddEntity();
-            Entity pointLight4 = _entityComponentManager.AddEntity();
+            Entity pointLight1 = EntityComponentManager.AddEntity();
+            Entity pointLight2 = EntityComponentManager.AddEntity();
+            Entity pointLight3 = EntityComponentManager.AddEntity();
+            Entity pointLight4 = EntityComponentManager.AddEntity();
             pointLight1.AddComponent(new PointLightComponent(_shaders[ShaderConstants.TextureShader], new Vector3(0.7f, 0.2f, 2.0f)));
             pointLight2.AddComponent(new PointLightComponent(_shaders[ShaderConstants.TextureShader], new Vector3(2.3f, -3.3f, -4.0f)));
             pointLight3.AddComponent(new PointLightComponent(_shaders[ShaderConstants.TextureShader], new Vector3(-4.0f, 2.0f, -12.0f)));
             pointLight4.AddComponent(new PointLightComponent(_shaders[ShaderConstants.TextureShader], new Vector3(0.0f, 0.0f, -3.0f)));
 
-            Entity directionalLightComponent = _entityComponentManager.AddEntity();
+            Entity directionalLightComponent = EntityComponentManager.AddEntity();
             directionalLightComponent.AddComponent(new DirectionalLightComponent(_shaders[ShaderConstants.TextureShader], new Vector3(-0.2f, -1.0f, -0.3f)));
 
-            Entity materialComponent = _entityComponentManager.AddEntity();
+            Entity materialComponent = EntityComponentManager.AddEntity();
             materialComponent.AddComponent(new MaterialComponent(_shaders[ShaderConstants.TextureShader]));
 
-            Entity shape0 = _entityComponentManager.AddEntity();
-            Entity shape1 = _entityComponentManager.AddEntity();
-            Entity shape2 = _entityComponentManager.AddEntity();
-            Entity shape3 = _entityComponentManager.AddEntity();
-            Entity shape4 = _entityComponentManager.AddEntity();
-            Entity shape5 = _entityComponentManager.AddEntity();
-            Entity shape6 = _entityComponentManager.AddEntity();
-            Entity shape7 = _entityComponentManager.AddEntity();
-            Entity shape8 = _entityComponentManager.AddEntity();
-            Entity shape9 = _entityComponentManager.AddEntity();
+            Entity shape0 = EntityComponentManager.AddEntity();
+            Entity shape1 = EntityComponentManager.AddEntity();
+            Entity shape2 = EntityComponentManager.AddEntity();
+            Entity shape3 = EntityComponentManager.AddEntity();
+            Entity shape4 = EntityComponentManager.AddEntity();
+            Entity shape5 = EntityComponentManager.AddEntity();
+            Entity shape6 = EntityComponentManager.AddEntity();
+            Entity shape7 = EntityComponentManager.AddEntity();
+            Entity shape8 = EntityComponentManager.AddEntity();
+            Entity shape9 = EntityComponentManager.AddEntity();
             shape1.AddComponent(new ShapeComponent(_shaders[ShaderConstants.TextureShader], new Cube(), new Vector3(0.0f, 0.0f, 0.0f), textures: containerTextures));
             shape2.AddComponent(new ShapeComponent(_shaders[ShaderConstants.TextureShader], new Cube(), new Vector3(2.0f, 5.0f, -15.0f), textures: containerTextures));
             shape3.AddComponent(new ShapeComponent(_shaders[ShaderConstants.TextureShader], new Cube(), new Vector3(-1.5f, -2.2f, -2.5f), textures: containerTextures));
@@ -81,20 +79,20 @@ namespace OpenTKEngine.Scenes
             shape9.AddComponent(new ShapeComponent(_shaders[ShaderConstants.TextureShader], new Cube(), new Vector3(1.5f, 0.2f, -1.5f), textures: containerTextures));
             shape0.AddComponent(new ShapeComponent(_shaders[ShaderConstants.TextureShader], new Cube(), new Vector3(-1.3f, 1.0f, -1.5f), textures: containerTextures));
 
-            Entity lamp0 = _entityComponentManager.AddEntity();
+            Entity lamp0 = EntityComponentManager.AddEntity();
             lamp0.AddComponent(new ShapeComponent(_shaders[ShaderConstants.LightShader], new Cube(), new Vector3(-5.0f, 1.0f, -1.5f)));
 
-            Entity sphere = _entityComponentManager.AddEntity();
+            Entity sphere = EntityComponentManager.AddEntity();
             sphere.AddComponent(new ShapeComponent(_shaders[ShaderConstants.TextureShader], new Sphere(), new Vector3(-5.0f, 3.0f, -1.5f)));
 
-            Entity lampSphere = _entityComponentManager.AddEntity();
+            Entity lampSphere = EntityComponentManager.AddEntity();
             lampSphere.AddComponent(new ShapeComponent(_shaders[ShaderConstants.LightShader], new Sphere(), new Vector3(-5.0f, -3.0f, -1.5f)));
 
-            Entity plane = _entityComponentManager.AddEntity();
+            Entity plane = EntityComponentManager.AddEntity();
             plane.AddComponent(new ShapeComponent(_shaders[ShaderConstants.TextureShader], new Plane(5), new Vector3(5.0f, 0.0f, -1.5f)));
             plane.GetComponent<TransformComponent>().RotateTo(new AxisAngle(new Vector3(1.0f, 0.0f, 0.0f), 0.0f));
 
-            Entity canvas = _entityComponentManager.AddEntity();
+            Entity canvas = EntityComponentManager.AddEntity();
             canvas.AddComponent(new CanvasComponent(_shaders[ShaderConstants.TextShader]));
             const ImGuiWindowFlags baseFlags = ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoTitleBar | ImGuiWindowFlags.NoSavedSettings;
             canvas.GetComponent<CanvasComponent>().AddUIElement(new Label("Menu", baseFlags, "window0"));
