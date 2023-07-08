@@ -18,6 +18,7 @@ namespace OpenTKEngine.Entities.Components
 
         private float _pitch;
         private float _yaw = -MathHelper.PiOver2;
+        
         private float _fov = MathHelper.PiOver2;
 
         public TransformComponent Transform = null!;
@@ -50,6 +51,7 @@ namespace OpenTKEngine.Entities.Components
                 UpdateVectors();
             }
         }
+        [OnMouseWheel]
         public float Fov
         {
             get => MathHelper.RadiansToDegrees(_fov);

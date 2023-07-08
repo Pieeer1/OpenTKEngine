@@ -1,23 +1,12 @@
 ﻿using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.GraphicsLibraryFramework;
+using OpenTKEngine.Services;
 
 namespace OpenTKEngine.Entities
 {
-    public class EntityComponentManager
+    public class EntityComponentManager : SingletonService<EntityComponentManager>
     {
-        private static EntityComponentManager? _instance;
-        public static EntityComponentManager Instance
-        {
-            get
-            {
-                if (_instance is null)
-                {
-                    _instance = new EntityComponentManager();
-                }
-                return _instance;
-            }
-        }
         private EntityComponentManager() { }
         private Dictionary<Entity, uint> entities { get; set; } = new Dictionary<Entity, uint>();
         public void Update()
