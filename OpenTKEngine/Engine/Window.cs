@@ -5,6 +5,7 @@ using OpenTK.Windowing.Desktop;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 using OpenTKEngine.Attributes;
 using OpenTKEngine.Scenes;
+using OpenTKEngine.Services;
 
 namespace OpenTKEngine.Engine
 {
@@ -15,10 +16,11 @@ namespace OpenTKEngine.Engine
         private Vector2 _lastPos;
 
         private readonly SceneManager _sceneManager;
-
+        private readonly TimeService _timeService;
         public Window(GameWindowSettings gameWindowSettings, NativeWindowSettings nativeWindowSettings) : base(gameWindowSettings, nativeWindowSettings)
         {
             _sceneManager = SceneManager.Instance;
+            _timeService = TimeService.Instance;
         }
         protected override void OnLoad()
         {
@@ -41,14 +43,14 @@ namespace OpenTKEngine.Engine
             SwapBuffers();
             
             _sceneManager.RefreshActiveScene();
+            _timeService.DeltaTime = RenderTime + UpdateTime;
         }
 
-        private int _tick;
+        private int _frameCount;
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
             base.OnUpdateFrame(e);
-
-            _tick++;
+            _frameCount++;
 
             _sceneManager.UpdateActiveScene();
 
@@ -59,7 +61,7 @@ namespace OpenTKEngine.Engine
 
             _sceneManager.UpdateActiveInput(e, KeyboardState, MouseState, ref _firstMove, ref _lastPos);
 
-            _sceneManager.SetActiveComponentReferences(new OnTickAttribute(), _tick);
+            _sceneManager.SetActiveComponentReferences(new OnTickAttribute(), _frameCount);
 
 
             if (KeyboardState.IsKeyPressed(Keys.Escape))
@@ -68,7 +70,6 @@ namespace OpenTKEngine.Engine
                 _sceneManager.SetActiveComponentReferences(new MenuDisableAttribute(), CursorState == CursorState.Grabbed);
                 _sceneManager.SetActiveComponentReferences(new MenuEnableAttribute(), CursorState != CursorState.Grabbed);
             }
-
         }
 
         protected override void OnMouseWheel(MouseWheelEventArgs e)
