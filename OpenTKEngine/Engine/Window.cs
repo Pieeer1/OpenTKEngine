@@ -16,7 +16,7 @@ namespace OpenTKEngine.Engine
 
         Stopwatch stopwatch = new Stopwatch();
         private int _frameCount;
-        private int _maxFps = 5;
+        private int _maxFps = 8; // actual value is 120, this is the ratio of ms/frame
         private Vector2 _lastPos;
 
         private readonly SceneManager _sceneManager;
