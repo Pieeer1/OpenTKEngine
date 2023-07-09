@@ -52,9 +52,12 @@ namespace OpenTKEngine.Entities.Components
             _canvas.HandleInput(mouse, input);
         }
         public void AddUIElement(UIElement element)
-        { 
+        {
             _canvas.UIElements.Add(element);
         }
-
+        public void RemoveUIElement(UIElement element)
+        {
+            _canvas.UIElements.Remove(element);
+        }
     }
 }

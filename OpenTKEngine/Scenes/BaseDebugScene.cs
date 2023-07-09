@@ -97,9 +97,7 @@ namespace OpenTKEngine.Scenes
             Menu menu = new Menu(canvasComp);
             ChatInput chat = new ChatInput(canvasComp);
             ChatBox chatBox = new ChatBox(canvasComp);
-            MessageService.Instance.LogInformation("some information");
-            MessageService.Instance.LogWarning("warning");
-            MessageService.Instance.LogError("error");
+
             //canvasComp.IsEnabled = false;
             //canvasComp.IsVisible = false;
         }
