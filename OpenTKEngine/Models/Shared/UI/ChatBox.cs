@@ -37,7 +37,7 @@ namespace OpenTKEngine.Models.Shared.UI
             newLabel.IsActive = true;
 
 
-            labelLifeTracker.Add(newLabel, 10.0d/*TEMP MAKE DYNAMIC*/);
+            labelLifeTracker.Add(newLabel, e.TimeToLive);
         }
     }
 }
