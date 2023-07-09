@@ -41,13 +41,13 @@ namespace OpenTKEngine.Models.Shared.UI
             if (_textBoxReference.IsActive)
             {
                 _textBoxReference.ToggleKey = Keys.Escape;
-
+                CursorService.Instance.ActiveCursorState = OpenTK.Windowing.Common.CursorState.Normal;
                 InputFlagService.Instance.ActiveInputFlags &= InputFlags.Chat;
             }
             else
             {
                 _textBoxReference.ToggleKey = Keys.T;
-
+                CursorService.Instance.ActiveCursorState = OpenTK.Windowing.Common.CursorState.Grabbed;
                 InputFlagService.Instance.ActiveInputFlags |= InputFlags.All;
             }
         }
