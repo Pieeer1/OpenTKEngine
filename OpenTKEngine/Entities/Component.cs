@@ -13,7 +13,7 @@ namespace OpenTKEngine.Entities
         public EntityComponentManager EntityComponentManager { get => SceneManager.Instance.ActiveScene.EntityComponentManager; }
         protected InputFlags ActiveInputFlags { get => InputFlagService.Instance.ActiveInputFlags; set => InputFlagService.Instance.ActiveInputFlags = value; }
         public double DeltaTime { get => TimeService.Instance.DeltaTime; }
-
+        public event EventHandler<ComponentEventArgs>? OnComponentKeyInput;
         public virtual void Init()
         { 
         
@@ -27,8 +27,24 @@ namespace OpenTKEngine.Entities
             
         }
         public virtual void UpdateInput(FrameEventArgs e, KeyboardState input, MouseState mouse, ref bool firstMove, ref Vector2 lastPos)
-        { 
-        
+        {
+            ComponentKeyInput(input);
         }
+        protected void ComponentKeyInput(KeyboardState keyboardState)
+        {
+            if (OnComponentKeyInput is not null)
+            {
+                OnComponentKeyInput.Invoke(this, new ComponentEventArgs(keyboardState));
+            }
+        }
+    }
+    public class ComponentEventArgs : EventArgs
+    {
+        public ComponentEventArgs(KeyboardState keyboardState)
+        {
+            KeyboardState = keyboardState;
+        }
+
+        public KeyboardState KeyboardState { get; private set; }
     }
 }

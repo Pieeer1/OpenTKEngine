@@ -5,12 +5,14 @@ using OpenTKEngine.Entities.Components;
 using OpenTKEngine.Enums;
 using OpenTKEngine.Models.UI;
 using OpenTKEngine.Services;
+using System.Text;
 
 namespace OpenTKEngine.Models.Shared.UI
 {
     public class ChatInput : SharedUIElement
     {
         private TextBox _textBoxReference;
+        private string _chat = string.Empty;
         public ChatInput(CanvasComponent canvas) : base(canvas)
         {
             ImGuiWindowFlags flags = ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoTitleBar | ImGuiWindowFlags.NoSavedSettings | ImGuiWindowFlags.NoMove | ImGuiWindowFlags.AlwaysAutoResize | ImGuiWindowFlags.NoBackground;
@@ -18,6 +20,16 @@ namespace OpenTKEngine.Models.Shared.UI
             _canvas.AddUIElement(_textBoxReference);
 
             _textBoxReference.OnToggle += TextBoxRef_OnToggle;
+            _canvas.OnComponentKeyInput += Canvas_OnComponentKeyInput;
+        }
+
+        private void Canvas_OnComponentKeyInput(object? sender, Entities.ComponentEventArgs e)
+        {
+            if (_textBoxReference.IsActive && e.KeyboardState.IsKeyPressed(Keys.Enter) && !string.IsNullOrWhiteSpace(_chat))
+            {
+                MessageService.Instance.LogChat(_chat);
+                _textBoxReference.Clear();
+            }
         }
 
         private void TextBoxRef_OnToggle(object? sender, EventArgs e)
@@ -29,20 +41,20 @@ namespace OpenTKEngine.Models.Shared.UI
             if (_textBoxReference.IsActive)
             {
                 _textBoxReference.ToggleKey = Keys.Escape;
-
+                CursorService.Instance.ActiveCursorState = OpenTK.Windowing.Common.CursorState.Normal;
                 InputFlagService.Instance.ActiveInputFlags &= InputFlags.Chat;
             }
             else
             {
                 _textBoxReference.ToggleKey = Keys.T;
-
+                CursorService.Instance.ActiveCursorState = OpenTK.Windowing.Common.CursorState.Grabbed;
                 InputFlagService.Instance.ActiveInputFlags |= InputFlags.All;
             }
         }
 
         public void OnTextChange(string s)
         {
-
+            _chat = s;
         }
     }
 }

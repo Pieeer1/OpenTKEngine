@@ -37,6 +37,7 @@ namespace OpenTKEngine.Entities.Components
         }
         public override void UpdateInput(FrameEventArgs e, KeyboardState input, MouseState mouse, ref bool firstMove, ref Vector2 lastPos)
         {
+            base.UpdateInput(e, input, mouse, ref firstMove, ref lastPos);
             if ((ActiveInputFlags & InputFlags.Player) == 0) { return; }
             const float cameraSpeed = 1.5f;
             const float sensitivity = 0.2f;
