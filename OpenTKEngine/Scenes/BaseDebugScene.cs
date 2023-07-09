@@ -1,15 +1,12 @@
-﻿using ImGuiNET;
-using OpenTKEngine.Entities.Components;
+﻿using OpenTKEngine.Entities.Components;
 using OpenTKEngine.Entities;
 using OpenTKEngine.Models.Shapes3D;
-using OpenTKEngine.Models.UI;
 using OpenTKEngine.Models;
 using static OpenTKEngine.Models.Constants;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
-using OpenTKEngine.Services;
-using OpenTK.Windowing.GraphicsLibraryFramework;
 using OpenTKEngine.Models.Shared.UI;
+using OpenTKEngine.Services;
 
 namespace OpenTKEngine.Scenes
 {
@@ -99,6 +96,10 @@ namespace OpenTKEngine.Scenes
             CanvasComponent canvasComp = canvas.GetComponent<CanvasComponent>();
             Menu menu = new Menu(canvasComp);
             ChatInput chat = new ChatInput(canvasComp);
+            ChatBox chatBox = new ChatBox(canvasComp);
+            MessageService.Instance.LogInformation("some information");
+            MessageService.Instance.LogWarning("warning");
+            MessageService.Instance.LogError("error");
             //canvasComp.IsEnabled = false;
             //canvasComp.IsVisible = false;
         }

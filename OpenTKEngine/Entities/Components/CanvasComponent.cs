@@ -40,8 +40,9 @@ namespace OpenTKEngine.Entities.Components
         }
         public override void UpdateInput(FrameEventArgs e, KeyboardState input, MouseState mouse, ref bool firstMove, ref Vector2 lastPos)
         {
+            base.UpdateInput(e, input, mouse, ref firstMove, ref lastPos);
             if (!IsEnabled) { return; }
-            foreach (UIElement uiElement in _canvas.UIElements)
+            foreach (UIElement uiElement in _canvas.UIElements.Where(x => x.ToggleKey != Keys.Unknown))
             {
                 if (input.IsKeyPressed(uiElement.ToggleKey))
                 {

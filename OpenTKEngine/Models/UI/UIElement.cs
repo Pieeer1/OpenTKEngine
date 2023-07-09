@@ -10,7 +10,7 @@ namespace OpenTKEngine.Models.UI
         private protected string _name;
         private protected Vector2? _location;
         public Keys ToggleKey {get; set;}
-        public bool IsActive { get; set; } 
+        public bool IsActive { get; set; }
         protected UIElement(ImGuiWindowFlags imGuiWindowFlags, string name, Vector2? location = null, Keys toggleKey = Keys.Unknown)
         {
             _imGuiWindowFlags = imGuiWindowFlags;
