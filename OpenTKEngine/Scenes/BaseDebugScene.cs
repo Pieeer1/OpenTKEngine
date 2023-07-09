@@ -99,7 +99,7 @@ namespace OpenTKEngine.Scenes
             canvasComp.AddUIElement(new Label("Menu", baseFlags, "window0"));
             canvasComp.AddUIElement(new Button(() => Console.WriteLine("Options"), "Options", new Vector2(250, 50), baseFlags, "menuWindow"));
             canvasComp.AddUIElement(new Button(() => Environment.Exit(0), "Quit", new Vector2(250, 50), baseFlags, "menuWindow"));
-            canvasComp.AddUIElement(new TextBox("Chat", (string s) => Console.WriteLine(s), baseFlags, "chatWindow", new Vector2(15.0f, 150.0f)));
+            canvasComp.AddUIElement(new TextBox("Chat", (string s) => Console.WriteLine(s), baseFlags, "chatWindow", new Vector2(15.0f, 500.0f)));
             canvasComp.IsVisible = false;
             canvasComp.IsEnabled = false;
         }
