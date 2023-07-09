@@ -20,13 +20,11 @@ namespace OpenTKEngine.Engine
 
         private readonly SceneManager _sceneManager;
         private readonly TimeService _timeService;
-        private readonly InputFlagService _inputFlagService;
         private readonly CursorService _cursorService;
         public Window(GameWindowSettings gameWindowSettings, NativeWindowSettings nativeWindowSettings) : base(gameWindowSettings, nativeWindowSettings)
         {
             _sceneManager = SceneManager.Instance;
             _timeService = TimeService.Instance;
-            _inputFlagService = InputFlagService.Instance;
             _cursorService = CursorService.Instance;
             _cursorService.GameWindowReference = this; 
         }
@@ -70,19 +68,6 @@ namespace OpenTKEngine.Engine
             }
 
             _sceneManager.UpdateActiveInput(e, KeyboardState, MouseState, ref _firstMove, ref _lastPos);
-
-            if (KeyboardState.IsKeyPressed(Keys.Escape))
-            {
-                //CursorState = CursorState == CursorState.Grabbed ? CursorState.Normal : CursorState.Grabbed;
-                //if (CursorState != CursorState.Grabbed)
-                //{
-                //    _inputFlagService.ActiveInputFlags &= InputFlags.Menu;
-                //}
-                //else
-                //{
-                //    _inputFlagService.ActiveInputFlags |= InputFlags.Menu | InputFlags.Player;
-                //}
-            }
         }
 
         protected override void OnTextInput(TextInputEventArgs e)
