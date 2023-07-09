@@ -16,8 +16,11 @@ namespace OpenTKEngine.Models.UI
         public override void StartRender()
         {
             base.StartRender();
-            ImGui.InputTextWithHint(string.Empty, _defaultText, ref _inputString, 60);
-            _action.Invoke(_inputString);
+
+            if (ImGui.InputTextWithHint(string.Empty, _defaultText, ref _inputString, 256))
+            { 
+                _action.Invoke(_inputString);
+            };
         }
     }
 }

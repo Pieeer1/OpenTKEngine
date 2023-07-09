@@ -16,7 +16,11 @@ namespace OpenTKEngine
                 Flags = ContextFlags.ForwardCompatible,
             };
 
-            using (Window window = new Window(GameWindowSettings.Default, nativeWindowSettings))
+            GameWindowSettings gameWindowSettings = GameWindowSettings.Default;
+            gameWindowSettings.RenderFrequency = 60.0f; // max fps
+            gameWindowSettings.UpdateFrequency = 60.0f; // max ups
+
+            using (Window window = new Window(gameWindowSettings, nativeWindowSettings))
             {
                 window.Run();
             }

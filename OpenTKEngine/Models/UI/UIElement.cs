@@ -17,11 +17,11 @@ namespace OpenTKEngine.Models.UI
 
         public virtual void StartRender()
         {
-            ImGui.Begin(_name, _imGuiWindowFlags);
             if (_location is not null)
-            { 
-                ImGui.SetCursorPos(new System.Numerics.Vector2(0.0f, 0.0f));
+            {
+                ImGui.SetNextWindowPos(new System.Numerics.Vector2(_location.Value.X, _location.Value.Y));
             }
+            ImGui.Begin(_name, _imGuiWindowFlags);
         }
         public virtual void EndRender()
         {

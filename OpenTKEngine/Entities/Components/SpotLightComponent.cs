@@ -41,7 +41,7 @@ namespace OpenTKEngine.Entities.Components
         {
             base.Draw();
 
-            CameraComponent camera = SceneManager.Instance.ActiveScene.EntityComponentManager.GetEntitiesWithType<CameraComponent>().FirstOrDefault()?.GetComponent<CameraComponent>() ?? throw new NullReferenceException("No Camera In Scene");
+            CameraComponent camera = EntityComponentManager.GetEntitiesWithType<CameraComponent>().FirstOrDefault()?.GetComponent<CameraComponent>() ?? throw new NullReferenceException("No Camera In Scene");
 
             _shader.SetVector3("spotLight.position", camera.Transform.Position);
             _shader.SetVector3("spotLight.direction", camera.Front);

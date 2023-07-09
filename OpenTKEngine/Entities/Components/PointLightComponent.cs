@@ -37,7 +37,7 @@ namespace OpenTKEngine.Entities.Components
         {
             base.Draw();
 
-            var entities = SceneManager.Instance.ActiveScene.EntityComponentManager.GetEntitiesWithType<PointLightComponent>();
+            var entities = EntityComponentManager.GetEntitiesWithType<PointLightComponent>();
             int index = entities.ToList().IndexOf(Entity);
 
             _shader.SetVector3($"pointLights[{index}].position", _position);
