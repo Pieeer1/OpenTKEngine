@@ -1,5 +1,6 @@
 ﻿using ImGuiNET;
 using OpenTK.Mathematics;
+using OpenTK.Windowing.GraphicsLibraryFramework;
 
 namespace OpenTKEngine.Models.UI
 {
@@ -8,13 +9,16 @@ namespace OpenTKEngine.Models.UI
         private protected ImGuiWindowFlags _imGuiWindowFlags;
         private protected string _name;
         private protected Vector2? _location;
-        protected UIElement(ImGuiWindowFlags imGuiWindowFlags, string name, Vector2? location = null)
+        public Keys ToggleKey {get; set;}
+        public bool IsActive { get; set; } 
+        protected UIElement(ImGuiWindowFlags imGuiWindowFlags, string name, Vector2? location = null, Keys toggleKey = Keys.Unknown)
         {
             _imGuiWindowFlags = imGuiWindowFlags;
             _name = name;
             _location = location;
+            ToggleKey = toggleKey;
         }
-
+        public event EventHandler? OnToggle;
         public virtual void StartRender()
         {
             if (_location is not null)
@@ -26,6 +30,14 @@ namespace OpenTKEngine.Models.UI
         public virtual void EndRender()
         {
             ImGui.End();
+        }
+
+        public void Toggle()
+        {
+            if (OnToggle is not null)
+            { 
+                OnToggle.Invoke(this, EventArgs.Empty);
+            }
         }
     }
 }

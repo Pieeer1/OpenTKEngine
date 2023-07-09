@@ -8,6 +8,8 @@ using static OpenTKEngine.Models.Constants;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using OpenTKEngine.Services;
+using OpenTK.Windowing.GraphicsLibraryFramework;
+using OpenTKEngine.Models.Shared.UI;
 
 namespace OpenTKEngine.Scenes
 {
@@ -94,14 +96,11 @@ namespace OpenTKEngine.Scenes
 
             Entity canvas = EntityComponentManager.AddEntity();
             canvas.AddComponent(new CanvasComponent(_shaders[ShaderConstants.TextShader]));
-            const ImGuiWindowFlags baseFlags = ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoTitleBar | ImGuiWindowFlags.NoSavedSettings | ImGuiWindowFlags.NoMove | ImGuiWindowFlags.AlwaysAutoResize;
             CanvasComponent canvasComp = canvas.GetComponent<CanvasComponent>();
-            canvasComp.AddUIElement(new Label("Menu", baseFlags, "window0"));
-            canvasComp.AddUIElement(new Button(() => Console.WriteLine("Options"), "Options", new Vector2(250, 50), baseFlags, "menuWindow"));
-            canvasComp.AddUIElement(new Button(() => Environment.Exit(0), "Quit", new Vector2(250, 50), baseFlags, "menuWindow"));
-            canvasComp.AddUIElement(new TextBox("Chat", (string s) => Console.WriteLine(s), baseFlags, "chatWindow", new Vector2(15.0f, 500.0f)));
-            canvasComp.IsVisible = false;
-            canvasComp.IsEnabled = false;
+            Menu menu = new Menu(canvasComp);
+            ChatInput chat = new ChatInput(canvasComp);
+            //canvasComp.IsEnabled = false;
+            //canvasComp.IsVisible = false;
         }
     }
 }

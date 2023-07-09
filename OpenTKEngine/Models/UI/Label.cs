@@ -1,5 +1,6 @@
 ﻿using ImGuiNET;
 using OpenTK.Mathematics;
+using OpenTK.Windowing.GraphicsLibraryFramework;
 
 namespace OpenTKEngine.Models.UI
 {
@@ -7,7 +8,7 @@ namespace OpenTKEngine.Models.UI
     {
         private readonly string _text;
 
-        public Label(string text, ImGuiWindowFlags imGuiWindowFlags, string name, Vector2? location = null) : base(imGuiWindowFlags, name, location)
+        public Label(string text, ImGuiWindowFlags imGuiWindowFlags, string name, Vector2? location = null, Keys toggleKey = Keys.Unknown) : base(imGuiWindowFlags, name, location, toggleKey)
         {
             _text = text;
         }

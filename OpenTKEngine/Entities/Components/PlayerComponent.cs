@@ -2,6 +2,7 @@
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 using OpenTKEngine.Attributes;
+using OpenTKEngine.Enums;
 using OpenTKEngine.Models;
 
 namespace OpenTKEngine.Entities.Components
@@ -36,7 +37,7 @@ namespace OpenTKEngine.Entities.Components
         }
         public override void UpdateInput(FrameEventArgs e, KeyboardState input, MouseState mouse, ref bool firstMove, ref Vector2 lastPos)
         {
-            if (!IsControlEnabled) { return; }
+            if ((ActiveInputFlags & InputFlags.Player) == 0) { return; }
             const float cameraSpeed = 1.5f;
             const float sensitivity = 0.2f;
 

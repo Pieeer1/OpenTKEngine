@@ -128,7 +128,7 @@ namespace OpenTKEngine.Models.UI
 
             ImGui.NewFrame();
 
-            UIElements.ForEach(element =>
+            UIElements.Where(x => x.IsActive).ToList().ForEach(element =>
             {
                 element.StartRender();
                 element.EndRender();

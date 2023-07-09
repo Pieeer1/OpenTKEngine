@@ -4,6 +4,7 @@ using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 using OpenTKEngine.Attributes;
+using OpenTKEngine.Enums;
 using OpenTKEngine.Scenes;
 using OpenTKEngine.Services;
 using System.Diagnostics;
@@ -19,10 +20,15 @@ namespace OpenTKEngine.Engine
 
         private readonly SceneManager _sceneManager;
         private readonly TimeService _timeService;
+        private readonly InputFlagService _inputFlagService;
+        private readonly CursorService _cursorService;
         public Window(GameWindowSettings gameWindowSettings, NativeWindowSettings nativeWindowSettings) : base(gameWindowSettings, nativeWindowSettings)
         {
             _sceneManager = SceneManager.Instance;
             _timeService = TimeService.Instance;
+            _inputFlagService = InputFlagService.Instance;
+            _cursorService = CursorService.Instance;
+            _cursorService.GameWindowReference = this; 
         }
         protected override void OnLoad()
         {
@@ -32,13 +38,11 @@ namespace OpenTKEngine.Engine
             _sceneManager.SwapScene(0);
             _sceneManager.LoadScene(0);
 
-            CursorState = CursorState.Grabbed;
+            _cursorService.ActiveCursorState = CursorState.Grabbed;
         }
         protected override void OnRenderFrame(FrameEventArgs e)
         {
             base.OnRenderFrame(e);
-
-            
 
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit | ClearBufferMask.StencilBufferBit);
 
@@ -49,7 +53,7 @@ namespace OpenTKEngine.Engine
             _sceneManager.RefreshActiveScene();
 
             _frameCount++;
-            Console.WriteLine(_frameCount);
+            _sceneManager.SetActiveComponentReferences(new OnTickAttribute(), _frameCount);
 
             _timeService.DeltaTime = RenderTime + UpdateTime;
         }
@@ -67,20 +71,23 @@ namespace OpenTKEngine.Engine
 
             _sceneManager.UpdateActiveInput(e, KeyboardState, MouseState, ref _firstMove, ref _lastPos);
 
-            _sceneManager.SetActiveComponentReferences(new OnTickAttribute(), _frameCount);
-
             if (KeyboardState.IsKeyPressed(Keys.Escape))
             {
-                CursorState = CursorState == CursorState.Grabbed ? CursorState.Normal : CursorState.Grabbed;
-                _sceneManager.SetActiveComponentReferences(new MenuDisableAttribute(), CursorState == CursorState.Grabbed);
-                _sceneManager.SetActiveComponentReferences(new MenuEnableAttribute(), CursorState != CursorState.Grabbed);
+                //CursorState = CursorState == CursorState.Grabbed ? CursorState.Normal : CursorState.Grabbed;
+                //if (CursorState != CursorState.Grabbed)
+                //{
+                //    _inputFlagService.ActiveInputFlags &= InputFlags.Menu;
+                //}
+                //else
+                //{
+                //    _inputFlagService.ActiveInputFlags |= InputFlags.Menu | InputFlags.Player;
+                //}
             }
         }
 
         protected override void OnTextInput(TextInputEventArgs e)
         {
             base.OnTextInput(e);
-
             _sceneManager.SetActiveComponentReferences(new CharacterPressAttribute(), (char)e.Unicode);
         }
 
