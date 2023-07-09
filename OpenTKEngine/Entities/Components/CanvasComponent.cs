@@ -19,6 +19,8 @@ namespace OpenTKEngine.Entities.Components
         private bool _isEnabled = true;
         [MenuEnable]
         public bool IsEnabled { get => _isEnabled; set => _isEnabled = value; }
+        [CharacterPress]
+        public char CharacterPressed { set => _canvas.CharPressed(value); }
         public CanvasComponent(Shader shader)
         {
             _shader = shader;
@@ -41,11 +43,12 @@ namespace OpenTKEngine.Entities.Components
         public override void UpdateInput(FrameEventArgs e, KeyboardState input, MouseState mouse, ref bool firstMove, ref Vector2 lastPos)
         {
             if (!IsEnabled) { return; }
-            _canvas.HandleInput(mouse);
+            _canvas.HandleInput(mouse, input);
         }
         public void AddUIElement(UIElement element)
         { 
             _canvas.UIElements.Add(element);
         }
+
     }
 }

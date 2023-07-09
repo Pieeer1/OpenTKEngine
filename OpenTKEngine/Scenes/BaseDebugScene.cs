@@ -94,7 +94,7 @@ namespace OpenTKEngine.Scenes
 
             Entity canvas = EntityComponentManager.AddEntity();
             canvas.AddComponent(new CanvasComponent(_shaders[ShaderConstants.TextShader]));
-            const ImGuiWindowFlags baseFlags = ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoTitleBar | ImGuiWindowFlags.NoSavedSettings;
+            const ImGuiWindowFlags baseFlags = ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoTitleBar | ImGuiWindowFlags.NoSavedSettings | ImGuiWindowFlags.NoMove;
             canvas.GetComponent<CanvasComponent>().AddUIElement(new Label("Menu", baseFlags, "window0"));
             canvas.GetComponent<CanvasComponent>().AddUIElement(new Button(() => Console.WriteLine("Options"), "Options", new Vector2(250, 50), baseFlags, "menuWindow"));
             canvas.GetComponent<CanvasComponent>().AddUIElement(new Button(() => Environment.Exit(0), "Quit", new Vector2(250, 50), baseFlags, "menuWindow"));

@@ -5,6 +5,7 @@ using OpenTK.Windowing.Desktop;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 using OpenTKEngine.Attributes;
 using OpenTKEngine.Entities.Components;
+using OpenTKEngine.Services;
 using System.Runtime.CompilerServices;
 
 namespace OpenTKEngine.Models.UI
@@ -17,6 +18,7 @@ namespace OpenTKEngine.Models.UI
         private int _texture;
         private int _vboSize = 10000;
         private int _eboSize = 2000;
+        private List<char> _pressedChars = new List<char>();
         public List<UIElement> UIElements { get; set; } = new List<UIElement>();
         public Canvas(Shader shader)
         {
@@ -28,6 +30,7 @@ namespace OpenTKEngine.Models.UI
             io.BackendFlags |= ImGuiBackendFlags.RendererHasVtxOffset;
             BindAndBuffer(_shader);
 
+            SetKeyMappings();
             SetPerFrameImGuiData(1f / 60f);
 
             ImGui.NewFrame();    
@@ -65,9 +68,9 @@ namespace OpenTKEngine.Models.UI
             ImGuiIOPtr io = ImGui.GetIO();
             io.DisplaySize = new System.Numerics.Vector2(ScreenSize.X, ScreenSize.Y);
             io.DisplayFramebufferScale = System.Numerics.Vector2.One;
-            io.DeltaTime = (float)ElapsedTime;
+            io.DeltaTime = (float)TimeService.Instance.DeltaTime;
         }
-        public void HandleInput(MouseState mouseState)
+        public void HandleInput(MouseState mouseState, KeyboardState keyboardState)
         {
             ImGuiIOPtr io = ImGui.GetIO();
 
@@ -78,6 +81,44 @@ namespace OpenTKEngine.Models.UI
             var screenPoint = new Vector2i((int)mouseState.X, (int)mouseState.Y);
             var point = screenPoint;//wnd.PointToClient(screenPoint);
             io.MousePos = new System.Numerics.Vector2(point.X, point.Y);
+
+
+            foreach (Keys key in Enum.GetValues(typeof(Keys)))
+            {
+                if (key == Keys.Unknown)
+                {
+                    continue;
+                }
+                io.KeysDown[(int)key] = keyboardState.IsKeyDown(key);
+            }
+            foreach (var c in _pressedChars)
+            {
+                io.AddInputCharacter(c);
+            }
+            _pressedChars.Clear();
+        }
+        private static void SetKeyMappings()
+        {
+            ImGuiIOPtr io = ImGui.GetIO();
+            io.KeyMap[(int)ImGuiKey.Tab] = (int)Keys.Tab;
+            io.KeyMap[(int)ImGuiKey.LeftArrow] = (int)Keys.Left;
+            io.KeyMap[(int)ImGuiKey.RightArrow] = (int)Keys.Right;
+            io.KeyMap[(int)ImGuiKey.UpArrow] = (int)Keys.Up;
+            io.KeyMap[(int)ImGuiKey.DownArrow] = (int)Keys.Down;
+            io.KeyMap[(int)ImGuiKey.PageUp] = (int)Keys.PageUp;
+            io.KeyMap[(int)ImGuiKey.PageDown] = (int)Keys.PageDown;
+            io.KeyMap[(int)ImGuiKey.Home] = (int)Keys.Home;
+            io.KeyMap[(int)ImGuiKey.End] = (int)Keys.End;
+            io.KeyMap[(int)ImGuiKey.Delete] = (int)Keys.Delete;
+            io.KeyMap[(int)ImGuiKey.Backspace] = (int)Keys.Backspace;
+            io.KeyMap[(int)ImGuiKey.Enter] = (int)Keys.Enter;
+            io.KeyMap[(int)ImGuiKey.Escape] = (int)Keys.Escape;
+            io.KeyMap[(int)ImGuiKey.A] = (int)Keys.A;
+            io.KeyMap[(int)ImGuiKey.C] = (int)Keys.C;
+            io.KeyMap[(int)ImGuiKey.V] = (int)Keys.V;
+            io.KeyMap[(int)ImGuiKey.X] = (int)Keys.X;
+            io.KeyMap[(int)ImGuiKey.Y] = (int)Keys.Y;
+            io.KeyMap[(int)ImGuiKey.Z] = (int)Keys.Z;
         }
         public override void Draw(Shader shader, TransformComponent transform)
         {
@@ -187,7 +228,10 @@ namespace OpenTKEngine.Models.UI
             ImGui.EndFrame();
 
         }
-
+        public void CharPressed(char ch)
+        {
+            _pressedChars.Add(ch);
+        }
 
         private void CreateFontTexture()
         {

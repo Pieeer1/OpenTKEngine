@@ -69,13 +69,19 @@ namespace OpenTKEngine.Engine
 
             _sceneManager.SetActiveComponentReferences(new OnTickAttribute(), _frameCount);
 
-
             if (KeyboardState.IsKeyPressed(Keys.Escape))
             {
                 CursorState = CursorState == CursorState.Grabbed ? CursorState.Normal : CursorState.Grabbed;
                 _sceneManager.SetActiveComponentReferences(new MenuDisableAttribute(), CursorState == CursorState.Grabbed);
                 _sceneManager.SetActiveComponentReferences(new MenuEnableAttribute(), CursorState != CursorState.Grabbed);
             }
+        }
+
+        protected override void OnTextInput(TextInputEventArgs e)
+        {
+            base.OnTextInput(e);
+
+            _sceneManager.SetActiveComponentReferences(new CharacterPressAttribute(), (char)e.Unicode);
         }
 
         protected override void OnMouseWheel(MouseWheelEventArgs e)

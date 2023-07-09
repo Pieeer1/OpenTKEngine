@@ -20,7 +20,7 @@ namespace OpenTKEngine.Models.UI
             ImGui.Begin(_name, _imGuiWindowFlags);
             if (_location is not null)
             { 
-                ImGui.SetCursorPos(new System.Numerics.Vector2(0.0f, 0.0f));
+                ImGui.SetCursorPos(new System.Numerics.Vector2(_location.Value.X, _location.Value.Y));
             }
         }
         public virtual void EndRender()
