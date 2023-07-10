@@ -75,7 +75,7 @@ namespace OpenTKEngine.Scenes
             shape7.AddComponent(new ShapeComponent(_shaders[ShaderConstants.TextureShader], new Cube(), new Vector3(1.3f, -2.0f, -2.5f), textures: containerTextures));
             shape8.AddComponent(new ShapeComponent(_shaders[ShaderConstants.TextureShader], new Cube(), new Vector3(1.5f, 2.0f, -2.5f), textures: containerTextures));
             shape9.AddComponent(new ShapeComponent(_shaders[ShaderConstants.TextureShader], new Cube(), new Vector3(1.5f, 0.2f, -1.5f), textures: containerTextures));
-            shape0.AddComponent(new ShapeComponent(_shaders[ShaderConstants.TextureShader], new Cube(), new Vector3(-1.3f, 1.0f, -1.5f), textures: containerTextures));
+            shape0.AddComponent(new ShapeComponent(_shaders[ShaderConstants.TextureShader], new Cube(), new Vector3(-1.3f, 1.0f, -1.5f),scale: new Vector3(5.0f, 5.0f, 5.0f), textures: containerTextures));
 
             Entity lamp0 = EntityComponentManager.AddEntity();
             lamp0.AddComponent(new ShapeComponent(_shaders[ShaderConstants.LightShader], new Cube(), new Vector3(-5.0f, 1.0f, -1.5f)));
@@ -98,10 +98,15 @@ namespace OpenTKEngine.Scenes
             Entity model2 = EntityComponentManager.AddEntity();
             model2.AddComponent(new ModelComponent(_shaders[ShaderConstants.TextureShader], new Models.Shapes3D.Models.Model($"{AssetRoutes.Models}/pistol1.dae"), new Vector3(2.05f, 1.05f, 1.05f), textures: new List<Texture>()
             {
+                Texture.LoadFromFile($"{AssetRoutes.Textures}/PistolGreyBaseColor.png")
+            }));
+
+            Entity model3 = EntityComponentManager.AddEntity();
+            model3.AddComponent(new ModelComponent(_shaders[ShaderConstants.TextureShader], new Models.Shapes3D.Models.Model($"{AssetRoutes.Models}/pistol2.dae"), new Vector3(3.05f, 1.05f, 1.05f), textures: new List<Texture>()
+            {
                 Texture.LoadFromFile($"{AssetRoutes.Textures}/PistolGreyBaseColor.png"),
                 Texture.LoadFromFile($"{AssetRoutes.Textures}/PistolGreyBaseColor.png"),
             }));
-
 
             Entity canvas = EntityComponentManager.AddEntity();
             canvas.AddComponent(new CanvasComponent(_shaders[ShaderConstants.TextShader]));
