@@ -35,7 +35,15 @@ namespace OpenTKEngine.Services
                 }
             }
         }
-
+        public static Stream GenerateStreamFromString(string s)
+        {
+            var stream = new MemoryStream();
+            var writer = new StreamWriter(stream);
+            writer.Write(s);
+            writer.Flush();
+            stream.Position = 0;
+            return stream;
+        }
         public static string ParseResolution(Vector2i resolution) => $"{resolution.X}x{resolution.Y}";
         public static Vector2i ParseResolution(string resolution) => new Vector2i(int.Parse(resolution.Split('x')[0]), int.Parse(resolution.Split('x')[1]));
     }

@@ -81,14 +81,19 @@ namespace OpenTKEngine.Scenes
             lamp0.AddComponent(new ShapeComponent(_shaders[ShaderConstants.LightShader], new Cube(), new Vector3(-5.0f, 1.0f, -1.5f)));
 
             Entity sphere = EntityComponentManager.AddEntity();
-            sphere.AddComponent(new ShapeComponent(_shaders[ShaderConstants.TextureShader], new Sphere(), new Vector3(-5.0f, 3.0f, -1.5f)));
+            sphere.AddComponent(new ShapeComponent(_shaders[ShaderConstants.TextureShader], new Sphere(), new Vector3(-5.0f, 3.0f, -1.5f), textures: containerTextures));
 
             Entity lampSphere = EntityComponentManager.AddEntity();
             lampSphere.AddComponent(new ShapeComponent(_shaders[ShaderConstants.LightShader], new Sphere(), new Vector3(-5.0f, -3.0f, -1.5f)));
 
             Entity plane = EntityComponentManager.AddEntity();
-            plane.AddComponent(new ShapeComponent(_shaders[ShaderConstants.TextureShader], new Plane(5), new Vector3(5.0f, 0.0f, -1.5f)));
+            plane.AddComponent(new ShapeComponent(_shaders[ShaderConstants.TextureShader], new Plane(5), new Vector3(5.0f, 0.0f, -1.5f), textures: containerTextures));
             plane.GetComponent<TransformComponent>().RotateTo(new AxisAngle(new Vector3(1.0f, 0.0f, 0.0f), 0.0f));
+
+
+            Entity model = EntityComponentManager.AddEntity();
+            model.AddComponent(new ModelComponent(_shaders[ShaderConstants.TextureShader], new Models.Shapes3D.Models.Model($"{AssetRoutes.Models}/pistol.dae"), new Vector3(1.05f, 1.05f, 1.05f)));
+
 
             Entity canvas = EntityComponentManager.AddEntity();
             canvas.AddComponent(new CanvasComponent(_shaders[ShaderConstants.TextShader]));
