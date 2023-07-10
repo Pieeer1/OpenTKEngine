@@ -1,8 +1,5 @@
 ﻿using OpenTKEngine.Entities.Components;
 using Assimp;
-using OpenTK.Mathematics;
-using System.Text;
-using OpenTKEngine.Services;
 
 namespace OpenTKEngine.Models.Shapes3D.Models
 {
@@ -38,17 +35,26 @@ namespace OpenTKEngine.Models.Shapes3D.Models
             //_scene = assimpContext.ImportFileFromStream(DataManipulationService.GenerateStreamFromString(Encoding.UTF8.GetString(File.ReadAllBytes(_path))));
             _scene = assimpContext.ImportFile(_path, PostProcessSteps.Triangulate | PostProcessSteps.FlipUVs);
 
+            //foreach (Assimp.Material material in _scene.Materials)
+            //{
+            //    TextureSlot[] textureSlots = material.GetAllMaterialTextures();
+            //    foreach (TextureSlot textureSlot in textureSlots)
+            //    {
+            //        string texturePath = textureSlot.FilePath;
+            //        Texture texture = Texture.LoadFromFile(texturePath);
+            //    }
+            //}
+
             foreach (Assimp.Mesh mesh in _scene.Meshes)
             {
                 List<float> vertices = new List<float>();
-                for (int i = 0; i < mesh.VertexCount; i+=8)
+                for (int i = 0; i < mesh.VertexCount; i++)
                 {
                     //positions
                     vertices.Add(mesh.Vertices[i].X);
                     vertices.Add(mesh.Vertices[i].Y);
                     vertices.Add(mesh.Vertices[i].Z);
 
-                    //normals
                     vertices.Add(mesh.Normals[i].X);
                     vertices.Add(mesh.Normals[i].Y);
                     vertices.Add(mesh.Normals[i].Z);

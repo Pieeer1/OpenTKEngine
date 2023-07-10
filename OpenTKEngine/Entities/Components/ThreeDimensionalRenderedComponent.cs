@@ -52,9 +52,11 @@ namespace OpenTKEngine.Entities.Components
 
             DrawComp();
 
-            GL.ActiveTexture(TextureUnit.Texture0);
-            GL.BindTexture(TextureTarget.Texture2D, 0);
-
+            for (int i = 0; i < _textures.Count; i++) // reset textures
+            {
+                _textures[i].Use(TextureUnit.Texture0 + i);
+                GL.BindTexture(TextureTarget.Texture2D, 0);
+            }
         }
         public override void Update()
         {

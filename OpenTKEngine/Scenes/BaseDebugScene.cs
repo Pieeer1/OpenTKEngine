@@ -95,6 +95,14 @@ namespace OpenTKEngine.Scenes
             model.AddComponent(new ModelComponent(_shaders[ShaderConstants.TextureShader], new Models.Shapes3D.Models.Model($"{AssetRoutes.Models}/pistol.dae"), new Vector3(1.05f, 1.05f, 1.05f)));
 
 
+            Entity model2 = EntityComponentManager.AddEntity();
+            model2.AddComponent(new ModelComponent(_shaders[ShaderConstants.TextureShader], new Models.Shapes3D.Models.Model($"{AssetRoutes.Models}/pistol1.dae"), new Vector3(2.05f, 1.05f, 1.05f), textures: new List<Texture>()
+            {
+                Texture.LoadFromFile($"{AssetRoutes.Textures}/PistolGreyBaseColor.png"),
+                Texture.LoadFromFile($"{AssetRoutes.Textures}/PistolGreyBaseColor.png"),
+            }));
+
+
             Entity canvas = EntityComponentManager.AddEntity();
             canvas.AddComponent(new CanvasComponent(_shaders[ShaderConstants.TextShader]));
             CanvasComponent canvasComp = canvas.GetComponent<CanvasComponent>();

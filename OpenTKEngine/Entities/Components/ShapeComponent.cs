@@ -2,7 +2,6 @@
 using OpenTKEngine.Models.Shapes3D;
 using OpenTK.Mathematics;
 using OpenTK.Graphics.OpenGL4;
-using static OpenTKEngine.Models.Constants;
 
 namespace OpenTKEngine.Entities.Components
 {
