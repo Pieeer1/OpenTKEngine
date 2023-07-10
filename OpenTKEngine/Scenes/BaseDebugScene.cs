@@ -6,7 +6,6 @@ using static OpenTKEngine.Models.Constants;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using OpenTKEngine.Models.Shared.UI;
-using OpenTKEngine.Services;
 
 namespace OpenTKEngine.Scenes
 {
