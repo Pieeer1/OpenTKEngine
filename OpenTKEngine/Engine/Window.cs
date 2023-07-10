@@ -2,12 +2,9 @@
 using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
-using OpenTK.Windowing.GraphicsLibraryFramework;
 using OpenTKEngine.Attributes;
-using OpenTKEngine.Enums;
 using OpenTKEngine.Scenes;
 using OpenTKEngine.Services;
-using System.Diagnostics;
 
 namespace OpenTKEngine.Engine
 {

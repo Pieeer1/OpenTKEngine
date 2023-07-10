@@ -20,6 +20,7 @@ namespace OpenTKEngine.Models
         public static class AssetRoutes
         {
             public const string Textures = "../../../Assets/Textures";
+            public const string Models = "../../../Assets/Models";
             public const string UserSettings = "Config/settings.json";
         }
         public static class ShaderConstants
