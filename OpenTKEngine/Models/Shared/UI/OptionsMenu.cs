@@ -32,8 +32,24 @@ namespace OpenTKEngine.Models.Shared.UI
 
             EnableDisableUIElements(false);
 
+            _resolutionDropdownReference.OnNewSelect += ResolutionDropdownReference_OnNewSelect;
             _fullscreenCheckboxReference.OnChecked += FullscreenCheckboxReference_OnChecked;
             _canvas.OnComponentKeyInput += Canvas_OnComponentKeyInput;
+        }
+
+        private void ResolutionDropdownReference_OnNewSelect(object? sender, DropdownArgs e)
+        {
+            if (!commandQueue.TryAdd(nameof(ResolutionDropdownReference_OnNewSelect), () =>
+            {
+                WindowService.Instance.ScreenSize = ParseResolution(e.SelectedValue);
+                
+            }))
+            {
+                commandQueue[nameof(ResolutionDropdownReference_OnNewSelect)] = () =>
+                { 
+                    WindowService.Instance.ScreenSize = ParseResolution(e.SelectedValue);
+                };
+            }
         }
 
         private void FullscreenCheckboxReference_OnChecked(object? sender, CheckboxArgs e)

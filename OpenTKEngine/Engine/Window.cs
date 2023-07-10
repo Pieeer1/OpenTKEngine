@@ -20,13 +20,13 @@ namespace OpenTKEngine.Engine
 
         private readonly SceneManager _sceneManager;
         private readonly TimeService _timeService;
-        private readonly WindowService _cursorService;
+        private readonly WindowService _windowService;
         public Window(GameWindowSettings gameWindowSettings, NativeWindowSettings nativeWindowSettings) : base(gameWindowSettings, nativeWindowSettings)
         {
             _sceneManager = SceneManager.Instance;
             _timeService = TimeService.Instance;
-            _cursorService = WindowService.Instance;
-            _cursorService.GameWindowReference = this; 
+            _windowService = WindowService.Instance;
+            _windowService.GameWindowReference = this;
         }
         protected override void OnLoad()
         {
@@ -36,7 +36,7 @@ namespace OpenTKEngine.Engine
             _sceneManager.SwapScene(0);
             _sceneManager.LoadScene(0);
 
-            _cursorService.ActiveCursorState = CursorState.Grabbed;
+            _windowService.ActiveCursorState = CursorState.Grabbed;
         }
         protected override void OnRenderFrame(FrameEventArgs e)
         {
@@ -66,7 +66,7 @@ namespace OpenTKEngine.Engine
             {
                 return;
             }
-
+            
             _sceneManager.UpdateActiveInput(e, KeyboardState, MouseState, ref _firstMove, ref _lastPos);
         }
 
