@@ -5,7 +5,6 @@ using OpenTKEngine.Entities.Components;
 using OpenTKEngine.Enums;
 using OpenTKEngine.Models.UI;
 using OpenTKEngine.Services;
-using System.Text;
 
 namespace OpenTKEngine.Models.Shared.UI
 {
