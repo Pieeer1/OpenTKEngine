@@ -35,5 +35,8 @@ namespace OpenTKEngine.Services
                 }
             }
         }
+
+        public static string ParseResolution(Vector2i resolution) => $"{resolution.X}x{resolution.Y}";
+        public static Vector2i ParseResolution(string resolution) => new Vector2i(int.Parse(resolution.Split('x')[0]), int.Parse(resolution.Split('x')[1]));
     }
 }

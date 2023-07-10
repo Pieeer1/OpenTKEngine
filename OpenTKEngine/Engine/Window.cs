@@ -21,17 +21,19 @@ namespace OpenTKEngine.Engine
         private readonly SceneManager _sceneManager;
         private readonly TimeService _timeService;
         private readonly WindowService _windowService;
-        public Window(GameWindowSettings gameWindowSettings, NativeWindowSettings nativeWindowSettings) : base(gameWindowSettings, nativeWindowSettings)
+        private readonly bool _isFullScreenLaunch;
+        public Window(GameWindowSettings gameWindowSettings, NativeWindowSettings nativeWindowSettings, bool isFullScreenLaunch) : base(gameWindowSettings, nativeWindowSettings)
         {
             _sceneManager = SceneManager.Instance;
             _timeService = TimeService.Instance;
             _windowService = WindowService.Instance;
             _windowService.GameWindowReference = this;
+            _isFullScreenLaunch = isFullScreenLaunch;
         }
         protected override void OnLoad()
         {
             base.OnLoad();
-
+            WindowService.Instance.WindowState = _isFullScreenLaunch ? WindowState.Fullscreen : WindowState.Normal;
             _sceneManager.AddScene(new BaseDebugScene("base debug 1")); // default scene
             _sceneManager.SwapScene(0);
             _sceneManager.LoadScene(0);
