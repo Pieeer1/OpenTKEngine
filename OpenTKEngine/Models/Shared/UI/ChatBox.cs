@@ -36,8 +36,15 @@ namespace OpenTKEngine.Models.Shared.UI
             _canvas.AddUIElement(newLabel);
             newLabel.IsActive = true;
 
-
             labelLifeTracker.Add(newLabel, e.TimeToLive);
+        }
+
+        public override void EnableDisableUIElements(bool val)
+        {
+            foreach (var label in labelLifeTracker.Keys)
+            {
+                label.IsActive = val;
+            }
         }
     }
 }

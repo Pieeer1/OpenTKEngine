@@ -20,6 +20,7 @@ namespace OpenTKEngine.Models
         public static class AssetRoutes
         {
             public const string Textures = "../../../Assets/Textures";
+            public const string UserSettings = "Config/settings.json";
         }
         public static class ShaderConstants
         {
@@ -31,6 +32,32 @@ namespace OpenTKEngine.Models
         {
             public static Vector3 Black = Vector3.Zero;
             public static Vector3 White = Vector3.One;
+        }
+        public static class LimitedLists
+        {
+            public static List<string> Resolutions = new List<string>()
+            {
+                "3840x2160",
+                "3440x1440",
+                "2560x1600",
+                "2560x1600",
+                "2560x1440",
+                "2560x1080",
+                "2560x1080",
+                "1920x1440",
+                "1920x1200",
+                "1920x1080",
+                "1680x1050",
+                "1600x900",
+                "1600x1200",
+                "1600x1024",
+                "1440x900",
+                "1366x768",
+                "1280x1024",
+                "1280x800",
+                "1280x720",
+                "1024x768"
+            };
         }
     }
 }

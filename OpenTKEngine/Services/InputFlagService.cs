@@ -6,6 +6,6 @@ namespace OpenTKEngine.Services
     {
         private InputFlagService() { }
 
-        public InputFlags ActiveInputFlags { get; set; } = InputFlags.All;
+        public InputFlags ActiveInputFlags { get; set; } = InputFlags.Reset;
     }
 }

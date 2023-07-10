@@ -20,23 +20,25 @@ namespace OpenTKEngine.Engine
 
         private readonly SceneManager _sceneManager;
         private readonly TimeService _timeService;
-        private readonly CursorService _cursorService;
-        public Window(GameWindowSettings gameWindowSettings, NativeWindowSettings nativeWindowSettings) : base(gameWindowSettings, nativeWindowSettings)
+        private readonly WindowService _windowService;
+        private readonly bool _isFullScreenLaunch;
+        public Window(GameWindowSettings gameWindowSettings, NativeWindowSettings nativeWindowSettings, bool isFullScreenLaunch) : base(gameWindowSettings, nativeWindowSettings)
         {
             _sceneManager = SceneManager.Instance;
             _timeService = TimeService.Instance;
-            _cursorService = CursorService.Instance;
-            _cursorService.GameWindowReference = this; 
+            _windowService = WindowService.Instance;
+            _windowService.GameWindowReference = this;
+            _isFullScreenLaunch = isFullScreenLaunch;
         }
         protected override void OnLoad()
         {
             base.OnLoad();
-
+            WindowService.Instance.WindowState = _isFullScreenLaunch ? WindowState.Fullscreen : WindowState.Normal;
             _sceneManager.AddScene(new BaseDebugScene("base debug 1")); // default scene
             _sceneManager.SwapScene(0);
             _sceneManager.LoadScene(0);
 
-            _cursorService.ActiveCursorState = CursorState.Grabbed;
+            _windowService.ActiveCursorState = CursorState.Grabbed;
         }
         protected override void OnRenderFrame(FrameEventArgs e)
         {
@@ -66,7 +68,7 @@ namespace OpenTKEngine.Engine
             {
                 return;
             }
-
+            
             _sceneManager.UpdateActiveInput(e, KeyboardState, MouseState, ref _firstMove, ref _lastPos);
         }
 

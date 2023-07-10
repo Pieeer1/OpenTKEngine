@@ -40,7 +40,6 @@ namespace OpenTKEngine.Scenes
 
             Entity player = EntityComponentManager.AddEntity();
             player.AddComponent(new PlayerComponent(_shaders[ShaderConstants.TextureShader], new Vector3(-1.5f, -0.5f, 0.0f)));
-            CameraComponent camera = player.GetComponent<CameraComponent>();
 
             Entity pointLight1 = EntityComponentManager.AddEntity();
             Entity pointLight2 = EntityComponentManager.AddEntity();
