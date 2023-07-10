@@ -36,7 +36,7 @@ namespace OpenTKEngine.Models.Shared.UI
         {
             if ((InputFlagService.Instance.ActiveInputFlags & InputFlags.Chat) == 0) { return; }
 
-            _textBoxReference.IsActive = !_textBoxReference.IsActive;
+            EnableDisableUIElements(!_textBoxReference.IsActive);
 
             if (_textBoxReference.IsActive)
             {
@@ -48,13 +48,18 @@ namespace OpenTKEngine.Models.Shared.UI
             {
                 _textBoxReference.ToggleKey = Keys.T;
                 CursorService.Instance.ActiveCursorState = OpenTK.Windowing.Common.CursorState.Grabbed;
-                InputFlagService.Instance.ActiveInputFlags |= InputFlags.All;
+                InputFlagService.Instance.ActiveInputFlags |= InputFlags.Reset;
             }
         }
 
         public void OnTextChange(string s)
         {
             _chat = s;
+        }
+
+        public override void EnableDisableUIElements(bool val)
+        {
+            _textBoxReference.IsActive = val;
         }
     }
 }

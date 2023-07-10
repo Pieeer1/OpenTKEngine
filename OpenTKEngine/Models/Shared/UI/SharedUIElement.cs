@@ -1,8 +1,10 @@
 ﻿using OpenTKEngine.Entities.Components;
+using OpenTKEngine.Models.UI;
+using System.Reflection;
 
 namespace OpenTKEngine.Models.Shared.UI
 {
-    public class SharedUIElement
+    public abstract class SharedUIElement
     {
         protected CanvasComponent _canvas;
 
@@ -10,5 +12,6 @@ namespace OpenTKEngine.Models.Shared.UI
         {
             _canvas = canvas;
         }
+        public abstract void EnableDisableUIElements(bool val);
     }
 }
