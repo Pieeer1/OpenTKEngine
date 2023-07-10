@@ -20,12 +20,12 @@ namespace OpenTKEngine.Engine
 
         private readonly SceneManager _sceneManager;
         private readonly TimeService _timeService;
-        private readonly CursorService _cursorService;
+        private readonly WindowService _cursorService;
         public Window(GameWindowSettings gameWindowSettings, NativeWindowSettings nativeWindowSettings) : base(gameWindowSettings, nativeWindowSettings)
         {
             _sceneManager = SceneManager.Instance;
             _timeService = TimeService.Instance;
-            _cursorService = CursorService.Instance;
+            _cursorService = WindowService.Instance;
             _cursorService.GameWindowReference = this; 
         }
         protected override void OnLoad()

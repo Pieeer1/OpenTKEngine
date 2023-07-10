@@ -52,12 +52,12 @@ namespace OpenTKEngine.Models.Shared.UI
 
             if (_optionsButtonReference.IsActive)
             {
-                CursorService.Instance.ActiveCursorState = OpenTK.Windowing.Common.CursorState.Normal;
+                WindowService.Instance.ActiveCursorState = OpenTK.Windowing.Common.CursorState.Normal;
                 InputFlagService.Instance.ActiveInputFlags &= Enums.InputFlags.Menu;
             }
             else
             { 
-                CursorService.Instance.ActiveCursorState = OpenTK.Windowing.Common.CursorState.Grabbed;
+                WindowService.Instance.ActiveCursorState = OpenTK.Windowing.Common.CursorState.Grabbed;
                 InputFlagService.Instance.ActiveInputFlags |= Enums.InputFlags.Reset;
             }
         }
