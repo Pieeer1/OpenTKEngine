@@ -104,7 +104,7 @@ namespace OpenTKEngine.Scenes
             }));
 
 
-            Assets.Scripts.Shared.Shapes.Plane plane2 = new Assets.Scripts.Shared.Shapes.Plane(_shaders[ShaderConstants.TextureShader], EntityComponentManager.AddEntity(), new Vector3(0.0f, 0.0f, 0.0f));
+            Assets.Scripts.Shared.Shapes.Plane plane2 = new Assets.Scripts.Shared.Shapes.Plane(_shaders[ShaderConstants.TextureShader], EntityComponentManager.AddEntity(), new Vector3(0.0f, 0.0f, 0.0f), scale: new Vector2(15.0f, 15.0f));
 
 
 
