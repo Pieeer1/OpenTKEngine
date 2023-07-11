@@ -11,10 +11,9 @@ namespace OpenTKEngine.Models
         {
             int handle = GL.GenTexture();
 
-            //TODO maybe activate texture here
             GL.BindTexture(TextureTarget.TextureCubeMap, handle);
 
-            StbImage.stbi_set_flip_vertically_on_load(1);
+            StbImage.stbi_set_flip_vertically_on_load(0);
             for (int i = 0; i < faces.Count(); i++)
             {
                 using (Stream stream = File.OpenRead(faces.ElementAt(i)))
