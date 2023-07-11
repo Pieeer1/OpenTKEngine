@@ -7,7 +7,7 @@ namespace OpenTKEngine.Entities.Components
     public class ModelComponent : ThreeDimensionalRenderedComponent
     {
         private readonly Model _model;
-        public ModelComponent(Shader shader, Model model,Vector3 position, AxisAngle? rotation = null, Vector3? scale = null, List<Texture>? textures = null) : base(shader, position, rotation, scale, textures)
+        public ModelComponent(Shader shader, Model model,Vector3 position, Quaternion? rotation = null, Vector3? scale = null, List<Texture>? textures = null) : base(shader, position, rotation, scale, textures)
         {
             _model = model;
         }

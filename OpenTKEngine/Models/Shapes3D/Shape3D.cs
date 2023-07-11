@@ -73,9 +73,13 @@ namespace OpenTKEngine.Models.Shapes3D
             shader.SetMatrix4("view", true, camera.GetViewMatrix());
             shader.SetMatrix4("projection", true, camera.GetProjectionMatrix());
 
-            Matrix4 model = Matrix4.CreateTranslation(transform.Position);
-            model = model * Matrix4.CreateFromAxisAngle(transform.Rotation.Axis, transform.Rotation.Angle) * Matrix4.CreateScale(transform.Scale);
-            shader.SetMatrix4("model", true, model);
+            Matrix4 translationMatrix = Matrix4.CreateTranslation(transform.Position);
+            Matrix4 rotationMatrix = Matrix4.CreateFromQuaternion(new Quaternion(transform.Rotation.X, transform.Rotation.Y, transform.Rotation.Z, transform.Rotation.W));
+            Matrix4 scaleMatrix = Matrix4.CreateScale(transform.Scale);
+
+            Matrix4 modelMatrix = scaleMatrix * rotationMatrix * translationMatrix;
+
+            shader.SetMatrix4("model", true, modelMatrix);
 
             glDraw.Invoke();
         }

@@ -5,7 +5,8 @@ using OpenTKEngine.Models;
 using static OpenTKEngine.Models.Constants;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
-using OpenTKEngine.Models.Shared.UI;
+using OpenTKEngine.Assets.Scripts.Shared.UI;
+using OpenTKEngine.Assets.Scripts.Shared.Shapes;
 
 namespace OpenTKEngine.Scenes
 {
@@ -38,7 +39,7 @@ namespace OpenTKEngine.Scenes
             };
 
             Entity player = EntityComponentManager.AddEntity();
-            player.AddComponent(new PlayerComponent(_shaders[ShaderConstants.TextureShader], new Vector3(-1.5f, -0.5f, 0.0f)));
+            player.AddComponent(new PlayerComponent(_shaders[ShaderConstants.TextureShader], new Vector3(0.0f, 2.0f, 0.0f)));
 
             Entity pointLight1 = EntityComponentManager.AddEntity();
             Entity pointLight2 = EntityComponentManager.AddEntity();
@@ -55,26 +56,26 @@ namespace OpenTKEngine.Scenes
             Entity materialComponent = EntityComponentManager.AddEntity();
             materialComponent.AddComponent(new MaterialComponent(_shaders[ShaderConstants.TextureShader]));
 
-            Entity shape0 = EntityComponentManager.AddEntity();
-            Entity shape1 = EntityComponentManager.AddEntity();
-            Entity shape2 = EntityComponentManager.AddEntity();
-            Entity shape3 = EntityComponentManager.AddEntity();
-            Entity shape4 = EntityComponentManager.AddEntity();
-            Entity shape5 = EntityComponentManager.AddEntity();
-            Entity shape6 = EntityComponentManager.AddEntity();
-            Entity shape7 = EntityComponentManager.AddEntity();
-            Entity shape8 = EntityComponentManager.AddEntity();
-            Entity shape9 = EntityComponentManager.AddEntity();
-            shape1.AddComponent(new ShapeComponent(_shaders[ShaderConstants.TextureShader], new Cube(), new Vector3(0.0f, 0.0f, 0.0f), textures: containerTextures));
-            shape2.AddComponent(new ShapeComponent(_shaders[ShaderConstants.TextureShader], new Cube(), new Vector3(2.0f, 5.0f, -15.0f), textures: containerTextures));
-            shape3.AddComponent(new ShapeComponent(_shaders[ShaderConstants.TextureShader], new Cube(), new Vector3(-1.5f, -2.2f, -2.5f), textures: containerTextures));
-            shape4.AddComponent(new ShapeComponent(_shaders[ShaderConstants.TextureShader], new Cube(), new Vector3(-3.8f, -2.0f, -12.3f), textures: containerTextures));
-            shape5.AddComponent(new ShapeComponent(_shaders[ShaderConstants.TextureShader], new Cube(), new Vector3(2.4f, -0.4f, -3.5f), textures: containerTextures));
-            shape6.AddComponent(new ShapeComponent(_shaders[ShaderConstants.TextureShader], new Cube(), new Vector3(-1.7f, 3.0f, -7.5f), textures: containerTextures));
-            shape7.AddComponent(new ShapeComponent(_shaders[ShaderConstants.TextureShader], new Cube(), new Vector3(1.3f, -2.0f, -2.5f), textures: containerTextures));
-            shape8.AddComponent(new ShapeComponent(_shaders[ShaderConstants.TextureShader], new Cube(), new Vector3(1.5f, 2.0f, -2.5f), textures: containerTextures));
-            shape9.AddComponent(new ShapeComponent(_shaders[ShaderConstants.TextureShader], new Cube(), new Vector3(1.5f, 0.2f, -1.5f), textures: containerTextures));
-            shape0.AddComponent(new ShapeComponent(_shaders[ShaderConstants.TextureShader], new Cube(), new Vector3(-1.3f, 1.0f, -1.5f),scale: new Vector3(5.0f, 5.0f, 5.0f), textures: containerTextures));
+            //Entity shape0 = EntityComponentManager.AddEntity();
+            //Entity shape1 = EntityComponentManager.AddEntity();
+            //Entity shape2 = EntityComponentManager.AddEntity();
+            //Entity shape3 = EntityComponentManager.AddEntity();
+            //Entity shape4 = EntityComponentManager.AddEntity();
+            //Entity shape5 = EntityComponentManager.AddEntity();
+            //Entity shape6 = EntityComponentManager.AddEntity();
+            //Entity shape7 = EntityComponentManager.AddEntity();
+            //Entity shape8 = EntityComponentManager.AddEntity();
+            //Entity shape9 = EntityComponentManager.AddEntity();
+            //shape1.AddComponent(new ShapeComponent(_shaders[ShaderConstants.TextureShader], new Cube(), new Vector3(0.0f, 0.0f, 0.0f), textures: containerTextures));
+            //shape2.AddComponent(new ShapeComponent(_shaders[ShaderConstants.TextureShader], new Cube(), new Vector3(2.0f, 5.0f, -15.0f), textures: containerTextures));
+            //shape3.AddComponent(new ShapeComponent(_shaders[ShaderConstants.TextureShader], new Cube(), new Vector3(-1.5f, -2.2f, -2.5f), textures: containerTextures));
+            //shape4.AddComponent(new ShapeComponent(_shaders[ShaderConstants.TextureShader], new Cube(), new Vector3(-3.8f, -2.0f, -12.3f), textures: containerTextures));
+            //shape5.AddComponent(new ShapeComponent(_shaders[ShaderConstants.TextureShader], new Cube(), new Vector3(2.4f, -0.4f, -3.5f), textures: containerTextures));
+            //shape6.AddComponent(new ShapeComponent(_shaders[ShaderConstants.TextureShader], new Cube(), new Vector3(-1.7f, 3.0f, -7.5f), textures: containerTextures));
+            //shape7.AddComponent(new ShapeComponent(_shaders[ShaderConstants.TextureShader], new Cube(), new Vector3(1.3f, -2.0f, -2.5f), textures: containerTextures));
+            //shape8.AddComponent(new ShapeComponent(_shaders[ShaderConstants.TextureShader], new Cube(), new Vector3(1.5f, 2.0f, -2.5f), textures: containerTextures));
+            //shape9.AddComponent(new ShapeComponent(_shaders[ShaderConstants.TextureShader], new Cube(), new Vector3(1.5f, 0.2f, -1.5f), textures: containerTextures));
+            //shape0.AddComponent(new ShapeComponent(_shaders[ShaderConstants.TextureShader], new Cube(), new Vector3(-1.3f, 1.0f, -1.5f),scale: new Vector3(5.0f, 5.0f, 5.0f), textures: containerTextures));
 
             Entity lamp0 = EntityComponentManager.AddEntity();
             lamp0.AddComponent(new ShapeComponent(_shaders[ShaderConstants.LightShader], new Cube(), new Vector3(-5.0f, 1.0f, -1.5f)));
@@ -84,11 +85,6 @@ namespace OpenTKEngine.Scenes
 
             Entity lampSphere = EntityComponentManager.AddEntity();
             lampSphere.AddComponent(new ShapeComponent(_shaders[ShaderConstants.LightShader], new Sphere(), new Vector3(-5.0f, -3.0f, -1.5f)));
-
-            Entity plane = EntityComponentManager.AddEntity();
-            plane.AddComponent(new ShapeComponent(_shaders[ShaderConstants.TextureShader], new Plane(5), new Vector3(5.0f, 0.0f, -1.5f), textures: containerTextures));
-            plane.GetComponent<TransformComponent>().RotateTo(new AxisAngle(new Vector3(1.0f, 0.0f, 0.0f), 0.0f));
-
 
             Entity model = EntityComponentManager.AddEntity();
             model.AddComponent(new ModelComponent(_shaders[ShaderConstants.TextureShader], new Models.Shapes3D.Models.Model($"{AssetRoutes.Models}/pistol.dae"), new Vector3(1.05f, 1.05f, 1.05f)));
@@ -106,6 +102,11 @@ namespace OpenTKEngine.Scenes
                 Texture.LoadFromFile($"{AssetRoutes.Textures}/PistolGreyBaseColor.png"),
                 Texture.LoadFromFile($"{AssetRoutes.Textures}/PistolGreyBaseColor.png"),
             }));
+
+
+            Assets.Scripts.Shared.Shapes.Plane plane2 = new Assets.Scripts.Shared.Shapes.Plane(_shaders[ShaderConstants.TextureShader], EntityComponentManager.AddEntity(), new Vector3(0.0f, 0.0f, 0.0f), scale: new Vector2(15.0f, 15.0f));
+
+
 
             Entity canvas = EntityComponentManager.AddEntity();
             canvas.AddComponent(new CanvasComponent(_shaders[ShaderConstants.TextShader]));

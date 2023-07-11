@@ -3,12 +3,13 @@ using Newtonsoft.Json;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.GraphicsLibraryFramework;
+using OpenTKEngine.Entities;
 using OpenTKEngine.Entities.Components;
 using OpenTKEngine.Models.Configurations;
 using OpenTKEngine.Models.UI;
 using OpenTKEngine.Services;
 using static OpenTKEngine.Models.Constants;
-namespace OpenTKEngine.Models.Shared.UI
+namespace OpenTKEngine.Assets.Scripts.Shared.UI
 {
     public class OptionsMenu : SharedUIElement
     {
@@ -50,7 +51,7 @@ namespace OpenTKEngine.Models.Shared.UI
             }))
             {
                 commandQueue[nameof(ResolutionDropdownReference_OnNewSelect)] = () =>
-                { 
+                {
                     WindowService.Instance.ScreenSize = DataManipulationService.ParseResolution(e.SelectedValue);
                     _settingsConfiguration.Resolution = e.SelectedValue;
                 };
@@ -80,12 +81,12 @@ namespace OpenTKEngine.Models.Shared.UI
                 action.Invoke();
             }
             File.WriteAllText("Config/settings.json", JsonConvert.SerializeObject(_settingsConfiguration, new JsonSerializerSettings()
-            { 
+            {
                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore
             }));
             commandQueue.Clear();
         }
-        private void Canvas_OnComponentKeyInput(object? sender, Entities.ComponentEventArgs e)
+        private void Canvas_OnComponentKeyInput(object? sender, ComponentEventArgs e)
         {
             if (_backButtonReference.IsActive && e.KeyboardState.IsKeyPressed(Keys.Escape))
             {

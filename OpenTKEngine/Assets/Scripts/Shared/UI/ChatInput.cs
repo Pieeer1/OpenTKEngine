@@ -1,12 +1,13 @@
 ﻿using ImGuiNET;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.GraphicsLibraryFramework;
+using OpenTKEngine.Entities;
 using OpenTKEngine.Entities.Components;
 using OpenTKEngine.Enums;
 using OpenTKEngine.Models.UI;
 using OpenTKEngine.Services;
 
-namespace OpenTKEngine.Models.Shared.UI
+namespace OpenTKEngine.Assets.Scripts.Shared.UI
 {
     public class ChatInput : SharedUIElement
     {
@@ -22,7 +23,7 @@ namespace OpenTKEngine.Models.Shared.UI
             _canvas.OnComponentKeyInput += Canvas_OnComponentKeyInput;
         }
 
-        private void Canvas_OnComponentKeyInput(object? sender, Entities.ComponentEventArgs e)
+        private void Canvas_OnComponentKeyInput(object? sender, ComponentEventArgs e)
         {
             if (_textBoxReference.IsActive && e.KeyboardState.IsKeyPressed(Keys.Enter) && !string.IsNullOrWhiteSpace(_chat))
             {
