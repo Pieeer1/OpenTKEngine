@@ -15,11 +15,11 @@ namespace OpenTKEngine.Entities.Components
     {
         protected readonly Shader _shader;
         protected readonly Vector3 _position;
-        protected readonly AxisAngle? _rotation;
+        protected readonly Quaternion? _rotation;
         protected readonly Vector3? _scale;
         protected TransformComponent? _transform;
         protected List<Texture> _textures = new List<Texture>();
-        public ThreeDimensionalRenderedComponent(Shader shader, Vector3 position, AxisAngle? rotation = null, Vector3? scale = null, List<Texture>? textures = null)
+        public ThreeDimensionalRenderedComponent(Shader shader, Vector3 position, Quaternion? rotation = null, Vector3? scale = null, List<Texture>? textures = null)
         {
             _shader = shader;
             _position = position;

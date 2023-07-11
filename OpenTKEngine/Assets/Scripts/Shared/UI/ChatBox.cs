@@ -3,7 +3,7 @@ using OpenTKEngine.Entities.Components;
 using OpenTKEngine.Models.UI;
 using OpenTKEngine.Services;
 
-namespace OpenTKEngine.Models.Shared.UI
+namespace OpenTKEngine.Assets.Scripts.Shared.UI
 {
     public class ChatBox : SharedUIElement
     {
@@ -18,7 +18,7 @@ namespace OpenTKEngine.Models.Shared.UI
 
         private void Instance_OnUpdateTriggered(object? sender, TimeArgs e)
         {
-            foreach (KeyValuePair<Label, double> labelLife  in labelLifeTracker)
+            foreach (KeyValuePair<Label, double> labelLife in labelLifeTracker)
             {
                 labelLifeTracker[labelLife.Key] -= e.DeltaTime;
                 if (labelLife.Value < 0)

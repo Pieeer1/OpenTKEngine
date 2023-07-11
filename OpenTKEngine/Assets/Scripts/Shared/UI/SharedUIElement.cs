@@ -2,7 +2,7 @@
 using OpenTKEngine.Models.UI;
 using System.Reflection;
 
-namespace OpenTKEngine.Models.Shared.UI
+namespace OpenTKEngine.Assets.Scripts.Shared.UI
 {
     public abstract class SharedUIElement
     {

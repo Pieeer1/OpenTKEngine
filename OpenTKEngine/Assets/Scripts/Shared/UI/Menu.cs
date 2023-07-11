@@ -5,7 +5,7 @@ using OpenTKEngine.Entities.Components;
 using OpenTKEngine.Models.UI;
 using OpenTKEngine.Services;
 
-namespace OpenTKEngine.Models.Shared.UI
+namespace OpenTKEngine.Assets.Scripts.Shared.UI
 {
     public class Menu : SharedUIElement
     {
@@ -56,7 +56,7 @@ namespace OpenTKEngine.Models.Shared.UI
                 InputFlagService.Instance.ActiveInputFlags &= Enums.InputFlags.Menu;
             }
             else
-            { 
+            {
                 WindowService.Instance.ActiveCursorState = OpenTK.Windowing.Common.CursorState.Grabbed;
                 InputFlagService.Instance.ActiveInputFlags |= Enums.InputFlags.Reset;
             }

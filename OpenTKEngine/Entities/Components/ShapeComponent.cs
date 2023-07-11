@@ -9,7 +9,7 @@ namespace OpenTKEngine.Entities.Components
     {
         private readonly Shape3D _shape;
 
-        public ShapeComponent(Shader shader, Shape3D shape, Vector3 position, AxisAngle? rotation = null, Vector3? scale = null, List<Texture>? textures = null) : base(shader, position, rotation, scale, textures)
+        public ShapeComponent(Shader shader, Shape3D shape, Vector3 position, Quaternion? rotation = null, Vector3? scale = null, List<Texture>? textures = null) : base(shader, position, rotation, scale, textures)
         {
             _shape = shape;
         }        
