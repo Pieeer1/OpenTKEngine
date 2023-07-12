@@ -3,6 +3,8 @@ using OpenTK.Mathematics;
 using OpenTKEngine.Entities.Components;
 using static OpenTKEngine.Models.Constants;
 using OpenTKEngine.Models;
+using BulletSharp;
+using OpenTKEngine.Services;
 
 namespace OpenTKEngine.Assets.Scripts.Shared.Shapes
 {
@@ -31,6 +33,16 @@ namespace OpenTKEngine.Assets.Scripts.Shared.Shapes
             {
                 Texture.LoadFromFile($"{AssetRoutes.Textures}/planegray.png")
             }));
+
+            CollisionShape planeShape = new StaticPlaneShape(System.Numerics.Vector3.UnitY, 0.0f); // Specify the plane shape
+            float planeMass = 0.0f; // Set the mass to zero for a static object
+
+            RigidBodyConstructionInfo planeRbInfo = new RigidBodyConstructionInfo(planeMass, null, planeShape);
+            RigidBody planeRigidBody = new RigidBody(planeRbInfo);
+            planeRigidBody.CollisionFlags |= CollisionFlags.StaticObject; // Set the collision flag for a static object
+
+            // Add the plane's rigid body to the dynamics world
+            PhysicsService.Instance.DiscreteDynamicsWorld.AddRigidBody(planeRigidBody);
         }
     }
 }
