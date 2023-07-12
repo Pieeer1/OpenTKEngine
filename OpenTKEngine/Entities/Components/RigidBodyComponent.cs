@@ -19,6 +19,7 @@ namespace OpenTKEngine.Entities.Components
         public override void Update() 
         {
             base.Init();
+            //todo -> check grounded
             _transformComponent.Position = new OpenTK.Mathematics.Vector3(_transformComponent.Position.X, _transformComponent.Position.Y - ((float)TimeService.Instance.DeltaTime * 1.0f), _transformComponent.Position.Z);
         }
 
