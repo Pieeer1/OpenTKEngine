@@ -23,6 +23,7 @@ namespace OpenTKEngine
                 Size = DataManipulationService.ParseResolution(defaultSettings.Resolution),
                 Title = "OpenTKEngine",
                 Flags = ContextFlags.ForwardCompatible,
+                NumberOfSamples = 4
             };
 
             GameWindowSettings gameWindowSettings = GameWindowSettings.Default;

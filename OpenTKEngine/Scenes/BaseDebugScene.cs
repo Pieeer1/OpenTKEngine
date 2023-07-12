@@ -21,6 +21,7 @@ namespace OpenTKEngine.Scenes
             //GL.ClearColor(0.1f, 0.1f, 0.1f, 1.0f); // background
 
             GL.Enable(EnableCap.DepthTest);
+            GL.Enable(EnableCap.Multisample);
             GL.Enable(EnableCap.Blend);
             GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
 
