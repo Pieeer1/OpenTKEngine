@@ -7,9 +7,9 @@ namespace OpenTKEngine.Tests.Tests.Services
     {
         [Fact]
         public void TestGetFloatEnumerableFromVectors()
-        { 
+        {
             List<Vector3> positions = new List<Vector3>()
-            { 
+            {
                 new Vector3(0.0f, 0.0f, 0.0f),
                 new Vector3(1.0f, 1.0f, 1.0f),
                 new Vector3(-1.0f, -1.0f, -1.0f),
@@ -40,7 +40,7 @@ namespace OpenTKEngine.Tests.Tests.Services
             float[][] floats = new float[][]
             {
                 new float[]
-                { 
+                {
                     0.0f, 0.0f, 0.0f, 0.0f,
                 },
                 new float[]
@@ -60,7 +60,7 @@ namespace OpenTKEngine.Tests.Tests.Services
         {
             string testString = "abcd";
             MemoryStream stream = (MemoryStream)DataManipulationService.GenerateStreamFromString(testString);
-            Assert.Equal(new byte[] { 0x61, 0x62, 0x63, 0x64}, stream.ToArray());
+            Assert.Equal(new byte[] { 0x61, 0x62, 0x63, 0x64 }, stream.ToArray());
         }
         [Fact]
         public void TestParseResolutionString()
