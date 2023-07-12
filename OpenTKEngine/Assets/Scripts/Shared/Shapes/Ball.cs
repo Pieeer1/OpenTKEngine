@@ -36,13 +36,18 @@ namespace OpenTKEngine.Assets.Scripts.Shared.Shapes
                 Texture.LoadFromFile($"{AssetRoutes.Textures}/planegray.png")
             }));
 
-            CollisionShape sphereshape = new SphereShape(5.0f); // Specify the plane shape
+            CollisionShape sphereshape = new SphereShape(1.0f); // Specify the plane shape
 
-            float mass = 1.0f; // Specify the mass of the object
+            float mass = 3.0f; // Specify the mass of the object
             System.Numerics.Vector3 localInertia = sphereshape.CalculateLocalInertia(mass); // Calculate the local inertia based on the shape and mass
 
-            RigidBodyConstructionInfo rbInfo = new RigidBodyConstructionInfo(mass, new OpenTKMotionState(_entity.GetComponent<TransformComponent>()), sphereshape, localInertia);
+            RigidBodyConstructionInfo rbInfo = new RigidBodyConstructionInfo(mass, new OpenTKMotionState(_entity.GetComponent<TransformComponent>()), sphereshape, localInertia)
+            {
+                Friction = 0.7f,
+                Restitution = 0.8f
+            };
             RigidBody rigidBody = new RigidBody(rbInfo);
+
             rigidBody.CollisionFlags |= CollisionFlags.None; // Set the collision flag for a static object
 
             // Add the plane's rigid body to the dynamics world
