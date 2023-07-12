@@ -9,7 +9,7 @@ namespace OpenTKEngine.Models.Shapes3D
     public abstract class Shape3D : RenderableObject
     {
         public abstract float[] _vertices { get; }
-        private protected void ArrayBuffer(Shader shader)//TODO ADD A VALUE FOR THE TEXTURED ONE AND THE COLORED ONE FOR BOTH SHAPE2D AND 3D
+        private protected void ArrayBuffer(Shader shader)
         {
             VBO = GL.GenBuffer();
             GL.BindBuffer(BufferTarget.ArrayBuffer, VBO);
@@ -33,7 +33,7 @@ namespace OpenTKEngine.Models.Shapes3D
             GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
             GL.BindVertexArray(0);
         }
-        private protected void ElementArrayBuffer(Shader shader, uint[] indices)//TODO ADD A VALUE FOR THE TEXTURED ONE AND THE COLORED ONE FOR BOTH SHAPE2D AND 3D
+        private protected void ElementArrayBuffer(Shader shader, uint[] indices)
         {
             VBO = GL.GenBuffer();
             GL.BindBuffer(BufferTarget.ArrayBuffer, VBO);
@@ -64,7 +64,7 @@ namespace OpenTKEngine.Models.Shapes3D
             GL.BindBuffer(BufferTarget.ElementArrayBuffer, 0);
 
         }
-        private protected void DrawShape(Shader shader, TransformComponent transform, Action glDraw)//TODO ADD A VALUE FOR THE TEXTURED ONE AND THE COLORED ONE FOR BOTH SHAPE2D AND 3D
+        private protected void DrawShape(Shader shader, TransformComponent transform, Action glDraw)
         {
             GL.BindVertexArray(VAO);
 

@@ -1,11 +1,36 @@
 ﻿using OpenTK.Graphics.OpenGL4;
 using StbImageSharp;
+using System.IO;
+
 namespace OpenTKEngine.Models
 {
     public class Texture
     {
         public readonly int Handle;
+        public static Texture LoadCubemap(IEnumerable<string> faces)
+        {
+            int handle = GL.GenTexture();
 
+            GL.BindTexture(TextureTarget.TextureCubeMap, handle);
+
+            StbImage.stbi_set_flip_vertically_on_load(0);
+            for (int i = 0; i < faces.Count(); i++)
+            {
+                using (Stream stream = File.OpenRead(faces.ElementAt(i)))
+                { 
+                    ImageResult result = ImageResult.FromStream(stream, ColorComponents.RedGreenBlueAlpha);
+                    GL.TexImage2D(TextureTarget.TextureCubeMapPositiveX + i, 0, PixelInternalFormat.Rgba, result.Width, result.Height, 0, PixelFormat.Rgba, PixelType.UnsignedByte, result.Data); // todo only do this step once, cut image into 6
+                }
+            }
+            GL.TexParameter(TextureTarget.TextureCubeMap, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
+            GL.TexParameter(TextureTarget.TextureCubeMap, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
+            GL.TexParameter(TextureTarget.TextureCubeMap, TextureParameterName.TextureWrapS, (int)TextureWrapMode.ClampToEdge);
+            GL.TexParameter(TextureTarget.TextureCubeMap, TextureParameterName.TextureWrapT, (int)TextureWrapMode.ClampToEdge);
+            GL.TexParameter(TextureTarget.TextureCubeMap, TextureParameterName.TextureWrapR, (int)TextureWrapMode.ClampToEdge);
+
+
+            return new Texture(handle);
+        }
         public static Texture LoadFromFile(string path)
         {
             int handle = GL.GenTexture();

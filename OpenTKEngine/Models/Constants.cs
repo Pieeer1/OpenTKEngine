@@ -11,6 +11,8 @@ namespace OpenTKEngine.Models
             public const string BaseLightingShader = "../../../Shaders/lighting.frag";
             public const string BaseTextVertexShader = "../../../Shaders/textshader.vert";
             public const string BaseTextFragmentShader = "../../../Shaders/textshader.frag";
+            public const string SkyboxVertexShader = "../../../Shaders/skyboxshader.vert";
+            public const string SkyboxFragmentShader = "../../../Shaders/skyboxshader.frag";
         }
         public static class FontRoutes
         {
@@ -28,6 +30,7 @@ namespace OpenTKEngine.Models
             public const string TextureShader = "TextureShader";
             public const string LightShader = "LightShader";
             public const string TextShader = "TextShader";
+            public const string SkyboxShader = "SkyboxShader";
         }
         public static class ColorVectors
         {

@@ -18,18 +18,19 @@ namespace OpenTKEngine.Scenes
 
         public override void OnAwake()
         {
-            GL.ClearColor(0.1f, 0.1f, 0.1f, 1.0f); // background
+            //GL.ClearColor(0.1f, 0.1f, 0.1f, 1.0f); // background
 
             GL.Enable(EnableCap.DepthTest);
+            GL.Enable(EnableCap.Multisample);
             GL.Enable(EnableCap.Blend);
             GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
-
 
             _shaders = new Dictionary<string, Shader>()
             {
                 { ShaderConstants.TextureShader, new Shader(ShaderRoutes.BaseVertexShader, ShaderRoutes.BaseLightingShader)},
                 { ShaderConstants.LightShader, new Shader(ShaderRoutes.BaseVertexShader, ShaderRoutes.BaseFragmentShader)},
-                { ShaderConstants.TextShader, new Shader(ShaderRoutes.BaseTextVertexShader, ShaderRoutes.BaseTextFragmentShader)}
+                { ShaderConstants.TextShader, new Shader(ShaderRoutes.BaseTextVertexShader, ShaderRoutes.BaseTextFragmentShader)},
+                { ShaderConstants.SkyboxShader, new Shader(ShaderRoutes.SkyboxVertexShader, ShaderRoutes.SkyboxFragmentShader)}
             };
 
             List<Texture> containerTextures = new List<Texture>
@@ -38,8 +39,19 @@ namespace OpenTKEngine.Scenes
                 Texture.LoadFromFile($"{AssetRoutes.Textures}/container2_specular.png"),
             };
 
+
+            List<string> skyboxPaths = new List<string>()
+            {
+                $"{AssetRoutes.Textures}/Skybox/right.jpg", $"{AssetRoutes.Textures}/Skybox/left.jpg", $"{AssetRoutes.Textures}/Skybox/top.jpg", $"{AssetRoutes.Textures}/Skybox/bottom.jpg", $"{AssetRoutes.Textures}/Skybox/front.jpg", $"{AssetRoutes.Textures}/Skybox/back.jpg"
+            };
+
+            Entity skybox = EntityComponentManager.AddEntity();
+            skybox.AddComponent(new SkyboxComponent(_shaders[ShaderConstants.SkyboxShader], new Models.Skybox.Skybox(skyboxPaths)));
+
+
             Entity player = EntityComponentManager.AddEntity();
             player.AddComponent(new PlayerComponent(_shaders[ShaderConstants.TextureShader], new Vector3(0.0f, 2.0f, 0.0f)));
+            //player.AddComponent(new RigidBodyComponent());
 
             Entity pointLight1 = EntityComponentManager.AddEntity();
             Entity pointLight2 = EntityComponentManager.AddEntity();
