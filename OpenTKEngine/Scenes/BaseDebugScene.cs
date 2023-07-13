@@ -8,6 +8,7 @@ using OpenTK.Mathematics;
 using OpenTKEngine.Assets.Scripts.Shared.UI;
 using OpenTKEngine.Assets.Scripts.Shared.Shapes;
 using BulletSharp;
+using OpenTKEngine.Assets.Scripts.Shared.Entities;
 
 namespace OpenTKEngine.Scenes
 {
@@ -49,10 +50,7 @@ namespace OpenTKEngine.Scenes
             Entity skybox = EntityComponentManager.AddEntity();
             skybox.AddComponent(new SkyboxComponent(_shaders[ShaderConstants.SkyboxShader], new Models.Skybox.Skybox(skyboxPaths)));
 
-
-            Entity player = EntityComponentManager.AddEntity();
-            player.AddComponent(new PlayerComponent(_shaders[ShaderConstants.TextureShader], new Vector3(0.0f, 2.0f, 0.0f)));
-            player.AddComponent(new RigidBodyComponent(new BoxShape(1.0f, 1.0f, 1.0f), 1.0f, CollisionFlags.CharacterObject));
+            Player player = new Player(_shaders[ShaderConstants.TextureShader], EntityComponentManager.AddEntity());
 
             Entity pointLight1 = EntityComponentManager.AddEntity();
             Entity pointLight2 = EntityComponentManager.AddEntity();
