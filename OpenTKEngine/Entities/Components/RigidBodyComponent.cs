@@ -30,18 +30,8 @@ namespace OpenTKEngine.Entities.Components
             rigidBody.CollisionFlags = _collisionFlags;
 
             PhysicsService.Instance.DiscreteDynamicsWorld.AddRigidBody(rigidBody);
-
-            ManifoldPoint.ContactAdded += ManifoldPoint_ContactAdded;
         }
 
-        private void ManifoldPoint_ContactAdded(ManifoldPoint cp, CollisionObjectWrapper colObj0Wrap, int partId0, int index0, CollisionObjectWrapper colObj1Wrap, int partId1, int index1)
-        {
-            double impulse = cp.AppliedImpulse;
-            if (impulse < 0.4f) return;
-
-            impulse -= 0.4f;
-
-        }
 
         public override void Update() 
         {
