@@ -34,17 +34,15 @@ namespace OpenTKEngine.Assets.Scripts.Shared.Shapes
                 Texture.LoadFromFile($"{AssetRoutes.Textures}/planegray.png")
             }));
 
-            CollisionShape planeShape = new BoxShape(new System.Numerics.Vector3(10.0f, 0.01f, 10.0f)); ; // Specify the plane shape
-            float planeMass = 0.0f; // Set the mass to zero for a static object
+            CollisionShape planeShape = new BoxShape(new System.Numerics.Vector3(10.0f, 0.01f, 10.0f));
+            float planeMass = 0.0f;
 
             RigidBodyConstructionInfo planeRbInfo = new RigidBodyConstructionInfo(planeMass, null, planeShape);
             RigidBody planeRigidBody = new RigidBody(planeRbInfo);
             planeRigidBody.Restitution = 0.5f;
             planeRigidBody.Friction = 0.5f;
-            planeRigidBody.CollisionFlags |= CollisionFlags.StaticObject; // Set the collision flag for a static object
 
-            // Add the plane's rigid body to the dynamics world
-            PhysicsService.Instance.DiscreteDynamicsWorld.AddRigidBody(planeRigidBody);
+            _entity.AddComponent<RigidBodyComponent>(new RigidBodyComponent(planeRigidBody, CollisionFlags.StaticObject));
         }
     }
 }
