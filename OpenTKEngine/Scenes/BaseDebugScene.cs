@@ -7,6 +7,8 @@ using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using OpenTKEngine.Assets.Scripts.Shared.UI;
 using OpenTKEngine.Assets.Scripts.Shared.Shapes;
+using BulletSharp;
+using OpenTKEngine.Assets.Scripts.Shared.Entities;
 
 namespace OpenTKEngine.Scenes
 {
@@ -48,10 +50,7 @@ namespace OpenTKEngine.Scenes
             Entity skybox = EntityComponentManager.AddEntity();
             skybox.AddComponent(new SkyboxComponent(_shaders[ShaderConstants.SkyboxShader], new Models.Skybox.Skybox(skyboxPaths)));
 
-
-            Entity player = EntityComponentManager.AddEntity();
-            player.AddComponent(new PlayerComponent(_shaders[ShaderConstants.TextureShader], new Vector3(0.0f, 2.0f, 0.0f)));
-            //player.AddComponent(new RigidBodyComponent());
+            Player player = new Player(_shaders[ShaderConstants.TextureShader], EntityComponentManager.AddEntity());
 
             Entity pointLight1 = EntityComponentManager.AddEntity();
             Entity pointLight2 = EntityComponentManager.AddEntity();
@@ -117,6 +116,12 @@ namespace OpenTKEngine.Scenes
 
 
             Assets.Scripts.Shared.Shapes.Plane plane2 = new Assets.Scripts.Shared.Shapes.Plane(_shaders[ShaderConstants.TextureShader], EntityComponentManager.AddEntity(), new Vector3(0.0f, 0.0f, 0.0f), scale: new Vector2(15.0f, 15.0f));
+
+            for (int i = 0; i < 25; i++)
+            {
+                Ball ball = new Ball(_shaders[ShaderConstants.TextureShader], EntityComponentManager.AddEntity(), new Vector3(i, 15.0f, 0.0f), null, null);
+            }
+
 
 
 
