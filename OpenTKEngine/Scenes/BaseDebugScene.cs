@@ -7,6 +7,7 @@ using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using OpenTKEngine.Assets.Scripts.Shared.UI;
 using OpenTKEngine.Assets.Scripts.Shared.Shapes;
+using BulletSharp;
 
 namespace OpenTKEngine.Scenes
 {
@@ -51,7 +52,7 @@ namespace OpenTKEngine.Scenes
 
             Entity player = EntityComponentManager.AddEntity();
             player.AddComponent(new PlayerComponent(_shaders[ShaderConstants.TextureShader], new Vector3(0.0f, 2.0f, 0.0f)));
-            player.AddComponent(new RigidBodyComponent());
+            player.AddComponent(new RigidBodyComponent(new BoxShape(1.0f, 1.0f, 1.0f), 1.0f, CollisionFlags.CharacterObject));
 
             Entity pointLight1 = EntityComponentManager.AddEntity();
             Entity pointLight2 = EntityComponentManager.AddEntity();
