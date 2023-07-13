@@ -1,67 +1,67 @@
 ﻿using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.GraphicsLibraryFramework;
+using OpenTKEngine.Enums;
+
 namespace OpenTKEngine.Entities
 {
     public class EntityComponentManager 
     {
         public EntityComponentManager() { }
-        private Dictionary<Entity, uint> entities { get; set; } = new Dictionary<Entity, uint>();
+        private List<Entity> entities { get; set; } = new List<Entity>();
         public void Update()
         {
             foreach (var entity in entities)
             {
-                entity.Key.Update();
+                entity.Update();
             }
         }        
         public void UpdateInput(FrameEventArgs e, KeyboardState input, MouseState mouse, ref bool firstMove, ref Vector2 lastPos)
         {
             foreach (var entity in entities)
             {
-                entity.Key.UpdateInput(e, input, mouse, ref firstMove, ref lastPos);
+                entity.UpdateInput(e, input, mouse, ref firstMove, ref lastPos);
             }
         }
         public void Draw()
         {
-            foreach (var entity in entities.Where(x => x.Key.IsVisible).OrderByDescending(x => x.Value))
+            foreach (var entity in entities.Where(x => x.IsVisible))
             {
-                entity.Key.Draw();
+                entity.Draw();
             }
         }        
         public void Refresh()
         {
-            foreach (var entity in entities.OrderByDescending(x => x.Value))
+            foreach (var entity in entities)
             {
-                if (!entity.Key.IsActive)
+                if (!entity.IsActive)
                 {
-                    entity.Key.Destroy();
+                    entity.Destroy();
                 }
             }
         }
-        public void UpdateEntityLayer(Entity entity, uint layer)
+        public void UpdateEntityLayer(Entity entity, Layer layer)
         {
-            if (entities.ContainsKey(entity))
-            {
-                entities[entity] = layer;
-            }
+            entity.Layer = layer;
         }
-        public Entity AddEntity(uint layer = 0)
+        public Entity AddEntity(Layer layer = Layer.None)
         {
             Entity e = new Entity();
-            entities.Add(e, layer);
+            e.Layer = layer;
+            entities.Add(e);
             return e;
         }
-        public IEnumerable<Entity> GetEntities() => entities.Keys;
+        public IEnumerable<Entity> GetEntities() => entities;
 
         public IEnumerable<Entity> GetEntitiesWithType<T>() where T : Component
         {
-            return entities.Keys.Where(x => x.HasComponent<T>());
+            return entities.Where(x => x.HasComponent<T>());
         }
         public void SetComponentReferencesWithAttribute(Attribute att, object value)
         {
             foreach (var entity in entities)
             {
-                entity.Key.SetPropertyReferenceWithAttribute(att, value);
+                entity.SetPropertyReferenceWithAttribute(att, value);
             }
         }
     }

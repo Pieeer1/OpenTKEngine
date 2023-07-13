@@ -10,7 +10,7 @@ namespace OpenTKEngine.Entities.Components
         private readonly CollisionShape _collisionShape = null!;
         private float _mass;
         private CollisionFlags _collisionFlags;
-        private RigidBody? _rigidBody;
+        public RigidBody RigidBody { get; private set; } = null!;
         public RigidBodyComponent(CollisionShape collisionShape, float mass, CollisionFlags? collisionFlags = null)
         {
             _collisionShape = collisionShape;
@@ -19,22 +19,22 @@ namespace OpenTKEngine.Entities.Components
         }
         public RigidBodyComponent(RigidBody rigidBody, CollisionFlags? collisionFlags = null)
         {
-            _rigidBody = rigidBody;
+            RigidBody = rigidBody;
             _collisionFlags = collisionFlags ?? CollisionFlags.None;
         }
         public override void Init()
         {
             base.Init();
             _transformComponent = Entity.AddComponent(new TransformComponent());
-            if (_rigidBody is null)
+            if (RigidBody is null)
             {
                 System.Numerics.Vector3 localInertia = _collisionShape.CalculateLocalInertia(_mass);
 
                 RigidBodyConstructionInfo rbInfo = new RigidBodyConstructionInfo(_mass, new OpenTKMotionState(_transformComponent), _collisionShape, localInertia);
-                _rigidBody = new RigidBody(rbInfo);
+                RigidBody = new RigidBody(rbInfo);
             }
-            _rigidBody.CollisionFlags = _collisionFlags;
-            PhysicsService.Instance.DiscreteDynamicsWorld.AddRigidBody(_rigidBody);
+            RigidBody.CollisionFlags = _collisionFlags;
+            PhysicsService.Instance.DiscreteDynamicsWorld.AddRigidBody(RigidBody);
         }
 
 
