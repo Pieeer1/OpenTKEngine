@@ -8,10 +8,11 @@ namespace OpenTKEngine.Entities.Components
         protected TransformComponent _transformComponent = null!;
         protected float _mass;
         protected BodyHandle _handle;
-
-        public RigidBodyComponent(float mass)
+        private bool _isKinematic;
+        public RigidBodyComponent(float mass, bool isKinematic)
         {
             _mass = mass;
+            _isKinematic = isKinematic;
         }
 
         public override void Init()
@@ -25,10 +26,11 @@ namespace OpenTKEngine.Entities.Components
         public override void Update()
         {
             base.Update();
-            if (_handle.Value != 0)
+            if (_isKinematic)
             {
                 _transformComponent.Position = DataManipulationService.SystemVectorToOpenTKVector(PhysicsService.Instance.Simulation.Bodies[_handle].Pose.Position);
                 _transformComponent.Rotation = DataManipulationService.SystemQuaternionToOpenTKQuaternion(PhysicsService.Instance.Simulation.Bodies[_handle].Pose.Orientation);
+
             }
         }
     }

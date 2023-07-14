@@ -7,7 +7,7 @@ namespace OpenTKEngine.Entities.Components
     public class SphereRigidBodyComponent : RigidBodyComponent
     {
         private Sphere _sphere;
-        public SphereRigidBodyComponent(Sphere sphere, float mass) : base(mass)
+        public SphereRigidBodyComponent(Sphere sphere, float mass) : base(mass, true)
         {
             _sphere = sphere;
         }

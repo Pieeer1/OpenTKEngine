@@ -6,7 +6,7 @@ namespace OpenTKEngine.Entities.Components
 {
     public class StaticRigidBodyComponent : RigidBodyComponent
     {
-        public StaticRigidBodyComponent() : base(0.0f)
+        public StaticRigidBodyComponent() : base(0.0f, false)
         {
 
         }
