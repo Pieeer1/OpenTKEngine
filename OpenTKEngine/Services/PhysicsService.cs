@@ -1,4 +1,5 @@
-﻿using BulletSharp;
+﻿using BepuPhysics;
+using BepuUtilities;
 
 namespace OpenTKEngine.Services
 {
@@ -6,6 +7,7 @@ namespace OpenTKEngine.Services
     {
         private PhysicsService() { }
 
-        public DiscreteDynamicsWorld DiscreteDynamicsWorld { get; set; } = null!;
+        public Simulation Simulation { get; set; } = null!;
+        public ThreadDispatcher ThreadDispatcher { get; set; } = null!;
     }
 }

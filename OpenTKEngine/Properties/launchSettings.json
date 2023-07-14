@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "OpenTKEngine": {
+      "commandName": "Project",
+      "nativeDebugging": true
+    }
+  }
+}

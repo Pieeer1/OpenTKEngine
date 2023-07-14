@@ -1,4 +1,5 @@
 ﻿using OpenTK.Mathematics;
+using OpenTKEngine.Entities.Components;
 
 namespace OpenTKEngine.Services
 {
@@ -46,8 +47,26 @@ namespace OpenTKEngine.Services
         }
         public static string ParseResolution(Vector2i resolution) => $"{resolution.X}x{resolution.Y}";
         public static Vector2i ParseResolution(string resolution) => new Vector2i(int.Parse(resolution.Split('x')[0]), int.Parse(resolution.Split('x')[1]));
+        public static void GetWorldTransform(out System.Numerics.Matrix4x4 worldTransform, TransformComponent transform)
+        {
+            Vector3 translation = transform.Position;
+            Quaternion rotation = transform.Rotation;
 
-        public static Matrix4 BulletToOpenTKMatrix(ref System.Numerics.Matrix4x4 bulletMatrix)
+            Matrix4 openTKMatrix = Matrix4.CreateFromQuaternion(rotation) * Matrix4.CreateTranslation(translation);
+            worldTransform = SystemMatrixToBulletMatrix(openTKMatrix);
+        }
+
+        public static void SetWorldTransform(ref System.Numerics.Matrix4x4 worldTransform, TransformComponent transform)
+        {
+            Matrix4 openTKMatrix = SystemMatrixToOpenTKMatrix(ref worldTransform);
+
+            Vector3 translation = openTKMatrix.ExtractTranslation();
+            Quaternion rotation = openTKMatrix.ExtractRotation();
+
+            transform.Position = translation;
+            transform.Rotation = rotation;
+        }
+        public static Matrix4 SystemMatrixToOpenTKMatrix(ref System.Numerics.Matrix4x4 bulletMatrix)
         {
             return new Matrix4(
                 (float)bulletMatrix.M11, (float)bulletMatrix.M12, (float)bulletMatrix.M13, (float)bulletMatrix.M14,
@@ -56,7 +75,7 @@ namespace OpenTKEngine.Services
                 (float)bulletMatrix.M41, (float)bulletMatrix.M42, (float)bulletMatrix.M43, (float)bulletMatrix.M44);
         }
 
-        public static System.Numerics.Matrix4x4 OpenTKToBulletMatrix(Matrix4 openTKMatrix)
+        public static System.Numerics.Matrix4x4 SystemMatrixToBulletMatrix(Matrix4 openTKMatrix)
         {
             System.Numerics.Matrix4x4 bulletMatrix = new System.Numerics.Matrix4x4();
             bulletMatrix.M11 = openTKMatrix.M11;
@@ -78,13 +97,21 @@ namespace OpenTKEngine.Services
 
             return bulletMatrix;
         }
-        public static Vector3 BulletVectorToOpenTKVector(System.Numerics.Vector3 vec)
+        public static Vector3 SystemVectorToOpenTKVector(System.Numerics.Vector3 vec)
         {
             return new Vector3(vec.X, vec.Y, vec.Z);
         }
-        public static System.Numerics.Vector3 OpenTKVectorToBulletVector(Vector3 vec)
+        public static System.Numerics.Vector3 OpenTKVectorToSystemVector(Vector3 vec)
         {
             return new System.Numerics.Vector3(vec.X, vec.Y, vec.Z);
+        }
+        public static System.Numerics.Quaternion OpenTKQuaternionToSystemQuaternion(Quaternion quat)
+        {
+            return new System.Numerics.Quaternion(quat.X, quat.Y, quat.Z, quat.W);
+        }        
+        public static Quaternion SystemQuaternionToOpenTKQuaternion(System.Numerics.Quaternion quat)
+        {
+            return new Quaternion(quat.X, quat.Y, quat.Z, quat.W);
         }
     }
 }

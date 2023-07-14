@@ -7,7 +7,6 @@ using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using OpenTKEngine.Assets.Scripts.Shared.UI;
 using OpenTKEngine.Assets.Scripts.Shared.Shapes;
-using BulletSharp;
 using OpenTKEngine.Assets.Scripts.Shared.Entities;
 
 namespace OpenTKEngine.Scenes

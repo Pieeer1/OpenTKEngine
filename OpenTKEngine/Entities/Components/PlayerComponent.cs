@@ -1,11 +1,9 @@
-﻿using BulletSharp;
-using OpenTK.Mathematics;
+﻿using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 using OpenTKEngine.Attributes;
 using OpenTKEngine.Enums;
 using OpenTKEngine.Models;
-using OpenTKEngine.Models.Physics;
 using OpenTKEngine.Services;
 
 namespace OpenTKEngine.Entities.Components
@@ -13,22 +11,22 @@ namespace OpenTKEngine.Entities.Components
     public class PlayerComponent : Component
     {
         private TransformComponent _transform = null!;
-        private RigidBodyComponent _rigidBody = null!;
+        //private RigidBodyComponent _rigidBody = null!;
         private CameraComponent _camera = null!;
         private SpotLightComponent _flashlight = null!;
         private bool isGrounded { 
             get
             {
-                foreach (var rb in LayerManager.Instance.GetEntitiesAtLayer(Layer.Ground).Select(x => x.GetComponent<RigidBodyComponent>()))
-                {
-                    if (rb.RigidBody.CheckCollideWith(_rigidBody.RigidBody)) // straight up not fucking working
-                    {
-                        return true;
-                    }
-                }
+                //foreach (var rb in LayerManager.Instance.GetEntitiesAtLayer(Layer.Ground).Select(x => x.GetComponent<RigidBodyComponent>()))
+                //{
+                    
+
+                //    //if collision return true
+                //}
                 return false;
             } 
         }
+
 
         [MenuDisable]
         public bool IsControlEnabled { get; set; } = true;
@@ -48,19 +46,19 @@ namespace OpenTKEngine.Entities.Components
             _transform = Entity.AddComponent(new TransformComponent(_startingLocation));
             _camera = Entity.AddComponent(new CameraComponent(_shader));
 
-            CollisionShape collisionShape = new BoxShape(1.0f, 1.0f, 1.0f);
-            float mass = 1.0f;
+            //CollisionShape collisionShape = new BoxShape(1.0f, 1.0f, 1.0f);
+            //float mass = 1.0f;
 
-            System.Numerics.Vector3 localInertia = collisionShape.CalculateLocalInertia(mass);
+            //System.Numerics.Vector3 localInertia = collisionShape.CalculateLocalInertia(mass);
 
-            RigidBodyConstructionInfo rbInfo = new RigidBodyConstructionInfo(mass, new OpenTKMotionState(_transform), collisionShape, localInertia)
-            {
-                Restitution = 0.0f,
-                Friction = 0.01f,
-            };
-            RigidBody rb= new RigidBody(rbInfo);
+            //RigidBodyConstructionInfo rbInfo = new RigidBodyConstructionInfo(mass, new OpenTKMotionState(_transform), collisionShape, localInertia)
+            //{
+            //    Restitution = 0.0f,
+            //    Friction = 0.01f,
+            //};
+            //RigidBody rb= new RigidBody(rbInfo);
 
-            _rigidBody = Entity.AddComponent(new RigidBodyComponent(rb, CollisionFlags.CharacterObject));
+            //_rigidBody = Entity.AddComponent(new RigidBodyComponent(rb, CollisionFlags.CharacterObject));
 
             _flashlight = Entity.AddComponent(new SpotLightComponent(_shader, _transform.Position));
         }
@@ -151,8 +149,9 @@ namespace OpenTKEngine.Entities.Components
         {
             if (isGrounded)
             {
-                _rigidBody.RigidBody!.ApplyImpulse(new System.Numerics.Vector3(0.0f, 3.0f, 0.0f), DataManipulationService.OpenTKVectorToBulletVector(_transform.Position));
+                //_rigidBody.RigidBody!.ApplyImpulse(new System.Numerics.Vector3(0.0f, 3.0f, 0.0f), DataManipulationService.OpenTKVectorToBulletVector(_transform.Position));
             }
         }
+
     }
 }

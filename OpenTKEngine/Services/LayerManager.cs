@@ -1,5 +1,4 @@
-﻿using BulletSharp;
-using OpenTKEngine.Entities;
+﻿using OpenTKEngine.Entities;
 using OpenTKEngine.Entities.Components;
 using OpenTKEngine.Enums;
 using OpenTKEngine.Scenes;
