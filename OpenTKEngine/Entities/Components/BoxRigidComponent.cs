@@ -16,6 +16,7 @@ namespace OpenTKEngine.Entities.Components
             base.Init();
             BodyInertia inertia = _box.ComputeInertia(_mass);
             _handle = PhysicsService.Instance.Simulation.Bodies.Add(BodyDescription.CreateDynamic(DataManipulationService.OpenTKVectorToSystemVector(_transformComponent.Position), inertia, PhysicsService.Instance.Simulation.Shapes.Add(_box), 0.01f));
+
         }
     }
 }

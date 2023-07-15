@@ -17,7 +17,7 @@ namespace OpenTKEngine.Assets.Scripts.Shared.Entities
 
             _entity.AddComponent(new PlayerComponent(_shader, new Vector3(0.0f, 2.0f, 0.0f)));
             _entity.GetComponent<PlayerComponent>().ActiveMovementPreset = Enums.MovementPresets.Player;
-            _entity.AddComponent(new BoxRigidComponent(new BepuPhysics.Collidables.Box(1.0f, 1.0f, 1.0f), 5.0f));
+
 
         }
     }

@@ -14,6 +14,7 @@ namespace OpenTKEngine.Entities.Components
         //private RigidBodyComponent _rigidBody = null!;
         private CameraComponent _camera = null!;
         private SpotLightComponent _flashlight = null!;
+        private BoxRigidComponent _boxRigidComponent = null!;
         private bool isGrounded { 
             get
             {
@@ -45,20 +46,7 @@ namespace OpenTKEngine.Entities.Components
         {
             _transform = Entity.AddComponent(new TransformComponent(_startingLocation));
             _camera = Entity.AddComponent(new CameraComponent(_shader));
-
-            //CollisionShape collisionShape = new BoxShape(1.0f, 1.0f, 1.0f);
-            //float mass = 1.0f;
-
-            //System.Numerics.Vector3 localInertia = collisionShape.CalculateLocalInertia(mass);
-
-            //RigidBodyConstructionInfo rbInfo = new RigidBodyConstructionInfo(mass, new OpenTKMotionState(_transform), collisionShape, localInertia)
-            //{
-            //    Restitution = 0.0f,
-            //    Friction = 0.01f,
-            //};
-            //RigidBody rb= new RigidBody(rbInfo);
-
-            //_rigidBody = Entity.AddComponent(new RigidBodyComponent(rb, CollisionFlags.CharacterObject));
+            _boxRigidComponent = Entity.AddComponent(new BoxRigidComponent(new BepuPhysics.Collidables.Box(1.0f, 2.0f, 1.0f), 3.0f));
 
             _flashlight = Entity.AddComponent(new SpotLightComponent(_shader, _transform.Position));
         }
@@ -143,6 +131,10 @@ namespace OpenTKEngine.Entities.Components
                 _camera.Yaw += deltaX * sensitivity;
                 _camera.Pitch -= deltaY * sensitivity;
             }
+
+
+            PhysicsService.Instance.Simulation.Bodies[_boxRigidComponent._handle].Pose.Position = DataManipulationService.OpenTKVectorToSystemVector(_transform.Position);
+            PhysicsService.Instance.Simulation.Bodies[_boxRigidComponent._handle].Pose.Orientation = DataManipulationService.OpenTKQuaternionToSystemQuaternion(_transform.Rotation);
         }
 
         private void Jump()

@@ -49,6 +49,9 @@ namespace OpenTKEngine.Scenes
             Entity skybox = EntityComponentManager.AddEntity();
             skybox.AddComponent(new SkyboxComponent(_shaders[ShaderConstants.SkyboxShader], new Models.Skybox.Skybox(skyboxPaths)));
 
+            Assets.Scripts.Shared.Shapes.Plane plane2 = new Assets.Scripts.Shared.Shapes.Plane(_shaders[ShaderConstants.TextureShader], EntityComponentManager.AddEntity(Enums.Layer.Ground), new Vector3(0.0f, 0.0f, 0.0f), scale: new Vector2(15.0f, 15.0f));
+
+
             Player player = new Player(_shaders[ShaderConstants.TextureShader], EntityComponentManager.AddEntity(Enums.Layer.Player));
 
 
@@ -115,12 +118,11 @@ namespace OpenTKEngine.Scenes
             }));
 
 
-            Assets.Scripts.Shared.Shapes.Plane plane2 = new Assets.Scripts.Shared.Shapes.Plane(_shaders[ShaderConstants.TextureShader], EntityComponentManager.AddEntity(Enums.Layer.Ground), new Vector3(0.0f, 0.0f, 0.0f), scale: new Vector2(15.0f, 15.0f));
 
-            for (int i = 0; i < 25; i++)
-            {
-                Ball ball = new Ball(_shaders[ShaderConstants.TextureShader], EntityComponentManager.AddEntity(), new Vector3(i, 15.0f, 0.0f), null, null);
-            }
+            //for (int i = 0; i < 25; i++)
+            //{
+            //    Ball ball = new Ball(_shaders[ShaderConstants.TextureShader], EntityComponentManager.AddEntity(), new Vector3(i, 15.0f, 0.0f), null, null);
+            //}
 
 
 

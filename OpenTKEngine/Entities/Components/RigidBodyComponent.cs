@@ -7,7 +7,7 @@ namespace OpenTKEngine.Entities.Components
     {
         protected TransformComponent _transformComponent = null!;
         protected float _mass;
-        protected BodyHandle _handle;
+        public BodyHandle _handle;
         private bool _isKinematic;
         public RigidBodyComponent(float mass, bool isKinematic)
         {
