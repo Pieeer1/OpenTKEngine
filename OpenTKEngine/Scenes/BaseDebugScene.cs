@@ -118,6 +118,7 @@ namespace OpenTKEngine.Scenes
             }));
 
 
+            Ball ball = new Ball(_shaders[ShaderConstants.TextureShader], EntityComponentManager.AddEntity(), new Vector3(5.0f, 15.0f, 0.0f), null, null);
 
             //for (int i = 0; i < 25; i++)
             //{

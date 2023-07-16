@@ -6,16 +6,19 @@ namespace OpenTKEngine.Entities.Components
 {
     public class BoxRigidComponent : RigidBodyComponent
     {
-        private Box _box;
+        public Box Box { get; private set; }
         public BoxRigidComponent(Box box, float mass) : base(mass, true)
         {
-            _box = box;
+            Box = box;
         }
         public override void Init()
         {
             base.Init();
-            BodyInertia inertia = _box.ComputeInertia(_mass);
-            _handle = PhysicsService.Instance.Simulation.Bodies.Add(BodyDescription.CreateDynamic(DataManipulationService.OpenTKVectorToSystemVector(_transformComponent.Position), inertia, PhysicsService.Instance.Simulation.Shapes.Add(_box), 0.01f));
+            BodyInertia inertia = Box.ComputeInertia(_mass);
+            _handle = PhysicsService.Instance.Simulation.Bodies.Add(BodyDescription.CreateDynamic(DataManipulationService.OpenTKVectorToSystemVector(_transformComponent.Position), inertia, PhysicsService.Instance.Simulation.Shapes.Add(Box), 0.01f));
+            PhysicsService.Instance.CollidableMaterials.Allocate(_handle).FrictionCoefficient = 0.5f;
+            PhysicsService.Instance.CollidableMaterials.Allocate(_handle).MaximumRecoveryVelocity = 2.0f;
+            PhysicsService.Instance.CollidableMaterials.Allocate(_handle).SpringSettings = new BepuPhysics.Constraints.SpringSettings(30, 1 );
 
         }
     }

@@ -6,11 +6,18 @@ using System.Runtime.CompilerServices;
 
 namespace OpenTKEngine.Models.Physics
 {
-    unsafe struct NarrowPhaseCallbacks : INarrowPhaseCallbacks
+    public unsafe struct NarrowPhaseCallbacks : INarrowPhaseCallbacks
     {
+        public struct SimpleMaterial
+        {
+            public SpringSettings SpringSettings;
+            public float FrictionCoefficient;
+            public float MaximumRecoveryVelocity;
+        }
+        public CollidableProperty<SimpleMaterial> CollidableMaterials;
         public void Initialize(Simulation simulation)
         {
-
+            CollidableMaterials.Initialize(simulation);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -27,9 +34,11 @@ namespace OpenTKEngine.Models.Physics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public unsafe bool ConfigureContactManifold<TManifold>(int workerIndex, CollidablePair pair, ref TManifold manifold, out PairMaterialProperties pairMaterial) where TManifold : unmanaged, IContactManifold<TManifold>
         {
-            pairMaterial.FrictionCoefficient = 1f;
-            pairMaterial.MaximumRecoveryVelocity = 2f;
-            pairMaterial.SpringSettings = new SpringSettings(30, 1);
+            var a = CollidableMaterials[pair.A];
+            var b = CollidableMaterials[pair.B];
+            pairMaterial.FrictionCoefficient = a.FrictionCoefficient * b.FrictionCoefficient;
+            pairMaterial.MaximumRecoveryVelocity = MathF.Max(a.MaximumRecoveryVelocity, b.MaximumRecoveryVelocity);
+            pairMaterial.SpringSettings = pairMaterial.MaximumRecoveryVelocity == a.MaximumRecoveryVelocity ? a.SpringSettings : b.SpringSettings;
             return true;
         }
 

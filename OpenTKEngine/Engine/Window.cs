@@ -9,6 +9,8 @@ using BepuPhysics;
 using BepuUtilities;
 using BepuPhysics.Collidables;
 using OpenTKEngine.Models.Physics;
+using static OpenTKEngine.Models.Physics.NarrowPhaseCallbacks;
+using BepuPhysics.Constraints;
 
 namespace OpenTKEngine.Engine
 {
@@ -40,11 +42,10 @@ namespace OpenTKEngine.Engine
 
 
             var bufferPool = new BepuUtilities.Memory.BufferPool();
-            _physicsService.Simulation = Simulation.Create(bufferPool, new NarrowPhaseCallbacks(), new PoseIntegratorCallbacks(new System.Numerics.Vector3(0.0f, -10.0f, 0.0f)), new SolveDescription(8, 1));
+            _physicsService.CollidableMaterials = new CollidableProperty<SimpleMaterial>();
+            _physicsService.Simulation = Simulation.Create(bufferPool, new NarrowPhaseCallbacks() { CollidableMaterials = _physicsService.CollidableMaterials }, new PoseIntegratorCallbacks(new System.Numerics.Vector3(0.0f, -10.0f, 0.0f)), new SolveDescription(8, 1));
             var targetThreadCount = int.Max(1, Environment.ProcessorCount > 4 ? Environment.ProcessorCount - 2 : Environment.ProcessorCount - 1);
             _physicsService.ThreadDispatcher = new ThreadDispatcher(targetThreadCount);
-
-            //var collisionSpace = new BepuPhysics.Collidables..CollidablePropertyContainer<CollidableReference>();
 
 
             _sceneManager.AddScene(new BaseDebugScene("base debug 1")); // default scene
@@ -68,8 +69,6 @@ namespace OpenTKEngine.Engine
             _frameCount++;
             _sceneManager.SetActiveComponentReferences(new OnTickAttribute(), _frameCount);
 
-            _timeService.DeltaTime = e.Time;
-            _physicsService.Simulation.Timestep((float)e.Time, _physicsService.ThreadDispatcher);
         }
 
         protected override void OnUpdateFrame(FrameEventArgs e)
@@ -84,6 +83,9 @@ namespace OpenTKEngine.Engine
             }
             
             _sceneManager.UpdateActiveInput(e, KeyboardState, MouseState, ref _firstMove, ref _lastPos);
+            
+            _timeService.DeltaTime = e.Time;
+            _physicsService.Simulation.Timestep((float)e.Time, _physicsService.ThreadDispatcher);
         }
 
         protected override void OnTextInput(TextInputEventArgs e)
