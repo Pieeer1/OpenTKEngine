@@ -2,7 +2,7 @@
 {
     public enum MovementPresets
     {
-        Spectator,
-        Player
+        Spectator = 0,
+        Player = 1 << 0
     }
 }

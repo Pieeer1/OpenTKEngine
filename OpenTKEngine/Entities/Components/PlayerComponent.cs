@@ -72,31 +72,34 @@ namespace OpenTKEngine.Entities.Components
             if ((ActiveInputFlags & InputFlags.Player) == 0) { return; } //TODO KEEP PHYSICS WORKING IN BACKGROUND REGARDLESS
             float cameraSpeed = 1.5f;
             const float sensitivity = 0.2f;
+            
             if (ActiveMovementPreset == MovementPresets.Spectator)
             {
+                _bodyReference.Awake = false;
+
                 if (input.IsKeyDown(Keys.W))
                 {
-                    _transform.Position += _camera.Front * cameraSpeed * (float)e.Time; // Forward
+                    _bodyReference.Pose.Position += DataManipulationService.OpenTKVectorToSystemVector(_camera.Front * cameraSpeed * (float)e.Time); // Forward
                 }
                 if (input.IsKeyDown(Keys.S))
                 {
-                    _transform.Position -= _camera.Front * cameraSpeed * (float)e.Time; // Backwards
+                    _bodyReference.Pose.Position -= DataManipulationService.OpenTKVectorToSystemVector(_camera.Front * cameraSpeed * (float)e.Time); // Backwards
                 }
                 if (input.IsKeyDown(Keys.A))
                 {
-                    _transform.Position -= _camera.Right * cameraSpeed * (float)e.Time; // Left
+                    _bodyReference.Pose.Position -= DataManipulationService.OpenTKVectorToSystemVector(_camera.Right * cameraSpeed * (float)e.Time); // Left
                 }
                 if (input.IsKeyDown(Keys.D))
                 {
-                    _transform.Position += _camera.Right * cameraSpeed * (float)e.Time; // Right
+                    _bodyReference.Pose.Position += DataManipulationService.OpenTKVectorToSystemVector(_camera.Right * cameraSpeed * (float)e.Time); // Right
                 }
                 if (input.IsKeyDown(Keys.Space))
                 {
-                    _transform.Position += _camera.Up * cameraSpeed * (float)e.Time; // Up
+                    _bodyReference.Pose.Position += DataManipulationService.OpenTKVectorToSystemVector(_camera.Up * cameraSpeed * (float)e.Time); // Up
                 }
                 if (input.IsKeyDown(Keys.LeftShift))
                 {
-                    _transform.Position -= _camera.Up * cameraSpeed * (float)e.Time; // Down
+                    _bodyReference.Pose.Position -= DataManipulationService.OpenTKVectorToSystemVector(_camera.Up * cameraSpeed * (float)e.Time); // Down
                 }
             }
             else if (ActiveMovementPreset == MovementPresets.Player)

@@ -5,6 +5,7 @@ using OpenTKEngine.Entities;
 using OpenTKEngine.Entities.Components;
 using OpenTKEngine.Enums;
 using OpenTKEngine.Models.UI;
+using OpenTKEngine.Scenes;
 using OpenTKEngine.Services;
 
 namespace OpenTKEngine.Assets.Scripts.Shared.UI
@@ -25,10 +26,17 @@ namespace OpenTKEngine.Assets.Scripts.Shared.UI
 
         private void Canvas_OnComponentKeyInput(object? sender, ComponentEventArgs e)
         {
-            if (_textBoxReference.IsActive && e.KeyboardState.IsKeyPressed(Keys.Enter) && !string.IsNullOrWhiteSpace(_chat))
+            if (_textBoxReference.IsActive && e.KeyboardState.IsKeyPressed(Keys.Enter) && !string.IsNullOrWhiteSpace(_chat) && _chat[..1] != "/")
             {
                 MessageService.Instance.LogChat(_chat);
                 _textBoxReference.Clear();
+                _chat = string.Empty;
+            }
+            else if (_textBoxReference.IsActive && e.KeyboardState.IsKeyPressed(Keys.Enter) && !string.IsNullOrWhiteSpace(_chat) && _chat[..1] == "/")
+            {
+                MessageService.Instance.LogChat(CommandTrigger(_chat[1..]).Invoke());
+                _textBoxReference.Clear();
+                _chat = string.Empty;
             }
         }
 
@@ -61,5 +69,35 @@ namespace OpenTKEngine.Assets.Scripts.Shared.UI
         {
             _textBoxReference.IsActive = val;
         }
+
+
+        private Func<string> CommandTrigger(string commandString) =>
+            commandString switch
+            {
+                "help" => () => 
+                {
+                    string sb = 
+@"/help - Receive Command lists
+/playerMode {mode} - Change Spectator or Player Mode 0 - Spectator, 1 - Player
+";
+                    return sb;
+                },
+                var _ when commandString.ToLower().Contains("playermode") => () =>
+                {
+                    string mode = commandString.Split(' ')[1];
+                    MovementPresets preset = (MovementPresets)Enum.Parse(typeof(MovementPresets), mode);
+
+                    SceneManager.Instance.ActiveScene.EntityComponentManager.GetEntitiesWithType<PlayerComponent>().ToList().ForEach(ent =>
+                    {
+                        var player = ent.GetComponent<PlayerComponent>();
+                        player.ActiveMovementPreset = preset;
+                    });
+
+                    return $"Player Switched to Mode {preset.ToString()}";
+                },
+                _ => () => { return "Unkown Command. Use /help to list commands."; }
+            };
+
+
     }
 }
