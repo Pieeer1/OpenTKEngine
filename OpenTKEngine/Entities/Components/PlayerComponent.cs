@@ -105,10 +105,11 @@ namespace OpenTKEngine.Entities.Components
 
 
                 Matrix4 viewMatrix = _camera.GetViewMatrix();
+                Quaternion cameraRotation = Quaternion.FromMatrix(new Matrix3(viewMatrix));
 
-                Vector3 forward = new Vector3(viewMatrix.M31, viewMatrix.M32, viewMatrix.M33);
+                Vector3 forward = Vector3.Transform(-Vector3.UnitZ, cameraRotation);
+                Vector3 right = Vector3.Transform(Vector3.UnitX, cameraRotation);
 
-                Vector3 right = new Vector3(viewMatrix.M11, viewMatrix.M12, viewMatrix.M13);
 
                 Vector3 moveDirection = (forward * GetVerticalInput(input)) + (right * GetHorizontalInput(input));
                 moveDirection.Y = 0f;
@@ -184,7 +185,7 @@ namespace OpenTKEngine.Entities.Components
 
             if (input.IsKeyDown(Keys.W))
             {
-                verticalInput = -1f;
+                verticalInput = 1f;
             }
             if (input.IsKeyReleased(Keys.W))
             {
@@ -193,7 +194,7 @@ namespace OpenTKEngine.Entities.Components
 
             if (input.IsKeyDown(Keys.S))
             {
-                verticalInput = 1f;
+                verticalInput = -1f;
             }
             if (input.IsKeyReleased(Keys.S))
             {
