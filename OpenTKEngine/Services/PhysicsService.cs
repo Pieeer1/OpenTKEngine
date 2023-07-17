@@ -1,4 +1,7 @@
-﻿using BulletSharp;
+﻿using BepuPhysics;
+using BepuUtilities;
+using BepuUtilities.Memory;
+using static OpenTKEngine.Models.Physics.NarrowPhaseCallbacks;
 
 namespace OpenTKEngine.Services
 {
@@ -6,6 +9,9 @@ namespace OpenTKEngine.Services
     {
         private PhysicsService() { }
 
-        public DiscreteDynamicsWorld DiscreteDynamicsWorld { get; set; } = null!;
+        public Simulation Simulation { get; set; } = null!;
+        public ThreadDispatcher ThreadDispatcher { get; set; } = null!;
+        public BufferPool BufferPool { get; set; } = null!;
+        public CollidableProperty<SimpleMaterial> CollidableMaterials { get; set; } = null!; 
     }
 }

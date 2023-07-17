@@ -1,5 +1,4 @@
-﻿using BulletSharp;
-using OpenTK.Mathematics;
+﻿using OpenTK.Mathematics;
 using OpenTKEngine.Entities;
 using OpenTKEngine.Entities.Components;
 using OpenTKEngine.Models;
@@ -17,7 +16,9 @@ namespace OpenTKEngine.Assets.Scripts.Shared.Entities
             _entity = entity;
 
             _entity.AddComponent(new PlayerComponent(_shader, new Vector3(0.0f, 2.0f, 0.0f)));
-            _entity.AddComponent(new RigidBodyComponent(new BoxShape(1.0f, 1.0f, 1.0f), 1.0f, CollisionFlags.CharacterObject));
+            _entity.GetComponent<PlayerComponent>().ActiveMovementPreset = Enums.MovementPresets.Player;
+
+
         }
     }
 }

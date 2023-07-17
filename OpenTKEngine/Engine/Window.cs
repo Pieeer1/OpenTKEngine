@@ -5,7 +5,12 @@ using OpenTK.Windowing.Desktop;
 using OpenTKEngine.Attributes;
 using OpenTKEngine.Scenes;
 using OpenTKEngine.Services;
-using BulletSharp;
+using BepuPhysics;
+using BepuUtilities;
+using BepuPhysics.Collidables;
+using OpenTKEngine.Models.Physics;
+using static OpenTKEngine.Models.Physics.NarrowPhaseCallbacks;
+using BepuPhysics.Constraints;
 
 namespace OpenTKEngine.Engine
 {
@@ -35,16 +40,12 @@ namespace OpenTKEngine.Engine
             base.OnLoad();
             WindowService.Instance.WindowState = _isFullScreenLaunch ? WindowState.Fullscreen : WindowState.Normal;
 
-            CollisionConfiguration collisionConfiguration = new DefaultCollisionConfiguration();
-            CollisionDispatcher dispatcher = new CollisionDispatcher(collisionConfiguration);
 
-            // Create the broadphase and constraint solver
-            BroadphaseInterface broadphase = new DbvtBroadphase();
-            ConstraintSolver solver = new SequentialImpulseConstraintSolver();
-
-            // Create the physics world
-            _physicsService.DiscreteDynamicsWorld = new DiscreteDynamicsWorld(dispatcher, broadphase, solver, collisionConfiguration);
-            _physicsService.DiscreteDynamicsWorld.Gravity = new System.Numerics.Vector3(0, -9.8f, 0); // Set the gravity
+            _physicsService.BufferPool = new BepuUtilities.Memory.BufferPool();
+            _physicsService.CollidableMaterials = new CollidableProperty<SimpleMaterial>();
+            _physicsService.Simulation = Simulation.Create(_physicsService.BufferPool, new NarrowPhaseCallbacks() { CollidableMaterials = _physicsService.CollidableMaterials }, new PoseIntegratorCallbacks(new System.Numerics.Vector3(0.0f, -10.0f, 0.0f)), new SolveDescription(8, 1));
+            var targetThreadCount = int.Max(1, Environment.ProcessorCount > 4 ? Environment.ProcessorCount - 2 : Environment.ProcessorCount - 1);
+            _physicsService.ThreadDispatcher = new ThreadDispatcher(targetThreadCount);
 
 
             _sceneManager.AddScene(new BaseDebugScene("base debug 1")); // default scene
@@ -68,8 +69,6 @@ namespace OpenTKEngine.Engine
             _frameCount++;
             _sceneManager.SetActiveComponentReferences(new OnTickAttribute(), _frameCount);
 
-            _timeService.DeltaTime = e.Time;
-            _physicsService.DiscreteDynamicsWorld.StepSimulation((float)e.Time);
         }
 
         protected override void OnUpdateFrame(FrameEventArgs e)
@@ -84,6 +83,9 @@ namespace OpenTKEngine.Engine
             }
             
             _sceneManager.UpdateActiveInput(e, KeyboardState, MouseState, ref _firstMove, ref _lastPos);
+            
+            _timeService.DeltaTime = e.Time;
+            _physicsService.Simulation.Timestep((float)e.Time, _physicsService.ThreadDispatcher);
         }
 
         protected override void OnTextInput(TextInputEventArgs e)

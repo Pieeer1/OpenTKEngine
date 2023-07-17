@@ -7,7 +7,6 @@ using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using OpenTKEngine.Assets.Scripts.Shared.UI;
 using OpenTKEngine.Assets.Scripts.Shared.Shapes;
-using BulletSharp;
 using OpenTKEngine.Assets.Scripts.Shared.Entities;
 
 namespace OpenTKEngine.Scenes
@@ -50,7 +49,11 @@ namespace OpenTKEngine.Scenes
             Entity skybox = EntityComponentManager.AddEntity();
             skybox.AddComponent(new SkyboxComponent(_shaders[ShaderConstants.SkyboxShader], new Models.Skybox.Skybox(skyboxPaths)));
 
-            Player player = new Player(_shaders[ShaderConstants.TextureShader], EntityComponentManager.AddEntity());
+            Assets.Scripts.Shared.Shapes.Plane plane2 = new Assets.Scripts.Shared.Shapes.Plane(_shaders[ShaderConstants.TextureShader], EntityComponentManager.AddEntity(Enums.Layer.Ground), new Vector3(0.0f, 0.0f, 0.0f), scale: new Vector2(15.0f, 15.0f));
+
+
+            Player player = new Player(_shaders[ShaderConstants.TextureShader], EntityComponentManager.AddEntity(Enums.Layer.Player));
+
 
             Entity pointLight1 = EntityComponentManager.AddEntity();
             Entity pointLight2 = EntityComponentManager.AddEntity();
@@ -115,12 +118,12 @@ namespace OpenTKEngine.Scenes
             }));
 
 
-            Assets.Scripts.Shared.Shapes.Plane plane2 = new Assets.Scripts.Shared.Shapes.Plane(_shaders[ShaderConstants.TextureShader], EntityComponentManager.AddEntity(), new Vector3(0.0f, 0.0f, 0.0f), scale: new Vector2(15.0f, 15.0f));
+            Ball ball = new Ball(_shaders[ShaderConstants.TextureShader], EntityComponentManager.AddEntity(), new Vector3(5.0f, 15.0f, 0.0f), null, null);
 
-            for (int i = 0; i < 25; i++)
-            {
-                Ball ball = new Ball(_shaders[ShaderConstants.TextureShader], EntityComponentManager.AddEntity(), new Vector3(i, 15.0f, 0.0f), null, null);
-            }
+            //for (int i = 0; i < 25; i++)
+            //{
+            //    Ball ball = new Ball(_shaders[ShaderConstants.TextureShader], EntityComponentManager.AddEntity(), new Vector3(i, 15.0f, 0.0f), null, null);
+            //}
 
 
 
