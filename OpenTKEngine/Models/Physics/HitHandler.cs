@@ -4,11 +4,17 @@ using System.Numerics;
 using BepuUtilities.Memory;
 using System.Runtime.CompilerServices;
 using BepuPhysics.Trees;
-using BepuUtilities.Collections;
+using BepuUtilities;
 using OpenTKEngine.Services;
 
 namespace OpenTKEngine.Models.Physics
 {
+    public struct Ray
+    {
+        public Vector3 Origin;
+        public float MaximumT;
+        public Vector3 Direction;
+    }
     public struct RayHit
     {
         public Vector3 Normal;
@@ -16,63 +22,37 @@ namespace OpenTKEngine.Models.Physics
         public CollidableReference Collidable;
         public bool Hit;
     }
-    public unsafe struct HitHandler : IRayHitHandler
+
+    public unsafe struct StaticHitHandler : IRayHitHandler //only collides with static objects
     {
-        public Buffer<RayHit> Hits;
-        public int* IntersectionCount;
+        public RayHit RayHit;
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool AllowTest(CollidableReference collidable)
         {
-            return true;
+            if (collidable.Mobility == CollidableMobility.Static) { return true; }
+            return false;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool AllowTest(CollidableReference collidable, int childIndex)
         {
-            return true;
+            if (collidable.Mobility == CollidableMobility.Static) { return true; }
+            return false;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void OnRayHit(in RayData ray, ref float maximumT, float t, in Vector3 normal, CollidableReference collidable, int childIndex)
         {
-            maximumT = t;
-            ref var hit = ref Hits[ray.Id];
-            if (t < hit.T)
+            if (t < RayHit.T)
             {
-                if (hit.T == float.MaxValue)
-                    ++*IntersectionCount;
-                hit.Normal = normal;
-                hit.T = t;
-                hit.Collidable = collidable;
-                hit.Hit = true;
+                RayHit = new RayHit()
+                {
+                    Normal = normal,
+                    T = t,
+                    Collidable = collidable,
+                    Hit = true
+                };
             }
-        }
-    }
-    public struct BasicRayHit
-    {
-        public Vector3 Location;
-        public Vector3 Normal;
-    }
-    public struct BasicHitHandler : IRayHitHandler
-    {
-        public bool HasHit;
-        public BasicRayHit HitData;
-
-        public bool AllowTest(CollidableReference collidable)
-        {
-            return true; // Optionally, you can filter bodies to test against here
-        }
-
-        public bool AllowTest(CollidableReference collidable, int childIndex)
-        {
-            return true; // Optionally, you can filter bodies to test against here
-        }
-
-        public void OnRayHit(in RayData ray, ref float maximumT, float t, in Vector3 normal, CollidableReference collidable, int childIndex)
-        {
-            HasHit = true;
-            HitData.Location = PhysicsService.Instance.Simulation.Bodies[collidable.BodyHandle].Pose.Position;
-            HitData.Normal = normal;
         }
     }
 }

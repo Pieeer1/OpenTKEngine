@@ -41,9 +41,9 @@ namespace OpenTKEngine.Engine
             WindowService.Instance.WindowState = _isFullScreenLaunch ? WindowState.Fullscreen : WindowState.Normal;
 
 
-            var bufferPool = new BepuUtilities.Memory.BufferPool();
+            _physicsService.BufferPool = new BepuUtilities.Memory.BufferPool();
             _physicsService.CollidableMaterials = new CollidableProperty<SimpleMaterial>();
-            _physicsService.Simulation = Simulation.Create(bufferPool, new NarrowPhaseCallbacks() { CollidableMaterials = _physicsService.CollidableMaterials }, new PoseIntegratorCallbacks(new System.Numerics.Vector3(0.0f, -10.0f, 0.0f)), new SolveDescription(8, 1));
+            _physicsService.Simulation = Simulation.Create(_physicsService.BufferPool, new NarrowPhaseCallbacks() { CollidableMaterials = _physicsService.CollidableMaterials }, new PoseIntegratorCallbacks(new System.Numerics.Vector3(0.0f, -10.0f, 0.0f)), new SolveDescription(8, 1));
             var targetThreadCount = int.Max(1, Environment.ProcessorCount > 4 ? Environment.ProcessorCount - 2 : Environment.ProcessorCount - 1);
             _physicsService.ThreadDispatcher = new ThreadDispatcher(targetThreadCount);
 

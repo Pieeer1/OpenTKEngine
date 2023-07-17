@@ -10,6 +10,7 @@ using OpenTKEngine.Models;
 using OpenTKEngine.Services;
 using OpenTKEngine.Models.Physics;
 using System.Security.Cryptography;
+using BepuUtilities.Memory;
 
 namespace OpenTKEngine.Entities.Components
 {
@@ -19,20 +20,12 @@ namespace OpenTKEngine.Entities.Components
         private CameraComponent _camera = null!;
         private SpotLightComponent _flashlight = null!;
         private BoxRigidComponent _boxRigidComponent = null!;
-        private BasicHitHandler _hitHandler;
+        private StaticHitHandler _hitHandler;
         private BodyReference _bodyReference;
         private float _moveSpeed = 50.0f;
+        private float _jumpForce = 25.0f;
 
-        private bool isGrounded { 
-            get
-            {
-                if (_hitHandler.HasHit)
-                {
-                    return true;
-                }
-                return false;
-            } 
-        }
+        private bool isGrounded { get =>  _hitHandler.RayHit.Hit; }
 
 
         [MenuDisable]
@@ -56,9 +49,9 @@ namespace OpenTKEngine.Entities.Components
 
             _flashlight = Entity.AddComponent(new SpotLightComponent(_shader, _transform.Position));
 
-
-            _hitHandler = new BasicHitHandler() { };
             _bodyReference = PhysicsService.Instance.Simulation.Bodies[_boxRigidComponent._handle];
+
+            _hitHandler = new StaticHitHandler() { RayHit = new RayHit() { Hit = false, T = 1.0f} };
 
         }
 
@@ -70,8 +63,8 @@ namespace OpenTKEngine.Entities.Components
         {
             base.Update();
 
-            PhysicsService.Instance.Simulation.RayCast(DataManipulationService.OpenTKVectorToSystemVector(_transform.Position), new System.Numerics.Vector3(0.0f, -1.0f, 0.0f), 100.0f, ref _hitHandler, 0);
-
+            _hitHandler.RayHit = new RayHit() { Hit = false, T = 1.0f};
+            PhysicsService.Instance.Simulation.RayCast(DataManipulationService.OpenTKVectorToSystemVector(_transform.Position), new System.Numerics.Vector3(0.0f, -1.0f, 0.0f), 100.0f, ref _hitHandler);
         }
         public override void UpdateInput(FrameEventArgs e, KeyboardState input, MouseState mouse, ref bool firstMove, ref Vector2 lastPos)
         {
@@ -123,11 +116,9 @@ namespace OpenTKEngine.Entities.Components
                 {
                     _bodyReference.ApplyImpulse(DataManipulationService.OpenTKVectorToSystemVector(moveDirection.Normalized() * _moveSpeed), DataManipulationService.OpenTKVectorToSystemVector(new Vector3(0.0f, 0.0f, 0.0f)));
                 }
-                if (isGrounded)
-                {
-                    _bodyReference.Velocity.Linear = new System.Numerics.Vector3(_bodyReference.Velocity.Linear.X * 0.95f * (float)TimeService.Instance.DeltaTime/0.05f, _bodyReference.Velocity.Linear.Y, _bodyReference.Velocity.Linear.Z * 0.95f * (float)TimeService.Instance.DeltaTime/0.05f);
-                }
 
+                _bodyReference.Velocity.Linear = new System.Numerics.Vector3(_bodyReference.Velocity.Linear.X * 0.95f * (float)TimeService.Instance.DeltaTime/0.05f, _bodyReference.Velocity.Linear.Y, _bodyReference.Velocity.Linear.Z * 0.95f * (float)TimeService.Instance.DeltaTime/0.05f);
+                
                 Vector3 flatVel = new Vector3(_bodyReference.Velocity.Linear.X, 0.0f, _bodyReference.Velocity.Linear.Z);
                 Vector3 flatAng = new Vector3(_bodyReference.Velocity.Angular.X, 0.0f, _bodyReference.Velocity.Angular.Z);
                 if (flatVel.Length > _moveSpeed)
@@ -180,12 +171,11 @@ namespace OpenTKEngine.Entities.Components
 
 
         }
-
         private void Jump()
         {
             if (isGrounded)
             {
-                _bodyReference.ApplyImpulse(new System.Numerics.Vector3(0.0f, 15.0f, 0.0f), DataManipulationService.OpenTKVectorToSystemVector(new Vector3(0.0f, 0.0f, 0.0f)));
+                _bodyReference.ApplyImpulse(new System.Numerics.Vector3(0.0f, 1.0f * _jumpForce , 0.0f), DataManipulationService.OpenTKVectorToSystemVector(new Vector3(0.0f, 0.0f, 0.0f)));
             }
         }
         public float GetVerticalInput(KeyboardState input)
