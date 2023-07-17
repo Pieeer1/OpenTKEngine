@@ -9,6 +9,7 @@ namespace OpenTKEngine.Entities
     public class Entity
     {
         private List<Component> _components { get; set; } = new List<Component>();
+        public List<Entity> ChildEntities { get; set; } = new List<Entity>();
         public bool IsActive { get; private set; } = true;
         public bool IsVisible { get; set; } = true;
         public Layer Layer { get; set; }
@@ -32,6 +33,11 @@ namespace OpenTKEngine.Entities
             {
                 component.UpdateInput(e, input, mouse, ref firstMove, ref lastPos);
             }
+        }
+        public Entity AddChildEntity(Entity e)
+        {
+            ChildEntities.Add(e);
+            return e;
         }
         public T AddComponent<T>(T newComponent) where T : Component
         {

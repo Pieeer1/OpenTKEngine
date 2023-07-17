@@ -14,6 +14,10 @@ namespace OpenTKEngine.Entities
             foreach (var entity in entities)
             {
                 entity.Update();
+                foreach (Entity childEntity in entity.ChildEntities)
+                {
+                    childEntity.Update();
+                }
             }
         }        
         public void UpdateInput(FrameEventArgs e, KeyboardState input, MouseState mouse, ref bool firstMove, ref Vector2 lastPos)
@@ -21,6 +25,10 @@ namespace OpenTKEngine.Entities
             foreach (var entity in entities)
             {
                 entity.UpdateInput(e, input, mouse, ref firstMove, ref lastPos);
+                foreach (Entity childEntity in entity.ChildEntities)
+                {
+                    childEntity.UpdateInput(e, input, mouse, ref firstMove, ref lastPos);
+                }
             }
         }
         public void Draw()
@@ -28,6 +36,10 @@ namespace OpenTKEngine.Entities
             foreach (var entity in entities.Where(x => x.IsVisible))
             {
                 entity.Draw();
+                foreach (Entity childEntity in entity.ChildEntities)
+                {
+                    childEntity.Draw();
+                }
             }
         }        
         public void Refresh()
@@ -37,6 +49,10 @@ namespace OpenTKEngine.Entities
                 if (!entity.IsActive)
                 {
                     entity.Destroy();
+                    foreach (Entity childEntity in entity.ChildEntities)
+                    {
+                        childEntity.Destroy();
+                    }
                 }
             }
         }
