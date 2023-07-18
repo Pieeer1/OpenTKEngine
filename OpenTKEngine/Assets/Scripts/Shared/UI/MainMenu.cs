@@ -16,6 +16,7 @@ namespace OpenTKEngine.Assets.Scripts.Shared.UI
         private Button _quitButton;
         private OptionsMenu _optionsMenu;
         private StartServerMenu _startServerMenu;
+        private JoinServerMenu _joinServerMenu;
         public MainMenu(CanvasComponent canvas) : base(canvas)
         {
             const ImGuiWindowFlags baseFlags = ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoTitleBar | ImGuiWindowFlags.NoSavedSettings | ImGuiWindowFlags.NoMove | ImGuiWindowFlags.AlwaysAutoResize | ImGuiWindowFlags.NoBackground;
@@ -36,6 +37,7 @@ namespace OpenTKEngine.Assets.Scripts.Shared.UI
 
             _optionsMenu = new OptionsMenu(canvas, this);
             _startServerMenu = new StartServerMenu(canvas, this);
+            _joinServerMenu = new JoinServerMenu(canvas, this);
 
             EnableDisableUIElements(true);
         }
@@ -54,8 +56,9 @@ namespace OpenTKEngine.Assets.Scripts.Shared.UI
             _startServerMenu.EnableDisableUIElements(true);
         }
         private void PressJoinServer()
-        { 
-        
+        {
+            EnableDisableUIElements(false);
+            _joinServerMenu.EnableDisableUIElements(true);
         }
         private void PressOptionsButton() 
         {
