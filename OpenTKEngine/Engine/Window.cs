@@ -11,6 +11,7 @@ using BepuPhysics.Collidables;
 using OpenTKEngine.Models.Physics;
 using static OpenTKEngine.Models.Physics.NarrowPhaseCallbacks;
 using BepuPhysics.Constraints;
+using OpenTKEngine.Models.Networking;
 
 namespace OpenTKEngine.Engine
 {
@@ -25,6 +26,7 @@ namespace OpenTKEngine.Engine
         private readonly TimeService _timeService;
         private readonly WindowService _windowService;
         private readonly PhysicsService _physicsService;
+        private Server _server = null!;
         private readonly bool _isFullScreenLaunch;
         public Window(GameWindowSettings gameWindowSettings, NativeWindowSettings nativeWindowSettings, bool isFullScreenLaunch) : base(gameWindowSettings, nativeWindowSettings)
         {
@@ -40,13 +42,13 @@ namespace OpenTKEngine.Engine
             base.OnLoad();
             WindowService.Instance.WindowState = _isFullScreenLaunch ? WindowState.Fullscreen : WindowState.Normal;
 
-
             _physicsService.BufferPool = new BepuUtilities.Memory.BufferPool();
             _physicsService.CollidableMaterials = new CollidableProperty<SimpleMaterial>();
             _physicsService.Simulation = Simulation.Create(_physicsService.BufferPool, new NarrowPhaseCallbacks() { CollidableMaterials = _physicsService.CollidableMaterials }, new PoseIntegratorCallbacks(new System.Numerics.Vector3(0.0f, -10.0f, 0.0f)), new SolveDescription(8, 1));
             var targetThreadCount = int.Max(1, Environment.ProcessorCount > 4 ? Environment.ProcessorCount - 2 : Environment.ProcessorCount - 1);
             _physicsService.ThreadDispatcher = new ThreadDispatcher(targetThreadCount);
 
+            _server = new Server();
 
             _sceneManager.AddScene(new BaseDebugScene("base debug 1")); // default scene
             _sceneManager.SwapScene(0);
@@ -86,6 +88,8 @@ namespace OpenTKEngine.Engine
             
             _timeService.DeltaTime = e.Time;
             _physicsService.Simulation.Timestep((float)e.Time, _physicsService.ThreadDispatcher);
+
+            _server.Update();
         }
 
         protected override void OnTextInput(TextInputEventArgs e)

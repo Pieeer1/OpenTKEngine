@@ -13,7 +13,7 @@ namespace OpenTKEngine
     {
         public static void Main(string[] args)
         {
-            Startup.Start();
+            //Startup.Start();
 
             SettingsConfiguration defaultSettings = GetSettings();
 

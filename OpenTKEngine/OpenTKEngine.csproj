@@ -10,6 +10,7 @@
     <ItemGroup>
         <PackageReference Include="AssimpNet" Version="4.1.0" />
         <PackageReference Include="BepuPhysics" Version="2.4.0" />
+        <PackageReference Include="ENet-CSharp" Version="2.4.8" />
         <PackageReference Include="ImGui.NET" Version="1.89.7.1" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
         <PackageReference Include="OpenTK" Version="4.7.7" />
