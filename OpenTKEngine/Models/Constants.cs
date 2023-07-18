@@ -63,5 +63,21 @@ namespace OpenTKEngine.Models
                 "1024x768"
             };
         }
+        public static class Styles
+        {
+            public static Dictionary<string, Vector4> ColorDictionary = new Dictionary<string, Vector4>()
+            {
+                { "BackgroundColor", new Vector4(0.2f, 0.2f, 0.2f, 1.0f) },
+                { "DefaultText", new Vector4(0.8f, 0.8f, 0.8f, 1.0f) },
+                { "SpecialText", new Vector4(0.0f, 0.6f, 0.8f, 1.0f) },
+                { "ButtonColor", new Vector4(0.7f, 0.2f, 0.2f, 1.0f) },
+                { "BorderColor", new Vector4(0.3f, 0.3f, 0.3f, 1.0f) },
+                { "AccentColor1", new Vector4(0.5f, 0.2f, 0.3f, 1.0f) },
+                { "AccentColor2", new Vector4(0.4f, 0.5f, 0.2f, 1.0f) },
+                { "AccentColor3", new Vector4(0.7f, 0.5f, 0.1f, 1.0f) },
+                { "AccentColor4", new Vector4(0.1f, 0.3f, 0.4f, 1.0f) },
+                { "AccentColor5", new Vector4(0.6f, 0.3f, 0.1f, 1.0f) }
+            };
+        }
     }
 }

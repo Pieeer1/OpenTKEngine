@@ -8,6 +8,7 @@ using OpenTK.Mathematics;
 using OpenTKEngine.Assets.Scripts.Shared.UI;
 using OpenTKEngine.Assets.Scripts.Shared.Shapes;
 using OpenTKEngine.Assets.Scripts.Shared.Entities;
+using OpenTKEngine.Services;
 
 namespace OpenTKEngine.Scenes
 {
@@ -25,6 +26,8 @@ namespace OpenTKEngine.Scenes
             GL.Enable(EnableCap.Multisample);
             GL.Enable(EnableCap.Blend);
             GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
+
+            WindowService.Instance.ActiveCursorState = OpenTK.Windowing.Common.CursorState.Grabbed;
 
             _shaders = new Dictionary<string, Shader>()
             {
@@ -131,7 +134,7 @@ namespace OpenTKEngine.Scenes
             Entity canvas = EntityComponentManager.AddEntity();
             canvas.AddComponent(new CanvasComponent(_shaders[ShaderConstants.TextShader]));
             CanvasComponent canvasComp = canvas.GetComponent<CanvasComponent>();
-            Menu menu = new Menu(canvasComp);
+            PauseMenu menu = new PauseMenu(canvasComp);
             ChatInput chat = new ChatInput(canvasComp);
             ChatBox chatBox = new ChatBox(canvasComp);
 

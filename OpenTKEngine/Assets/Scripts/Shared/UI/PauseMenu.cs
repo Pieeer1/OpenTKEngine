@@ -7,23 +7,24 @@ using OpenTKEngine.Services;
 
 namespace OpenTKEngine.Assets.Scripts.Shared.UI
 {
-    public class Menu : SharedUIElement
+    public class PauseMenu : SharedUIElementWithOptions
     {
         private Label _labelReference;
         private Button _optionsButtonReference;
         private Button _quitButtonReference;
         private OptionsMenu _optionsMenu;
-        public bool SentFromOptions = false;
-        public Menu(CanvasComponent canvas) : base(canvas)
+        public PauseMenu(CanvasComponent canvas) : base(canvas)
         {
             const ImGuiWindowFlags baseFlags = ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoTitleBar | ImGuiWindowFlags.NoSavedSettings | ImGuiWindowFlags.NoMove | ImGuiWindowFlags.AlwaysAutoResize;
 
-            _labelReference = new Label("Menu", baseFlags, "window0", toggleKey: Keys.Escape);
-            _optionsButtonReference = new Button(PressOptions, "Options", new Vector2(250, 50), baseFlags, "menuWindow", toggleKey: Keys.Escape);
-            _quitButtonReference = new Button(() => Environment.Exit(0), "Quit", new Vector2(250, 50), baseFlags, "menuWindow", toggleKey: Keys.Escape);
-            canvas.AddUIElement(_labelReference);
-            canvas.AddUIElement(_optionsButtonReference);
-            canvas.AddUIElement(_quitButtonReference);
+            Vector2 buttonSize = new Vector2(250, 50);
+
+            _labelReference = new Label("Menu", baseFlags, "window0", location: (WindowService.Instance.ScreenSize/2) - (buttonSize/2),toggleKey: Keys.Escape);
+            _optionsButtonReference = new Button(PressOptions, "Options", buttonSize, baseFlags, "window0", toggleKey: Keys.Escape);
+            _quitButtonReference = new Button(WindowService.Instance.GameWindowReference.Close, "Quit", buttonSize, baseFlags, "window0", toggleKey: Keys.Escape);
+            _canvas.AddUIElement(_labelReference);
+            _canvas.AddUIElement(_optionsButtonReference);
+            _canvas.AddUIElement(_quitButtonReference);
 
             _optionsMenu = new OptionsMenu(canvas, this);
 

@@ -1,6 +1,8 @@
 ﻿using ImGuiNET;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.GraphicsLibraryFramework;
+using OpenTKEngine.Services;
+using static OpenTKEngine.Models.Constants;
 
 namespace OpenTKEngine.Models.UI
 {
@@ -21,10 +23,15 @@ namespace OpenTKEngine.Models.UI
         {
             base.StartRender();
 
+            ImGuiStylePtr style = ImGui.GetStyle();
+
+            style.Colors[(int)ImGuiCol.Button] = DataManipulationService.OpenTKVectorToSystemVector(Styles.ColorDictionary["ButtonColor"]);
+            ImGui.PushStyleColor(ImGuiCol.Text, DataManipulationService.OpenTKVectorToSystemVector(Styles.ColorDictionary["DefaultText"]));
             if (ImGui.Button(_label, new System.Numerics.Vector2(_size.X, _size.Y)))
             {
                 _action.Invoke();
             };
+            ImGui.PopStyleColor();
         }
     }
 }

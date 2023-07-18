@@ -1,6 +1,8 @@
 ﻿using ImGuiNET;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.GraphicsLibraryFramework;
+using OpenTKEngine.Services;
+using static OpenTKEngine.Models.Constants;
 
 namespace OpenTKEngine.Models.UI
 {
@@ -17,6 +19,12 @@ namespace OpenTKEngine.Models.UI
         {
             base.StartRender();
             bool referenceableCheck = IsChecked;
+            ImGuiStylePtr style = ImGui.GetStyle();
+            style.Colors[(int)ImGuiCol.CheckMark] = DataManipulationService.OpenTKVectorToSystemVector(Styles.ColorDictionary["SpecialText"]); // Set the checkmark color
+            style.Colors[(int)ImGuiCol.FrameBg] = DataManipulationService.OpenTKVectorToSystemVector(Styles.ColorDictionary["BackgroundColor"]); // Set the frame background color
+            style.Colors[(int)ImGuiCol.FrameBgHovered] = DataManipulationService.OpenTKVectorToSystemVector(Styles.ColorDictionary["AccentColor1"]); // Set the frame background color when hovered
+            style.Colors[(int)ImGuiCol.FrameBgActive] = DataManipulationService.OpenTKVectorToSystemVector(Styles.ColorDictionary["AccentColor2"]); // Set the frame background color when active
+
             if (ImGui.Checkbox(_label ?? string.Empty, ref referenceableCheck))
             {
                 IsChecked = !IsChecked;

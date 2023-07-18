@@ -17,14 +17,17 @@ namespace OpenTKEngine.Assets.Scripts.Shared.UI
         private DropdownMenu _resolutionDropdownReference;
         private Button _backButtonReference;
         private Button _saveButtonReference;
-        private Menu _menuRef;
+        private SharedUIElementWithOptions _menuRef;
         private SettingsConfiguration _settingsConfiguration = new SettingsConfiguration();
         private Dictionary<string, Action> commandQueue = new Dictionary<string, Action>();
-        public OptionsMenu(CanvasComponent canvas, Menu menuRef) : base(canvas)
+        public OptionsMenu(CanvasComponent canvas, SharedUIElementWithOptions menuRef) : base(canvas)
         {
             const ImGuiWindowFlags baseFlags = ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoTitleBar | ImGuiWindowFlags.NoSavedSettings | ImGuiWindowFlags.NoMove | ImGuiWindowFlags.AlwaysAutoResize;
-            _backButtonReference = new Button(BackPress, "Back", new Vector2(250, 50), baseFlags, "optionsWindow");
-            _saveButtonReference = new Button(SavePress, "Save", new Vector2(250, 50), baseFlags, "optionsWindow");
+
+            Vector2 buttonSize = new Vector2(250, 50);
+
+            _backButtonReference = new Button(BackPress, "Back", buttonSize, baseFlags, "optionsWindow", (WindowService.Instance.ScreenSize/2) - (buttonSize/2));
+            _saveButtonReference = new Button(SavePress, "Save", buttonSize, baseFlags, "optionsWindow");
             _resolutionDropdownReference = new DropdownMenu(DataManipulationService.ParseResolution(WindowService.Instance.ScreenSize), LimitedLists.Resolutions, baseFlags, "optionsWindow", "Resolution");
             _fullscreenCheckboxReference = new Checkbox(baseFlags, "optionsWindow", "Is Fullscreen?");
             _fullscreenCheckboxReference.IsChecked = WindowService.Instance.WindowState == WindowState.Fullscreen;

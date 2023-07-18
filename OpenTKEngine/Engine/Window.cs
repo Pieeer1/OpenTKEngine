@@ -50,11 +50,14 @@ namespace OpenTKEngine.Engine
 
             _server = new Server();
 
-            _sceneManager.AddScene(new BaseDebugScene("base debug 1")); // default scene
+            _sceneManager.AddScene(new MainMenuScene("mainMenu"));
             _sceneManager.SwapScene(0);
             _sceneManager.LoadScene(0);
 
-            _windowService.ActiveCursorState = CursorState.Grabbed;
+            //_sceneManager.AddScene(new BaseDebugScene("base debug 1")); // default scene
+            //_sceneManager.SwapScene(0);
+            //_sceneManager.LoadScene(0);
+
         }
         protected override void OnRenderFrame(FrameEventArgs e)
         {

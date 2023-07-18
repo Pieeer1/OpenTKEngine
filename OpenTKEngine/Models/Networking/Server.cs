@@ -26,7 +26,7 @@ namespace OpenTKEngine.Models.Networking
         public event EventHandler<NetworkArgs>? OnPacketReceived;
         public void Update()
         {
-            if (_server.Service(0, out Event netEvent) > 0)
+            if (_server.Service(0, out Event netEvent) > 0) //TODO CHANGE TO ALLOW POLLING FROM EXAMPLE -> https://github.com/nxrighthere/ENet-CSharp
             {
                 switch (netEvent.Type)
                 {

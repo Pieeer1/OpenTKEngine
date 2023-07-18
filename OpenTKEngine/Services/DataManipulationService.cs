@@ -104,6 +104,14 @@ namespace OpenTKEngine.Services
         public static System.Numerics.Vector3 OpenTKVectorToSystemVector(Vector3 vec)
         {
             return new System.Numerics.Vector3(vec.X, vec.Y, vec.Z);
+        }        
+        public static Vector4 SystemVectorToOpenTKVector(System.Numerics.Vector4 vec)
+        {
+            return new Vector4(vec.X, vec.Y, vec.Z, vec.W);
+        }
+        public static System.Numerics.Vector4 OpenTKVectorToSystemVector(Vector4 vec)
+        {
+            return new System.Numerics.Vector4(vec.X, vec.Y, vec.Z, vec.W);
         }
         public static System.Numerics.Quaternion OpenTKQuaternionToSystemQuaternion(Quaternion quat)
         {
