@@ -20,14 +20,13 @@ namespace OpenTKEngine
             NativeWindowSettings nativeWindowSettings = new NativeWindowSettings()
             {
                 WindowState = WindowState.Normal,
-                Size = DataManipulationService.ParseResolution(defaultSettings.Resolution),
+                ClientSize = DataManipulationService.ParseResolution(defaultSettings.Resolution),
                 Title = "OpenTKEngine",
                 Flags = ContextFlags.ForwardCompatible,
                 NumberOfSamples = 4
             };
 
             GameWindowSettings gameWindowSettings = GameWindowSettings.Default;
-            gameWindowSettings.RenderFrequency = 60.0f; // max fps
             gameWindowSettings.UpdateFrequency = 60.0f; // max ups
 
             using (Window window = new Window(gameWindowSettings, nativeWindowSettings, defaultSettings.IsFullScreen))

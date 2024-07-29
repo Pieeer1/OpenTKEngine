@@ -8,10 +8,10 @@ namespace OpenTKEngine.Entities
     public class EntityComponentManager 
     {
         public EntityComponentManager() { }
-        private List<Entity> entities { get; set; } = new List<Entity>();
+        private List<Entity> _entities { get; set; } = new List<Entity>();
         public void Update()
         {
-            foreach (var entity in entities)
+            foreach (var entity in _entities)
             {
                 entity.Update();
                 foreach (Entity childEntity in entity.ChildEntities)
@@ -22,7 +22,7 @@ namespace OpenTKEngine.Entities
         }        
         public void UpdateInput(FrameEventArgs e, KeyboardState input, MouseState mouse, ref bool firstMove, ref Vector2 lastPos)
         {
-            foreach (var entity in entities)
+            foreach (var entity in _entities)
             {
                 entity.UpdateInput(e, input, mouse, ref firstMove, ref lastPos);
                 foreach (Entity childEntity in entity.ChildEntities)
@@ -33,7 +33,7 @@ namespace OpenTKEngine.Entities
         }
         public void Draw()
         {
-            foreach (var entity in entities.Where(x => x.IsVisible))
+            foreach (var entity in _entities.Where(x => x.IsVisible))
             {
                 entity.Draw();
                 foreach (Entity childEntity in entity.ChildEntities)
@@ -44,7 +44,7 @@ namespace OpenTKEngine.Entities
         }        
         public void Refresh()
         {
-            foreach (var entity in entities)
+            foreach (var entity in _entities)
             {
                 if (!entity.IsActive)
                 {
@@ -64,18 +64,18 @@ namespace OpenTKEngine.Entities
         {
             Entity e = new Entity();
             e.Layer = layer;
-            entities.Add(e);
+            _entities.Add(e);
             return e;
         }
-        public IEnumerable<Entity> GetEntities() => entities;
+        public IEnumerable<Entity> GetEntities() => _entities;
 
         public IEnumerable<Entity> GetEntitiesWithType<T>() where T : Component
         {
-            return entities.Where(x => x.HasComponent<T>());
+            return _entities.Where(x => x.HasComponent<T>());
         }
         public void SetComponentReferencesWithAttribute(Attribute att, object value)
         {
-            foreach (var entity in entities)
+            foreach (var entity in _entities)
             {
                 entity.SetPropertyReferenceWithAttribute(att, value);
             }

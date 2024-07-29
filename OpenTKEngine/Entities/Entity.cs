@@ -8,8 +8,8 @@ namespace OpenTKEngine.Entities
 {
     public class Entity
     {
-        private List<Component> _components { get; set; } = new List<Component>();
-        public List<Entity> ChildEntities { get; set; } = new List<Entity>();
+        private List<Component> _components { get; set; } = [];
+        public List<Entity> ChildEntities { get; set; } =[];
         public bool IsActive { get; private set; } = true;
         public bool IsVisible { get; set; } = true;
         public Layer Layer { get; set; }

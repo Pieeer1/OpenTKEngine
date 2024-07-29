@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 
 namespace OpenTKEngine.Models.Physics
 {
-    public unsafe struct NarrowPhaseCallbacks : INarrowPhaseCallbacks
+    public struct NarrowPhaseCallbacks : INarrowPhaseCallbacks
     {
         public struct SimpleMaterial
         {
@@ -32,7 +32,7 @@ namespace OpenTKEngine.Models.Physics
             return true;
         }
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public unsafe bool ConfigureContactManifold<TManifold>(int workerIndex, CollidablePair pair, ref TManifold manifold, out PairMaterialProperties pairMaterial) where TManifold : unmanaged, IContactManifold<TManifold>
+        public bool ConfigureContactManifold<TManifold>(int workerIndex, CollidablePair pair, ref TManifold manifold, out PairMaterialProperties pairMaterial) where TManifold : unmanaged, IContactManifold<TManifold>
         {
             var a = CollidableMaterials[pair.A];
             var b = CollidableMaterials[pair.B];

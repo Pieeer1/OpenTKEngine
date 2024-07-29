@@ -23,7 +23,7 @@ namespace OpenTKEngine.Models.Physics
         public bool Hit;
     }
 
-    public unsafe struct StaticHitHandler : IRayHitHandler //only collides with static objects
+    public struct StaticHitHandler : IRayHitHandler //only collides with static objects
     {
         public RayHit RayHit;
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
