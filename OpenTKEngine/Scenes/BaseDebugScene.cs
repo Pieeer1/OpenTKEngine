@@ -11,6 +11,7 @@ using OpenTKEngine.Assets.Scripts.Shared.Entities;
 
 namespace OpenTKEngine.Scenes
 {
+    //these scenes should just be read by a json file, constructed by the editor. This should just be an example of how we should construct scenes.
     public class BaseDebugScene : Scene
     {
         public BaseDebugScene(string name) : base(name)
@@ -52,8 +53,7 @@ namespace OpenTKEngine.Scenes
             Assets.Scripts.Shared.Shapes.Plane plane2 = new Assets.Scripts.Shared.Shapes.Plane(_shaders[ShaderConstants.TextureShader], EntityComponentManager.AddEntity(Enums.Layer.Ground), new Vector3(0.0f, 0.0f, 0.0f), scale: new Vector2(15.0f, 15.0f));
 
 
-            Player player = new Player(_shaders[ShaderConstants.TextureShader], EntityComponentManager.AddEntity(Enums.Layer.Player));
-
+            Player player = EntityComponentManager.AddEntity(new Player(_shaders[ShaderConstants.TextureShader]));
 
             Entity pointLight1 = EntityComponentManager.AddEntity();
             Entity pointLight2 = EntityComponentManager.AddEntity();
@@ -92,33 +92,40 @@ namespace OpenTKEngine.Scenes
             //shape0.AddComponent(new ShapeComponent(_shaders[ShaderConstants.TextureShader], new Cube(), new Vector3(-1.3f, 1.0f, -1.5f),scale: new Vector3(5.0f, 5.0f, 5.0f), textures: containerTextures));
 
             Entity lamp0 = EntityComponentManager.AddEntity();
-            lamp0.AddComponent(new ShapeComponent(_shaders[ShaderConstants.LightShader], new Cube(), new Vector3(-5.0f, 1.0f, -1.5f)));
+            lamp0.Transform = new Transform(new Vector3(-5.0f, 1.0f, -1.5f));
+            lamp0.AddComponent(new ShapeComponent(_shaders[ShaderConstants.LightShader], new Cube()));
 
             Entity sphere = EntityComponentManager.AddEntity();
-            sphere.AddComponent(new ShapeComponent(_shaders[ShaderConstants.TextureShader], new Sphere(), new Vector3(-5.0f, 3.0f, -1.5f), textures: containerTextures));
+            sphere.Transform = new Transform(new Vector3(-5.0f, 3.0f, -1.5f));
+            sphere.AddComponent(new ShapeComponent(_shaders[ShaderConstants.TextureShader], new Sphere(), textures: containerTextures));
 
             Entity lampSphere = EntityComponentManager.AddEntity();
-            lampSphere.AddComponent(new ShapeComponent(_shaders[ShaderConstants.LightShader], new Sphere(), new Vector3(-5.0f, -3.0f, -1.5f)));
+            lampSphere.Transform = new Transform(new Vector3(-5.0f, -3.0f, -1.5f));
+            lampSphere.AddComponent(new ShapeComponent(_shaders[ShaderConstants.LightShader], new Sphere()));
 
             Entity model = EntityComponentManager.AddEntity();
-            model.AddComponent(new ModelComponent(_shaders[ShaderConstants.TextureShader], new Models.Shapes3D.Models.Model($"{AssetRoutes.Models}/pistol.dae"), new Vector3(1.05f, 1.05f, 1.05f)));
+            model.Transform = new Transform(new Vector3(1.05f, 1.05f, 1.05f));
+            model.AddComponent(new ModelComponent(_shaders[ShaderConstants.TextureShader], new Models.Shapes3D.Models.Model($"{AssetRoutes.Models}/pistol.dae")));
 
 
             Entity model2 = EntityComponentManager.AddEntity();
-            model2.AddComponent(new ModelComponent(_shaders[ShaderConstants.TextureShader], new Models.Shapes3D.Models.Model($"{AssetRoutes.Models}/pistol1.dae"), new Vector3(2.05f, 1.05f, 1.05f), textures: new List<Texture>()
+            model2.Transform = new Transform(new Vector3(2.05f, 1.05f, 1.05f));
+            model2.AddComponent(new ModelComponent(_shaders[ShaderConstants.TextureShader], new Models.Shapes3D.Models.Model($"{AssetRoutes.Models}/pistol1.dae"), textures: new List<Texture>()
             {
                 Texture.LoadFromFile($"{AssetRoutes.Textures}/PistolGreyBaseColor.png")
             }));
 
             Entity model3 = EntityComponentManager.AddEntity();
-            model3.AddComponent(new ModelComponent(_shaders[ShaderConstants.TextureShader], new Models.Shapes3D.Models.Model($"{AssetRoutes.Models}/pistol2.dae"), new Vector3(3.05f, 1.05f, 1.05f), textures: new List<Texture>()
+            model3.Transform = new Transform(new Vector3(3.05f, 1.05f, 1.05f));
+            model3.AddComponent(new ModelComponent(_shaders[ShaderConstants.TextureShader], new Models.Shapes3D.Models.Model($"{AssetRoutes.Models}/pistol2.dae"), textures: new List<Texture>()
             {
                 Texture.LoadFromFile($"{AssetRoutes.Textures}/PistolGreyBaseColor.png"),
                 Texture.LoadFromFile($"{AssetRoutes.Textures}/PistolGreyBaseColor.png"),
             }));
 
 
-            Ball ball = new Ball(_shaders[ShaderConstants.TextureShader], EntityComponentManager.AddEntity(), new Vector3(5.0f, 15.0f, 0.0f), null, null);
+            Ball ball = new Ball(_shaders[ShaderConstants.TextureShader], new Vector3(5.0f, 15.0f, 0.0f), null, null);
+            EntityComponentManager.AddEntity(ball);
 
             //for (int i = 0; i < 25; i++)
             //{

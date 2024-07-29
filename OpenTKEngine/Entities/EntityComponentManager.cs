@@ -14,7 +14,7 @@ namespace OpenTKEngine.Entities
             foreach (var entity in _entities)
             {
                 entity.Update();
-                foreach (Entity childEntity in entity.ChildEntities)
+                foreach (Entity childEntity in entity.GetChildEntities())
                 {
                     childEntity.Update();
                 }
@@ -25,7 +25,7 @@ namespace OpenTKEngine.Entities
             foreach (var entity in _entities)
             {
                 entity.UpdateInput(e, input, mouse, ref firstMove, ref lastPos);
-                foreach (Entity childEntity in entity.ChildEntities)
+                foreach (Entity childEntity in entity.GetChildEntities())
                 {
                     childEntity.UpdateInput(e, input, mouse, ref firstMove, ref lastPos);
                 }
@@ -36,7 +36,7 @@ namespace OpenTKEngine.Entities
             foreach (var entity in _entities.Where(x => x.IsVisible))
             {
                 entity.Draw();
-                foreach (Entity childEntity in entity.ChildEntities)
+                foreach (Entity childEntity in entity.GetChildEntities())
                 {
                     childEntity.Draw();
                 }
@@ -49,7 +49,7 @@ namespace OpenTKEngine.Entities
                 if (!entity.IsActive)
                 {
                     entity.Destroy();
-                    foreach (Entity childEntity in entity.ChildEntities)
+                    foreach (Entity childEntity in entity.GetChildEntities())
                     {
                         childEntity.Destroy();
                     }
@@ -66,6 +66,12 @@ namespace OpenTKEngine.Entities
             e.Layer = layer;
             _entities.Add(e);
             return e;
+        }
+        public T AddEntity<T>(T t, Layer layer = Layer.None) where T : Entity
+        {
+            t.Layer = layer;
+            _entities.Add(t);
+            return t;
         }
         public IEnumerable<Entity> GetEntities() => _entities;
 

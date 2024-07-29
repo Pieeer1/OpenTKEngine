@@ -4,6 +4,7 @@ using OpenTK.Mathematics;
 using OpenTK.Windowing.Desktop;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 using OpenTKEngine.Attributes;
+using OpenTKEngine.Entities;
 using OpenTKEngine.Entities.Components;
 using OpenTKEngine.Services;
 using System.Runtime.CompilerServices;
@@ -120,7 +121,7 @@ namespace OpenTKEngine.Models.UI
             io.KeyMap[(int)ImGuiKey.Y] = (int)Keys.Y;
             io.KeyMap[(int)ImGuiKey.Z] = (int)Keys.Z;
         }
-        public override void Draw(Shader shader, TransformComponent transform)
+        public override void Draw(Shader shader, Transform transform)
         {
             ImGui.Render();
 

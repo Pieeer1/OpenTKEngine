@@ -9,14 +9,10 @@ namespace OpenTKEngine.Entities.Components
     {
         private readonly Shape3D _shape;
 
-        public ShapeComponent(Shader shader, Shape3D shape, Vector3 position, Quaternion? rotation = null, Vector3? scale = null, List<Texture>? textures = null) : base(shader, position, rotation, scale, textures)
+        public ShapeComponent(Shader shader, Shape3D shape, List<Texture>? textures = null) : base(shader, textures)
         {
             _shape = shape;
         }        
-        public ShapeComponent(Shader shader, Shape3D shape, TransformComponent transform, List<Texture>? textures = null) : base(shader, transform, textures) 
-        {
-            _shape = shape;
-        }
 
         public override void BindAndBuffer()
         {
@@ -25,7 +21,7 @@ namespace OpenTKEngine.Entities.Components
 
         public override void DrawComp()
         {
-            _shape.Draw(_shader, _transform!);
+            _shape.Draw(_shader, Entity.Transform);
         }
     }
 }

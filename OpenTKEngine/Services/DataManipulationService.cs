@@ -1,4 +1,5 @@
 ﻿using OpenTK.Mathematics;
+using OpenTKEngine.Entities;
 using OpenTKEngine.Entities.Components;
 
 namespace OpenTKEngine.Services
@@ -47,7 +48,7 @@ namespace OpenTKEngine.Services
         }
         public static string ParseResolution(Vector2i resolution) => $"{resolution.X}x{resolution.Y}";
         public static Vector2i ParseResolution(string resolution) => new Vector2i(int.Parse(resolution.Split('x')[0]), int.Parse(resolution.Split('x')[1]));
-        public static void GetWorldTransform(out System.Numerics.Matrix4x4 worldTransform, TransformComponent transform)
+        public static void GetWorldTransform(out System.Numerics.Matrix4x4 worldTransform, Transform transform)
         {
             Vector3 translation = transform.Position;
             Quaternion rotation = transform.Rotation;
@@ -56,7 +57,7 @@ namespace OpenTKEngine.Services
             worldTransform = SystemMatrixToBulletMatrix(openTKMatrix);
         }
 
-        public static void SetWorldTransform(ref System.Numerics.Matrix4x4 worldTransform, TransformComponent transform)
+        public static void SetWorldTransform(ref System.Numerics.Matrix4x4 worldTransform, Transform transform)
         {
             Matrix4 openTKMatrix = SystemMatrixToOpenTKMatrix(ref worldTransform);
 

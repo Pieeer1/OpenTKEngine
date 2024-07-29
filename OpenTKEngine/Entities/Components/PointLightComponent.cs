@@ -1,13 +1,10 @@
 ﻿using OpenTKEngine.Models;
 using OpenTK.Mathematics;
-using OpenTK.Graphics.OpenGL4;
-using OpenTKEngine.Scenes;
 
 namespace OpenTKEngine.Entities.Components
 {
     public class PointLightComponent : Component
     {
-        private TransformComponent _transform = null!;
         private readonly Vector3 _position;
         private readonly Vector3 _ambient;
         private readonly Vector3 _diffuse;
@@ -30,8 +27,6 @@ namespace OpenTKEngine.Entities.Components
         public override void Init()
         {
             base.Init();
-
-            _transform = Entity.AddComponent(new TransformComponent(_position));
         }
         public override void Draw()
         {

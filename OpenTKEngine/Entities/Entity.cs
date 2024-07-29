@@ -9,16 +9,47 @@ namespace OpenTKEngine.Entities
     public class Entity
     {
         private List<Component> _components { get; set; } = [];
-        public List<Entity> ChildEntities { get; set; } =[];
+        private List<Entity> _childEntities { get; set; } = [];
+        public Transform Transform { get; set; } = new Transform();
+        public SyncedTransforms SyncedTransforms { get; set; } = SyncedTransforms.None;
         public bool IsActive { get; private set; } = true;
         public bool IsVisible { get; set; } = true;
         public Layer Layer { get; set; }
+        private Vector3 _previousParentPosition;
+        private Quaternion _previousRotation;
+        private Vector3 _previousScale;
         public void Update()
         {
+            _childEntities.ForEach(child =>
+            {
+                Transform updatedTransform = child.Transform;
+                if ((child.SyncedTransforms & SyncedTransforms.Position) != 0)
+                {
+                    Vector3 offset = updatedTransform.Position - _previousParentPosition;
+                    updatedTransform.Position = Transform.Position + offset;
+                }
+                if ((child.SyncedTransforms & SyncedTransforms.Rotation) != 0)
+                {
+                    Quaternion offset = updatedTransform.Rotation - _previousRotation;
+                    updatedTransform.Rotation = Transform.Rotation + offset;
+                }
+                if ((child.SyncedTransforms & SyncedTransforms.Scale) != 0)
+                {
+                    Vector3 offset = updatedTransform.Scale - _previousScale;
+                    updatedTransform.Scale = Transform.Scale + offset;
+                }
+                child.Transform = updatedTransform;
+            });
+
+            _previousParentPosition = Transform.Position;
+            _previousRotation = Transform.Rotation;
+            _previousScale = Transform.Scale;
+
             foreach (var component in _components.ToList())
             {
                 component.Update();
             }
+
         }
         public void Draw()
         {
@@ -36,7 +67,7 @@ namespace OpenTKEngine.Entities
         }
         public Entity AddChildEntity(Entity e)
         {
-            ChildEntities.Add(e);
+            _childEntities.Add(e);
             return e;
         }
         public T AddComponent<T>(T newComponent) where T : Component
@@ -46,6 +77,7 @@ namespace OpenTKEngine.Entities
                 return GetComponent<T>();
             }
             newComponent.Entity = this;
+
             newComponent.Init();
             _components.Add(newComponent);
             return newComponent;
@@ -75,6 +107,8 @@ namespace OpenTKEngine.Entities
         }
         public T GetComponent<T>() where T : Component => (_components.First(x => x.GetType() == typeof(T)) as T ?? throw new InvalidCastException($"Could not Find any Components of Type {typeof(T).Name}"));
         public bool HasComponent<T>() where T : Component => _components.Any(x => x.GetType() == typeof(T));
+        public bool HasChildrenEntities() => _childEntities.Any();
+        public IEnumerable<Entity> GetChildEntities() => _childEntities.ToArray(); // copies. 
         public void Destroy() => IsActive = false;
     }
 }

@@ -21,8 +21,6 @@ namespace OpenTKEngine.Entities.Components
         
         private float _fov = MathHelper.PiOver2;
 
-        public TransformComponent Transform = null!;
-
         public CameraComponent(Shader shader)
         {
             _shader = shader;
@@ -63,7 +61,7 @@ namespace OpenTKEngine.Entities.Components
         }
         public Matrix4 GetViewMatrix()
         {
-            return Matrix4.LookAt(Transform.Position, Transform.Position + _front, _up);
+            return Matrix4.LookAt(Entity.Transform.Position, Entity.Transform.Position + _front, _up);
         }
         public Matrix4 GetProjectionMatrix()
         {
@@ -84,8 +82,6 @@ namespace OpenTKEngine.Entities.Components
         public override void Init()
         {
             base.Init();
-
-            Transform = Entity.AddComponent(new TransformComponent(Vector3.UnitZ * 3));
         }
         public override void Draw()
         {
@@ -94,7 +90,7 @@ namespace OpenTKEngine.Entities.Components
             _shader.SetMatrix4("view", true, GetViewMatrix());
             _shader.SetMatrix4("projection", true, GetProjectionMatrix());
 
-            _shader.SetVector3("viewPos", Transform.Position);
+            _shader.SetVector3("viewPos", Entity.Transform.Position);
 
         }
         public override void Update()

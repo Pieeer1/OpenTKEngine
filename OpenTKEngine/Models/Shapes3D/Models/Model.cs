@@ -1,5 +1,6 @@
 ﻿using OpenTKEngine.Entities.Components;
 using Assimp;
+using OpenTKEngine.Entities;
 
 namespace OpenTKEngine.Models.Shapes3D.Models
 {
@@ -21,7 +22,7 @@ namespace OpenTKEngine.Models.Shapes3D.Models
                 mesh.BindAndBuffer(shader);
             }
         }
-        public void Draw(Shader shader, TransformComponent transform)
+        public void Draw(Shader shader, Transform transform)
         {
             foreach (Mesh mesh in _meshes)
             {

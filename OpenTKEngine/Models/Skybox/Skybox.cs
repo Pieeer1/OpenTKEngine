@@ -1,5 +1,6 @@
 ﻿using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
+using OpenTKEngine.Entities;
 using OpenTKEngine.Entities.Components;
 using OpenTKEngine.Scenes;
 using System.Reflection.Metadata;
@@ -80,7 +81,7 @@ namespace OpenTKEngine.Models.Skybox
             _cubeMapTexture = Texture.LoadCubemap(_faces);
         }
 
-        public override void Draw(Shader shader, TransformComponent transform)
+        public override void Draw(Shader shader, Transform transform)
         {
             GL.DepthMask(false);
             GL.DepthFunc(DepthFunction.Lequal);

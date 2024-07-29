@@ -1,5 +1,6 @@
 ﻿using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
+using OpenTKEngine.Entities;
 using OpenTKEngine.Entities.Components;
 using OpenTKEngine.Services;
 
@@ -20,7 +21,7 @@ namespace OpenTKEngine.Models.Shapes3D
             ElementArrayBuffer(shader, _indices);
         }
 
-        public override void Draw(Shader shader, TransformComponent transform)
+        public override void Draw(Shader shader, Transform transform)
         {
             DrawShape(shader, transform, () => GL.DrawElements(PrimitiveType.Triangles, _indices.Length, DrawElementsType.UnsignedInt, 0));
         }

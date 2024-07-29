@@ -23,7 +23,8 @@ namespace OpenTKEngine.Assets.Scripts.Shared.Shapes
             _rotation = rotation;
             _scale = scale;
 
-            _entity.AddComponent(new ModelComponent(_shader, new Models.Shapes3D.Models.Model($"{AssetRoutes.Models}/plane.dae"), position, rotation, scale != null ? new Vector3(scale.Value.X, 0.01f, scale.Value.Y) : new Vector3(1.0f, 0.01f, 1.0f), new List<Texture>()
+            _entity.Transform = new Transform(position, rotation, scale != null ? new Vector3(scale.Value.X, 0.01f, scale.Value.Y) : new Vector3(1.0f, 0.01f, 1.0f));
+            _entity.AddComponent(new ModelComponent(_shader, new Models.Shapes3D.Models.Model($"{AssetRoutes.Models}/plane.dae"), new List<Texture>()
             {
                 Texture.LoadFromFile($"{AssetRoutes.Textures}/planegray.png")
             }));

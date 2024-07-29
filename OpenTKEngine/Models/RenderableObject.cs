@@ -1,4 +1,5 @@
-﻿using OpenTKEngine.Entities.Components;
+﻿using OpenTKEngine.Entities;
+using OpenTKEngine.Entities.Components;
 
 namespace OpenTKEngine.Models
 {
@@ -8,6 +9,6 @@ namespace OpenTKEngine.Models
         public int VBO { get; set; }
         public int? EBO { get; set; }
         public abstract void BindAndBuffer(Shader shader);
-        public abstract void Draw(Shader shader, TransformComponent transform);
+        public abstract void Draw(Shader shader, Transform transform);
     }
 }

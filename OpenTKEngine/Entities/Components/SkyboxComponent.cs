@@ -21,7 +21,7 @@ namespace OpenTKEngine.Entities.Components
         public override void Draw() 
         {
             base.Draw();
-            _skybox.Draw(_shader, new TransformComponent());
+            _skybox.Draw(_shader, Entity.Transform);
         }
     }
 }

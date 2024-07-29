@@ -16,7 +16,6 @@ namespace OpenTKEngine.Entities.Components
 {
     public class PlayerComponent : Component
     {
-        private TransformComponent _transform = null!;
         private CameraComponent _camera = null!;
         private SpotLightComponent _flashlight = null!;
         private BoxRigidComponent _boxRigidComponent = null!;
@@ -43,11 +42,10 @@ namespace OpenTKEngine.Entities.Components
 
         public override void Init()
         {
-            _transform = Entity.AddComponent(new TransformComponent(_startingLocation));
             _camera = Entity.AddComponent(new CameraComponent(_shader));
             _boxRigidComponent = Entity.AddComponent(new BoxRigidComponent(new BepuPhysics.Collidables.Box(1.0f, 2.0f, 1.0f), 3.0f));
 
-            _flashlight = Entity.AddComponent(new SpotLightComponent(_shader, _transform.Position));
+            _flashlight = Entity.AddComponent(new SpotLightComponent(_shader));
 
             _bodyReference = PhysicsService.Instance.Simulation.Bodies[_boxRigidComponent._handle];
 
@@ -64,7 +62,7 @@ namespace OpenTKEngine.Entities.Components
             base.Update();
 
             _hitHandler.RayHit = new RayHit() { Hit = false, T = 1.0f};
-            PhysicsService.Instance.Simulation.RayCast(DataManipulationService.OpenTKVectorToSystemVector(_transform.Position), new System.Numerics.Vector3(0.0f, -1.0f, 0.0f), 100.0f, ref _hitHandler);
+            PhysicsService.Instance.Simulation.RayCast(DataManipulationService.OpenTKVectorToSystemVector(Entity.Transform.Position), new System.Numerics.Vector3(0.0f, -1.0f, 0.0f), 100.0f, ref _hitHandler);
         }
         public override void UpdateInput(FrameEventArgs e, KeyboardState input, MouseState mouse, ref bool firstMove, ref Vector2 lastPos)
         {

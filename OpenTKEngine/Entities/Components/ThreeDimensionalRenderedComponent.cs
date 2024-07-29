@@ -14,23 +14,10 @@ namespace OpenTKEngine.Entities.Components
     public abstract class ThreeDimensionalRenderedComponent : Component
     {
         protected readonly Shader _shader;
-        protected readonly Vector3 _position;
-        protected readonly Quaternion? _rotation;
-        protected readonly Vector3? _scale;
-        protected TransformComponent? _transform;
         protected List<Texture> _textures = new List<Texture>();
-        public ThreeDimensionalRenderedComponent(Shader shader, Vector3 position, Quaternion? rotation = null, Vector3? scale = null, List<Texture>? textures = null)
+        public ThreeDimensionalRenderedComponent(Shader shader, List<Texture>? textures = null)
         {
             _shader = shader;
-            _position = position;
-            _rotation = rotation;
-            _scale = scale;
-            _textures = textures ?? new List<Texture>();
-        }
-        public ThreeDimensionalRenderedComponent(Shader shader, TransformComponent transform, List<Texture>? textures = null)
-        {
-            _shader = shader;
-            _transform = transform;
             _textures = textures ?? new List<Texture>();
         }
         public override void Init()
@@ -38,8 +25,6 @@ namespace OpenTKEngine.Entities.Components
             base.Init();
 
             BindAndBuffer();
-
-            _transform = Entity.AddComponent(_transform ?? new TransformComponent(_position, _rotation, _scale));
         }
         public override void Draw()
         {

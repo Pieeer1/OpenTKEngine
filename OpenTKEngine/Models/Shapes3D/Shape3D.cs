@@ -64,7 +64,7 @@ namespace OpenTKEngine.Models.Shapes3D
             GL.BindBuffer(BufferTarget.ElementArrayBuffer, 0);
 
         }
-        private protected void DrawShape(Shader shader, TransformComponent transform, Action glDraw)
+        private protected void DrawShape(Shader shader, Transform transform, Action glDraw)
         {
             GL.BindVertexArray(VAO);
 

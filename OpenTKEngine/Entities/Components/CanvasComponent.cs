@@ -12,11 +12,7 @@ namespace OpenTKEngine.Entities.Components
     {
         private Shader _shader;
         private Canvas _canvas;
-        private TransformComponent _transform = null!;
-        private bool _isVisible = true;
-        public bool IsVisible { get => _isVisible; set => _isVisible = value; }
-        private bool _isEnabled = true;
-        public bool IsEnabled { get => _isEnabled; set => _isEnabled = value; }
+        public bool IsVisible { get; set; } = true;
         [CharacterPress]
         public char CharacterPressed { set => _canvas.CharPressed(value); }
         public CanvasComponent(Shader shader)
@@ -31,12 +27,12 @@ namespace OpenTKEngine.Entities.Components
 
         public override void Init()
         {
-            _transform = Entity.AddComponent(new TransformComponent());
+            base.Init();
         }
         public override void Draw()
         {
             if (!IsVisible) { return; }
-            _canvas.Draw(_shader, _transform);
+            _canvas.Draw(_shader, Entity.Transform);
         }
         public override void UpdateInput(FrameEventArgs e, KeyboardState input, MouseState mouse, ref bool firstMove, ref Vector2 lastPos)
         {
