@@ -108,6 +108,7 @@ namespace OpenTKEngine.Entities
         public T GetComponent<T>() where T : Component => (_components.First(x => x.GetType() == typeof(T)) as T ?? throw new InvalidCastException($"Could not Find any Components of Type {typeof(T).Name}"));
         public bool HasComponent<T>() where T : Component => _components.Any(x => x.GetType() == typeof(T));
         public bool HasChildrenEntities() => _childEntities.Any();
+        public IEnumerable<Component> GetComponents() => _components.ToArray(); // copies.
         public IEnumerable<Entity> GetChildEntities() => _childEntities.ToArray(); // copies. 
         public void Destroy() => IsActive = false;
     }

@@ -7,7 +7,7 @@ using OpenTKEngine.Services;
 
 namespace OpenTKEngine.Scenes
 {
-    public abstract class Scene
+    public class Scene
     {
         protected Dictionary<string, Shader> _shaders = new Dictionary<string, Shader>();
         public EntityComponentManager EntityComponentManager { get; private set; } = new EntityComponentManager();
@@ -26,7 +26,10 @@ namespace OpenTKEngine.Scenes
             OnAwake();
             IsLoaded = true;
         }
-        public abstract void OnAwake();
+        public virtual void OnAwake()
+        {
+
+        }
         public virtual void OnDraw()
         {
             EntityComponentManager.Draw();

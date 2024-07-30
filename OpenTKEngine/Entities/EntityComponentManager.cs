@@ -60,16 +60,14 @@ namespace OpenTKEngine.Entities
         {
             entity.Layer = layer;
         }
-        public Entity AddEntity(Layer layer = Layer.None)
+        public Entity AddEntity()
         {
             Entity e = new Entity();
-            e.Layer = layer;
             _entities.Add(e);
             return e;
         }
-        public T AddEntity<T>(T t, Layer layer = Layer.None) where T : Entity
+        public T AddEntity<T>(T t) where T : Entity
         {
-            t.Layer = layer;
             _entities.Add(t);
             return t;
         }

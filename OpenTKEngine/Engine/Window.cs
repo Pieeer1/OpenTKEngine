@@ -47,10 +47,13 @@ namespace OpenTKEngine.Engine
             var targetThreadCount = int.Max(1, Environment.ProcessorCount > 4 ? Environment.ProcessorCount - 2 : Environment.ProcessorCount - 1);
             _physicsService.ThreadDispatcher = new ThreadDispatcher(targetThreadCount);
 
-
-            _sceneManager.AddScene(new BaseDebugScene("base debug 1")); // default scene
+            Scene scene = new BaseDebugScene("base debug 1");
+            _sceneManager.AddScene(scene); // default scene
             _sceneManager.SwapScene(0);
             _sceneManager.LoadScene(0);
+
+            //not working yet, this is p1
+            //Console.WriteLine(scene.Save());
 
             _windowService.ActiveCursorState = CursorState.Grabbed;
         }
