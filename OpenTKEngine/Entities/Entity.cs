@@ -3,6 +3,7 @@ using OpenTK.Windowing.Common;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 using OpenTKEngine.Enums;
 using System.Reflection;
+using System.Text.Json.Serialization;
 
 namespace OpenTKEngine.Entities
 {
@@ -10,6 +11,7 @@ namespace OpenTKEngine.Entities
     {
         private List<Component> _components { get; set; } = [];
         private List<Entity> _childEntities { get; set; } = [];
+        [JsonIgnore]
         public Transform Transform { get; set; } = new Transform();
         public SyncedTransforms SyncedTransforms { get; set; } = SyncedTransforms.None;
         public bool IsActive { get; private set; } = true;

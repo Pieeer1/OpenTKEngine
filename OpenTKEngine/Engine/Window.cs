@@ -47,12 +47,28 @@ namespace OpenTKEngine.Engine
             var targetThreadCount = int.Max(1, Environment.ProcessorCount > 4 ? Environment.ProcessorCount - 2 : Environment.ProcessorCount - 1);
             _physicsService.ThreadDispatcher = new ThreadDispatcher(targetThreadCount);
 
+            //Scene s1 = @"
+            //    {
+            //        ""Name"":""Some Scene"",
+            //        ""Entities"":[
+            //            {
+            //                ""Components"": [
+            //                    {
+                                    
+            //                    }
+            //                ]
+            //            }
+            //        ]
+            //    }
+            //    ".Load();
+
             Scene scene = new BaseDebugScene("base debug 1");
             _sceneManager.AddScene(scene); // default scene
             _sceneManager.SwapScene(0);
             _sceneManager.LoadScene(0);
 
-            //not working yet, this is p1
+            //TODO - saving and loading totally broken for now. do html setup first then come back here. gonna change a ton of shit anyways
+
             //Console.WriteLine(scene.Save());
 
             _windowService.ActiveCursorState = CursorState.Grabbed;

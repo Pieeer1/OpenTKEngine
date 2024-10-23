@@ -5,7 +5,6 @@ using OpenTKEngine.Models;
 using static OpenTKEngine.Models.Constants;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
-using OpenTKEngine.Assets.Scripts.Shared.UI;
 using OpenTKEngine.Assets.Scripts.Shared.Shapes;
 using OpenTKEngine.Assets.Scripts.Shared.Entities;
 
@@ -135,12 +134,12 @@ namespace OpenTKEngine.Scenes
 
 
 
-            Entity canvas = EntityComponentManager.AddEntity();
-            canvas.AddComponent(new CanvasComponent(_shaders[ShaderConstants.TextShader]));
-            CanvasComponent canvasComp = canvas.GetComponent<CanvasComponent>();
-            Menu menu = new Menu(canvasComp);
-            ChatInput chat = new ChatInput(canvasComp);
-            ChatBox chatBox = new ChatBox(canvasComp);
+            //Entity canvas = EntityComponentManager.AddEntity();
+            //canvas.AddComponent(new CanvasComponent(_shaders[ShaderConstants.TextShader]));
+            //CanvasComponent canvasComp = canvas.GetComponent<CanvasComponent>();
+            //Menu menu = new Menu(canvasComp);
+            //ChatInput chat = new ChatInput(canvasComp);
+            //ChatBox chatBox = new ChatBox(canvasComp);
 
             //canvasComp.IsEnabled = false;
             //canvasComp.IsVisible = false;

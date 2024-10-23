@@ -100,7 +100,7 @@ public static class SceneReader
                 {
                     JsonSerializer.Serialize(writer, childEntity, new JsonSerializerOptions()
                     {
-                        ReferenceHandler = ReferenceHandler.IgnoreCycles,
+                        ReferenceHandler = ReferenceHandler.Preserve,
                     });
                 }
                 writer.WriteEndArray();

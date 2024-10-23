@@ -20,8 +20,11 @@ namespace OpenTKEngine.Entities
                 _entity ??= value;
             } 
         }
+        [JsonIgnore]
         public EntityComponentManager EntityComponentManager { get => SceneManager.Instance.ActiveScene.EntityComponentManager; }
+        [JsonIgnore]
         protected InputFlags ActiveInputFlags { get => InputFlagService.Instance.ActiveInputFlags; set => InputFlagService.Instance.ActiveInputFlags = value; }
+        [JsonIgnore]
         public static double DeltaTime { get => TimeService.Instance.DeltaTime; }
         public event EventHandler<ComponentEventArgs>? OnComponentKeyInput;
         public virtual void Init()
